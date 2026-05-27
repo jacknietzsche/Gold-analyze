@@ -1,0 +1,224 @@
+{
+  "test_date": "2026-04-14",
+  "test_category": "gold_spot_data",
+  "total_apis": 13,
+  "passed": 5,
+  "failed": 8,
+  "timeout": 0,
+  "results": [
+    {
+      "api_name": "spot_golden_benchmark_sge",
+      "provider": "akshare",
+      "status": "PASS",
+      "response_time_ms": 7652.98,
+      "latest_price": null,
+      "reference_price": 1048.0,
+      "price_diff_pct": null,
+      "error_message": null,
+      "data_quality": "COMPLETE",
+      "stability": "3/3次成功"
+    },
+    {
+      "api_name": "spot_golden_sge",
+      "provider": "akshare",
+      "status": "FAIL",
+      "response_time_ms": 0.0,
+      "latest_price": null,
+      "reference_price": 1048.0,
+      "price_diff_pct": null,
+      "error_message": "module 'akshare' has no attribute 'spot_golden_sge'",
+      "data_quality": "EMPTY",
+      "stability": "0/3次成功"
+    },
+    {
+      "api_name": "spot_silver_benchmark_sge",
+      "provider": "akshare",
+      "status": "PASS",
+      "response_time_ms": 6019.19,
+      "latest_price": null,
+      "reference_price": null,
+      "price_diff_pct": null,
+      "error_message": null,
+      "data_quality": "COMPLETE",
+      "stability": "3/3次成功"
+    },
+    {
+      "api_name": "gold_99",
+      "provider": "akshare",
+      "status": "FAIL",
+      "response_time_ms": 21.07,
+      "latest_price": null,
+      "reference_price": null,
+      "price_diff_pct": null,
+      "error_message": "module 'akshare' has no attribute 'gold_99'",
+      "data_quality": "EMPTY",
+      "stability": "0/3次成功"
+    },
+    {
+      "api_name": "gold_99_95",
+      "provider": "akshare",
+      "status": "FAIL",
+      "response_time_ms": 0.0,
+      "latest_price": null,
+      "reference_price": null,
+      "price_diff_pct": null,
+      "error_message": "module 'akshare' has no attribute 'gold_99_95'",
+      "data_quality": "EMPTY",
+      "stability": "0/3次成功"
+    },
+    {
+      "api_name": "get_gold_price",
+      "provider": "china_http",
+      "status": "PASS",
+      "response_time_ms": 5808.93,
+      "latest_price": null,
+      "reference_price": 1048.0,
+      "price_diff_pct": null,
+      "error_message": null,
+      "data_quality": "EMPTY",
+      "stability": "3/3次成功"
+    },
+    {
+      "api_name": "check_connection",
+      "provider": "china_http",
+      "status": "PASS",
+      "response_time_ms": 4015.74,
+      "latest_price": null,
+      "reference_price": 1048.0,
+      "price_diff_pct": null,
+      "error_message": null,
+      "data_quality": "COMPLETE",
+      "stability": "3/3次成功"
+    },
+    {
+      "api_name": "get_market_sentiment",
+      "provider": "china_http",
+      "status": "PASS",
+      "response_time_ms": 18171.57,
+      "latest_price": null,
+      "reference_price": 1048.0,
+      "price_diff_pct": null,
+      "error_message": null,
+      "data_quality": "COMPLETE",
+      "stability": "3/3次成功"
+    },
+    {
+      "api_name": "^VIX",
+      "provider": "yfinance",
+      "status": "FAIL",
+      "response_time_ms": 8354.55,
+      "latest_price": null,
+      "reference_price": 19.49,
+      "price_diff_pct": null,
+      "error_message": "Too Many Requests. Rate limited. Try after a while.",
+      "data_quality": "EMPTY",
+      "stability": "0/3次成功"
+    },
+    {
+      "api_name": "DX-Y.NYB",
+      "provider": "yfinance",
+      "status": "FAIL",
+      "response_time_ms": 2404.63,
+      "latest_price": null,
+      "reference_price": null,
+      "price_diff_pct": null,
+      "error_message": "Too Many Requests. Rate limited. Try after a while.",
+      "data_quality": "EMPTY",
+      "stability": "0/3次成功"
+    },
+    {
+      "api_name": "GLD",
+      "provider": "yfinance",
+      "status": "FAIL",
+      "response_time_ms": 1271.78,
+      "latest_price": null,
+      "reference_price": 185.0,
+      "price_diff_pct": null,
+      "error_message": "Too Many Requests. Rate limited. Try after a while.",
+      "data_quality": "EMPTY",
+      "stability": "0/3次成功"
+    },
+    {
+      "api_name": "TLT",
+      "provider": "yfinance",
+      "status": "FAIL",
+      "response_time_ms": 1258.67,
+      "latest_price": null,
+      "reference_price": 92.0,
+      "price_diff_pct": null,
+      "error_message": "Too Many Requests. Rate limited. Try after a while.",
+      "data_quality": "EMPTY",
+      "stability": "0/3次成功"
+    },
+    {
+      "api_name": "qt.gtimg.cn",
+      "provider": "tencent_http",
+      "status": "FAIL",
+      "response_time_ms": 1423.7,
+      "latest_price": null,
+      "reference_price": 1048.0,
+      "price_diff_pct": null,
+      "error_message": null,
+      "data_quality": "EMPTY",
+      "stability": "0/3次成功"
+    }
+  ],
+  "performance_summary": {
+    "avg_response_time_ms": 5127.53,
+    "min_response_time_ms": 21.07,
+    "max_response_time_ms": 18171.57,
+    "apis_under_200ms": 1,
+    "apis_under_500ms": 1,
+    "apis_under_2000ms": 4
+  },
+  "issues": [
+    {
+      "severity": "HIGH",
+      "api": "spot_golden_sge",
+      "issue": "API调用失败",
+      "detail": "module 'akshare' has no attribute 'spot_golden_sge'"
+    },
+    {
+      "severity": "HIGH",
+      "api": "gold_99",
+      "issue": "API调用失败",
+      "detail": "module 'akshare' has no attribute 'gold_99'"
+    },
+    {
+      "severity": "HIGH",
+      "api": "gold_99_95",
+      "issue": "API调用失败",
+      "detail": "module 'akshare' has no attribute 'gold_99_95'"
+    },
+    {
+      "severity": "HIGH",
+      "api": "^VIX",
+      "issue": "API调用失败",
+      "detail": "Too Many Requests. Rate limited. Try after a while."
+    },
+    {
+      "severity": "HIGH",
+      "api": "DX-Y.NYB",
+      "issue": "API调用失败",
+      "detail": "Too Many Requests. Rate limited. Try after a while."
+    },
+    {
+      "severity": "HIGH",
+      "api": "GLD",
+      "issue": "API调用失败",
+      "detail": "Too Many Requests. Rate limited. Try after a while."
+    },
+    {
+      "severity": "HIGH",
+      "api": "TLT",
+      "issue": "API调用失败",
+      "detail": "Too Many Requests. Rate limited. Try after a while."
+    },
+    {
+      "severity": "HIGH",
+      "api": "qt.gtimg.cn",
+      "issue": "API调用失败",
+      "detail": null
+    }
+  ]
+}

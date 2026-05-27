@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄金现货 API 测试报告 - 2026-04-14</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { color: #1a1a2e; margin-bottom: 20px; font-size: 28px; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .card h3 { color: #666; font-size: 14px; margin-bottom: 10px; font-weight: 500; }
+        .card .value { font-size: 32px; font-weight: 600; color: #1a1a2e; }
+        .card .value.pass { color: #10b981; }
+        .card .value.fail { color: #ef4444; }
+        .card .value.timeout { color: #f59e0b; }
+        .section { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .section h2 { color: #1a1a2e; margin-bottom: 16px; font-size: 18px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f9fafb; color: #374151; font-weight: 600; font-size: 13px; }
+        tr:hover { background: #f9fafb; }
+        .status { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status.pass { background: #d1fae5; color: #065f46; }
+        .status.fail { background: #fee2e2; color: #991b1b; }
+        .status.timeout { background: #fef3c7; color: #92400e; }
+        .provider { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; background: #e0e7ff; color: #3730a3; }
+        .quality { padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+        .quality.complete { background: #d1fae5; color: #065f46; }
+        .quality.partial { background: #fef3c7; color: #92400e; }
+        .quality.empty { background: #fee2e2; color: #991b1b; }
+        .issue { background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px; margin-bottom: 10px; border-radius: 4px; }
+        .issue.high { background: #fff7ed; border-left-color: #f59e0b; }
+        .issue.medium { background: #fefce8; border-left-color: #eab308; }
+        .issue-header { font-weight: 600; color: #991b1b; margin-bottom: 4px; }
+        .issue.high .issue-header { color: #9a3412; }
+        .issue.medium .issue-header { color: #854d0e; }
+        .perf-bar { background: #e5e7eb; border-radius: 8px; height: 24px; margin-bottom: 8px; overflow: hidden; }
+        .perf-fill { height: 100%; border-radius: 8px; transition: width 0.3s; }
+        .perf-fill.green { background: linear-gradient(90deg, #10b981, #34d399); }
+        .perf-fill.yellow { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .perf-fill.red { background: linear-gradient(90deg, #ef4444, #f87171); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>[GOLD] 黄金现货 API 测试报告</h1>
+        <p style="color: #666; margin-bottom: 20px;">测试日期: 2026-04-14 | 分类: gold_spot_data</p>
+
+        <div class="summary">
+            <div class="card">
+                <h3>总API数量</h3>
+                <div class="value">13</div>
+            </div>
+            <div class="card">
+                <h3>通过</h3>
+                <div class="value pass">5</div>
+            </div>
+            <div class="card">
+                <h3>失败</h3>
+                <div class="value fail">8</div>
+            </div>
+            <div class="card">
+                <h3>超时</h3>
+                <div class="value timeout">0</div>
+            </div>
+            <div class="card">
+                <h3>平均响应时间</h3>
+                <div class="value">5128ms</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>[PERF] 性能分布</h2>
+            <p style="margin-bottom: 10px; color: #666;">API响应时间分布</p>
+            <div style="display: flex; gap: 30px; margin-bottom: 20px;">
+                <div>
+                    <span style="color: #10b981; font-weight: 600;">■</span> &lt;200ms:
+                    <strong>1</strong>个
+                </div>
+                <div>
+                    <span style="color: #f59e0b; font-weight: 600;">■</span> &lt;500ms:
+                    <strong>1</strong>个
+                </div>
+                <div>
+                    <span style="color: #ef4444; font-weight: 600;">■</span> &gt;2000ms:
+                    <strong>9</strong>个
+                </div>
+            </div>
+            <div class="perf-bar">
+                <div class="perf-fill yellow"
+                     style="width: 7.6923076923076925%"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>[ISSUE] 发现的问题</h2>
+
+            <div class="issue high">
+                <div class="issue-header">[HIGH] spot_golden_sge</div>
+                <div>API调用失败: module 'akshare' has no attribute 'spot_golden_sge'</div>
+            </div>
+
+            <div class="issue high">
+                <div class="issue-header">[HIGH] gold_99</div>
+                <div>API调用失败: module 'akshare' has no attribute 'gold_99'</div>
+            </div>
+
+            <div class="issue high">
+                <div class="issue-header">[HIGH] gold_99_95</div>
+                <div>API调用失败: module 'akshare' has no attribute 'gold_99_95'</div>
+            </div>
+
+            <div class="issue high">
+                <div class="issue-header">[HIGH] ^VIX</div>
+                <div>API调用失败: Too Many Requests. Rate limited. Try after a while.</div>
+            </div>
+
+            <div class="issue high">
+                <div class="issue-header">[HIGH] DX-Y.NYB</div>
+                <div>API调用失败: Too Many Requests. Rate limited. Try after a while.</div>
+            </div>
+
+            <div class="issue high">
+                <div class="issue-header">[HIGH] GLD</div>
+                <div>API调用失败: Too Many Requests. Rate limited. Try after a while.</div>
+            </div>
+
+            <div class="issue high">
+                <div class="issue-header">[HIGH] TLT</div>
+                <div>API调用失败: Too Many Requests. Rate limited. Try after a while.</div>
+            </div>
+
+            <div class="issue high">
+                <div class="issue-header">[HIGH] qt.gtimg.cn</div>
+                <div>API调用失败: None</div>
+            </div>
+
+        </div>
+
+        <div class="section">
+            <h2>[DETAIL] 详细测试结果</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>API名称</th>
+                        <th>数据源</th>
+                        <th>状态</th>
+                        <th>响应时间</th>
+                        <th>最新价格</th>
+                        <th>参考价格</th>
+                        <th>偏差%</th>
+                        <th>数据质量</th>
+                        <th>稳定性</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><code>spot_golden_benchmark_sge</code></td>
+                        <td><span class="provider">akshare</span></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td>7653ms</td>
+                        <td>-</td>
+                        <td>1048.0</td>
+                        <td>-%</td>
+                        <td><span class="quality complete">COMPLETE</span></td>
+                        <td>3/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>spot_golden_sge</code></td>
+                        <td><span class="provider">akshare</span></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td>0ms</td>
+                        <td>-</td>
+                        <td>1048.0</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>0/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>spot_silver_benchmark_sge</code></td>
+                        <td><span class="provider">akshare</span></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td>6019ms</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-%</td>
+                        <td><span class="quality complete">COMPLETE</span></td>
+                        <td>3/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>gold_99</code></td>
+                        <td><span class="provider">akshare</span></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td>21ms</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>0/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>gold_99_95</code></td>
+                        <td><span class="provider">akshare</span></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td>0ms</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>0/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>get_gold_price</code></td>
+                        <td><span class="provider">china_http</span></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td>5809ms</td>
+                        <td>-</td>
+                        <td>1048.0</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>3/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>check_connection</code></td>
+                        <td><span class="provider">china_http</span></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td>4016ms</td>
+                        <td>-</td>
+                        <td>1048.0</td>
+                        <td>-%</td>
+                        <td><span class="quality complete">COMPLETE</span></td>
+                        <td>3/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>get_market_sentiment</code></td>
+                        <td><span class="provider">china_http</span></td>
+                        <td><span class="status pass">PASS</span></td>
+                        <td>18172ms</td>
+                        <td>-</td>
+                        <td>1048.0</td>
+                        <td>-%</td>
+                        <td><span class="quality complete">COMPLETE</span></td>
+                        <td>3/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>^VIX</code></td>
+                        <td><span class="provider">yfinance</span></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td>8355ms</td>
+                        <td>-</td>
+                        <td>19.49</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>0/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>DX-Y.NYB</code></td>
+                        <td><span class="provider">yfinance</span></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td>2405ms</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>0/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>GLD</code></td>
+                        <td><span class="provider">yfinance</span></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td>1272ms</td>
+                        <td>-</td>
+                        <td>185.0</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>0/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>TLT</code></td>
+                        <td><span class="provider">yfinance</span></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td>1259ms</td>
+                        <td>-</td>
+                        <td>92.0</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>0/3次成功</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>qt.gtimg.cn</code></td>
+                        <td><span class="provider">tencent_http</span></td>
+                        <td><span class="status fail">FAIL</span></td>
+                        <td>1424ms</td>
+                        <td>-</td>
+                        <td>1048.0</td>
+                        <td>-%</td>
+                        <td><span class="quality empty">EMPTY</span></td>
+                        <td>0/3次成功</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; color: #999; padding: 20px; font-size: 12px;">
+            Generated by Gold Quantitative Analysis System
+        </div>
+    </div>
+</body>
+</html>

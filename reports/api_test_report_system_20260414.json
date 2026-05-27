@@ -1,0 +1,104 @@
+{
+  "test_date": "2026-04-14",
+  "test_category": "report_system",
+  "test_duration_seconds": 14.32,
+  "components_tested": 34,
+  "integrity_checks": {
+    "no_placeholder_dash": "PASS",
+    "no_na_missing": "PASS",
+    "all_prices_filled": "PASS",
+    "all_percentages_filled": "PASS",
+    "html_structure_valid": "PASS",
+    "chart_data_complete": "PASS",
+    "chart_data_points_ge_10": "PASS",
+    "markdown_parsing_complete": "PASS"
+  },
+  "llm_status": {
+    "api_key_loaded": true,
+    "client_init": true,
+    "model_accessible": true,
+    "last_error": "无",
+    "response_time_s": 0.02
+  },
+  "performance": {
+    "html_generation_time_ms": 1.42,
+    "report_generation_time_s": 0.0,
+    "report_generation_pass": true,
+    "markdown_conversion_avg_ms": 1.79
+  },
+  "issues": [],
+  "details": [
+    {
+      "api_init": "GoldReportGeneratorV5 初始化成功"
+    },
+    {
+      "api_methods": "20/20 方法可用"
+    },
+    {
+      "html_length_chars": 16035
+    },
+    {
+      "test_report_path": "c:\\Users\\21471\\WorkBuddy\\gold\\reports\\api_test_report_system_20260414.html"
+    },
+    {
+      "html_DOCTYPE": "PASS"
+    },
+    {
+      "html_html_tag": "PASS"
+    },
+    {
+      "html_head_tag": "PASS"
+    },
+    {
+      "html_body_tag": "PASS"
+    },
+    {
+      "html_meta_charset": "PASS"
+    },
+    {
+      "html_chart_js": "PASS"
+    },
+    {
+      "chart_雷达图": "Found"
+    },
+    {
+      "chart_柱状图": "Found"
+    },
+    {
+      "chart_行业对比图": "Found"
+    },
+    {
+      "chart_风险指标图": "Found"
+    },
+    {
+      "radar_data_points": 4
+    },
+    {
+      "bar_data_points": 6
+    },
+    {
+      "md_标题_h2": "PASS"
+    },
+    {
+      "md_标题_h3": "PASS"
+    },
+    {
+      "md_标题_h4": "PASS"
+    },
+    {
+      "md_粗体": "PASS"
+    },
+    {
+      "md_斜体": "PASS"
+    },
+    {
+      "md_无序列表": "PASS"
+    },
+    {
+      "md_行内代码": "PASS"
+    },
+    {
+      "md_代码块": "PASS"
+    }
+  ]
+}

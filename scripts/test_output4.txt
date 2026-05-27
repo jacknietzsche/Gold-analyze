@@ -1,0 +1,25 @@
+[TEST] 开始...
+[TEST] Python: 3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]
+[TEST] 工作目录: C:\Users\21471\WorkBuddy\gold
+[TEST] 步骤1: 单独导入akshare...
+[TEST] akshare 导入成功，版本: 1.18.40
+[TEST] 步骤2: 导入data_service...
+[OpenBB] 未安装openbb，该数据源不可用
+[TEST] data_service 导入成功
+[TEST] 步骤3: 导入GoldReportGeneratorV6...
+[TEST] 生成器导入成功
+[TEST] 步骤4: 创建生成器实例...
+=== 黄金量化报告生成器 V5 (专业增强版) ===
+报告日期: 2026-05-10
+行业对标: ['GLD', 'SPY', 'TLT', 'DBC']
+使用LLM: False
+固定主题数: 10
+量化模块: Backtester=OK | RiskMgr=OK | RegimeDet=OK
+[TEST] 生成器创建成功
+[TEST] 步骤5: 获取数据...
+
+[1] 使用多源数据服务获取黄金数据...
+[DEBUG] 即将调用 DATA_SERVICE.get_all_data()...
+[数据校验] 警告: 2条日涨跌幅超过10%
+[AkShare] 国债数据过期 1934 天，不使用（触发fallback）
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:01<00:07,  1.83s/it] 40%|████      | 2/5 [00:02<00:03,  1.10s/it] 60%|██████    | 3/5 [00:02<00:01,  1.21it/s] 80%|████████  | 4/5 [00:03<00:00,  1.51it/s]100%|██████████| 5/5 [00:03<00:00,  1.85it/s]                                             

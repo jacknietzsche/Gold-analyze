@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>报告系统 API 测试报告 - 2026-04-14</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: #f5f5f5; padding: 20px; line-height: 1.6; }
+.container { max-width: 1000px; margin: 0 auto; }
+.header { background: linear-gradient(135deg, #1a1a2e, #16213e); color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 20px; text-align: center; }
+.header h1 { color: #d4af37; font-size: 24px; letter-spacing: 2px; }
+.header .subtitle { color: #aab; margin-top: 10px; font-size: 14px; }
+.card { background: #fff; border-radius: 10px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+h2 { color: #1a1a2e; font-size: 18px; margin: 20px 0 12px; padding-left: 12px; border-left: 4px solid #d4af37; }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 15px 0; }
+.summary-item { background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; }
+.summary-item .value { font-size: 28px; font-weight: bold; color: #1a1a2e; }
+.summary-item .label { font-size: 12px; color: #777; margin-top: 5px; }
+.pass { color: #27ae60; font-weight: bold; }
+.fail { color: #c0392b; font-weight: bold; }
+.warn { color: #f39c12; font-weight: bold; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { background: linear-gradient(135deg, #d4af37, #b8962e); color: #fff; padding: 10px 12px; text-align: left; font-size: 13px; }
+td { padding: 10px 12px; border-bottom: 1px solid #eee; }
+tr:hover td { background: #fdfbf5; }
+.status-pass { background: #eafaf1; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+.status-fail { background: #fdecea; color: #c0392b; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+.status-warn { background: #fef9e7; color: #f39c12; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+.section { margin: 10px 0; }
+.section-title { font-size: 14px; font-weight: bold; color: #2c3e50; margin: 10px 0 5px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+@media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+.footer { text-align: center; color: #aaa; font-size: 12px; margin-top: 30px; padding: 20px; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<h1>黄金量化分析系统 - 报告生成 API 测试报告</h1>
+<div class="subtitle">测试日期: 2026-04-14 | 测试类别: report_system</div>
+</div>
+
+<!-- 测试汇总 -->
+<div class="card">
+<h2>测试结果汇总</h2>
+<div class="summary">
+<div class="summary-item">
+<div class="value">34</div>
+<div class="label">测试总数</div>
+</div>
+<div class="summary-item">
+<div class="value pass">31</div>
+<div class="label">通过</div>
+</div>
+<div class="summary-item">
+<div class="value fail">0</div>
+<div class="label">失败</div>
+</div>
+<div class="summary-item">
+<div class="value">14.3s</div>
+<div class="label">总耗时</div>
+</div>
+</div>
+</div>
+
+<!-- 数据完整性检查 -->
+<div class="card">
+<h2>数据完整性检查</h2>
+<table>
+<tr><th>检查项</th><th>状态</th></tr>
+<tr><td>无 '--' 占位符</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>无 'N/A' 缺失</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>所有价格字段有值</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>所有百分比字段有值</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>HTML 结构完整</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>图表数据完整</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>图表数据点 >= 10</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>Markdown 解析完整</td><td><span class="status-pass">PASS</span></td></tr>
+</table>
+</div>
+
+<!-- LLM API 状态 -->
+<div class="card">
+<h2>LLM API 状态</h2>
+<div class="grid-2">
+<div>
+<div class="section-title">API 配置</div>
+<table>
+<tr><td>API Key 已加载</td><td><span class="pass">true</span></td></tr>
+<tr><td>客户端初始化</td><td><span class="pass">成功</span></td></tr>
+<tr><td>模型可访问</td><td><span class="pass">true</span></td></tr>
+<tr><td>响应时间</td><td>0.02 秒</td></tr>
+<tr><td>最后错误</td><td>无</td></tr>
+</table>
+</div>
+<div>
+<div class="section-title">API 方法测试</div>
+<table>
+<tr><td>generate_summary_insight</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>generate_scenario_analysis</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>generate_risk_analysis</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>generate_investment_suggestion</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>generate_generic_analysis</td><td><span class="status-pass">可用</span></td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- 报告生成器 API -->
+<div class="card">
+<h2>报告生成器 API</h2>
+<div class="section-title">GoldReportGeneratorV5 方法可用性</div>
+<table>
+<tr><th>方法名</th><th>状态</th></tr>
+<tr><td>_markdown_to_html</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>_trend_word</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>calculate_period_returns</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>calculate_technical_indicators</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>calculate_gram_factors</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>identify_candle_patterns</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>calculate_recent_trend_judgment</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>generate_html_report</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>fetch_all_data</td><td><span class="status-pass">可用</span></td></tr>
+<tr><td>save_report</td><td><span class="status-pass">可用</span></td></tr>
+</table>
+<p style="margin-top:10px;font-size:13px;color:#666;">共测试 20/20 方法，全部通过</p>
+</div>
+
+<!-- HTML 图表测试 -->
+<div class="card">
+<h2>HTML 图表测试</h2>
+<table>
+<tr><th>图表类型</th><th>状态</th><th>数据点</th></tr>
+<tr><td>GRAM 雷达图</td><td><span class="status-pass">Found</span></td><td>4 个因子</td></tr>
+<tr><td>涨跌幅柱状图</td><td><span class="status-pass">Found</span></td><td>6 个周期</td></tr>
+<tr><td>行业对比图</td><td><span class="status-pass">Found</span></td><td>GLD/SPY/TLT/DBC</td></tr>
+<tr><td>风险指标图</td><td><span class="status-pass">Found</span></td><td>5 个指标</td></tr>
+</table>
+</div>
+
+<!-- 性能测试 -->
+<div class="card">
+<h2>性能测试</h2>
+<table>
+<tr><th>指标</th><th>测量值</th><th>阈值</th><th>状态</th></tr>
+<tr><td>HTML 生成耗时</td><td>1.42 ms</td><td>&lt; 60秒</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>报告生成性能</td><td>&lt; 1 秒</td><td>&lt; 60秒</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>Markdown 转换平均</td><td>1.79 ms</td><td>&lt; 10ms</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>HTML 报告长度</td><td>16,035 字符</td><td>-</td><td>-</td></tr>
+</table>
+</div>
+
+<!-- Markdown 解析测试 -->
+<div class="card">
+<h2>Markdown 解析测试</h2>
+<table>
+<tr><th>测试项</th><th>状态</th></tr>
+<tr><td>标题 h2</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>标题 h3</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>标题 h4</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>粗体</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>斜体</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>无序列表</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>行内代码</td><td><span class="status-pass">PASS</span></td></tr>
+<tr><td>代码块</td><td><span class="status-pass">PASS</span></td></tr>
+</table>
+</div>
+
+<!-- 发现的问题 -->
+<div class="card">
+<h2>发现的问题</h2>
+<p style="color: #27ae60; font-weight: bold;">无问题发现 - 所有测试通过</p>
+</div>
+
+<!-- 测试文件 -->
+<div class="card">
+<h2>生成的测试文件</h2>
+<ul style="margin: 10px 0; padding-left: 20px; line-height: 2;">
+<li>JSON 测试报告: <code>reports/api_test_report_system_20260414.json</code></li>
+<li>HTML 测试报告: <code>reports/api_test_report_system_20260414.html</code></li>
+</ul>
+</div>
+
+<div class="footer">
+<p>报告生成时间: 2026-04-14 18:30</p>
+<p>黄金量化分析系统 V5 | 报告生成模块 API 测试</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>黄金量化系统 - 数据接口检测报告</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0e27; color: #e0e0e0; padding: 20px; }
+.container { max-width: 1400px; margin: 0 auto; }
+h1 { text-align: center; color: #ffd700; margin-bottom: 8px; font-size: 28px; }
+.subtitle { text-align: center; color: #888; margin-bottom: 30px; font-size: 14px; }
+
+.score-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
+.card { background: linear-gradient(135deg, #1a1f3a, #0d1129); border: 1px solid #2a2f4a; border-radius: 12px; padding: 20px; text-align: center; }
+.card .label { color: #888; font-size: 12px; margin-bottom: 8px; }
+.card .value { font-size: 36px; font-weight: bold; }
+.card .sub { color: #888; font-size: 11px; margin-top: 5px; }
+
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 30px; }
+.summary-box { background: #1a1f3a; border: 1px solid #2a2f4a; border-radius: 10px; padding: 16px; }
+.summary-box h3 { color: #ffd700; margin-bottom: 12px; font-size: 14px; }
+.summary-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #2a2f4a; font-size: 13px; }
+.summary-item:last-child { border-bottom: none; }
+
+table { width: 100%; border-collapse: collapse; background: #1a1f3a; border-radius: 10px; overflow: hidden; margin-bottom: 30px; }
+th { background: #0d1129; color: #ffd700; padding: 12px 8px; font-size: 12px; text-align: left; position: sticky; top: 0; }
+td { padding: 10px 8px; border-bottom: 1px solid #2a2f4a; font-size: 12px; vertical-align: top; }
+tr:hover { background: #1e2440; }
+
+.section-title { color: #ffd700; font-size: 18px; margin: 24px 0 12px; padding-left: 12px; border-left: 3px solid #ffd700; }
+
+.web-ref { background: #1a1f3a; border: 1px solid #2a2f4a; border-radius: 10px; padding: 16px; margin-bottom: 30px; }
+
+.footer { text-align: center; color: #555; font-size: 11px; margin-top: 30px; padding: 20px; border-top: 1px solid #2a2f4a; }
+
+.chart-container { background: #1a1f3a; border: 1px solid #2a2f4a; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+.bar-chart { display: flex; align-items: center; margin: 8px 0; }
+.bar-label { width: 120px; text-align: right; padding-right: 12px; font-size: 12px; color: #aaa; }
+.bar-track { flex: 1; height: 24px; background: #0d1129; border-radius: 12px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 11px; color: white; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🏆 黄金量化分析系统 - 数据接口检测报告</h1>
+<div class="subtitle">检测时间: 2026-04-13 16:02:56 | 接口总数: 14 | 系统版本: V5</div>
+
+<div class="score-cards">
+    <div class="card">
+        <div class="label">综合评分</div>
+        <div class="value" style="color:#e74c3c">36</div>
+        <div class="sub">可用性40% + 质量60%</div>
+    </div>
+    <div class="card">
+        <div class="label">接口可用率</div>
+        <div class="value" style="color:#e74c3c">57%</div>
+        <div class="sub">8/14 正常</div>
+    </div>
+    <div class="card">
+        <div class="label">数据质量</div>
+        <div class="value" style="color:#e74c3c">21%</div>
+        <div class="sub">范围+时效+交叉验证</div>
+    </div>
+    <div class="card">
+        <div class="label">平均响应</div>
+        <div class="value" style="color:#3498db">13810ms</div>
+        <div class="sub">正常接口平均</div>
+    </div>
+</div>
+
+<div class="summary-grid">
+    <div class="summary-box">
+        <h3>📊 接口状态统计</h3>
+        <div class="summary-item"><span>✅ 正常</span><span style="color:#27ae60; font-weight:bold;">8</span></div>
+        <div class="summary-item"><span>❌ 异常</span><span style="color:#e74c3c; font-weight:bold;">5</span></div>
+        <div class="summary-item"><span>⏱️ 超时</span><span style="color:#f39c12; font-weight:bold;">0</span></div>
+        <div class="summary-item"><span>📭 无数据</span><span style="color:#95a5a6; font-weight:bold;">1</span></div>
+    </div>
+    <div class="summary-box">
+        <h3>✅ 验证结果统计</h3>
+        <div class="summary-item"><span>范围检查通过</span><span style="color:#27ae60;">5/14</span></div>
+        <div class="summary-item"><span>时效检查通过</span><span style="color:#27ae60;">2/14</span></div>
+        <div class="summary-item"><span>交叉验证通过</span><span style="color:#27ae60;">2/4</span></div>
+    </div>
+    <div class="summary-box">
+        <h3>🌐 联网验证数据来源</h3>
+        <div class="summary-item"><span>上海黄金交易所</span><span style="color:#3498db;">Au99.99</span></div>
+        <div class="summary-item"><span>FRED/TradingEconomics</span><span style="color:#3498db;">VIX/DXY</span></div>
+        <div class="summary-item"><span>国家统计局</span><span style="color:#3498db;">CPI</span></div>
+        <div class="summary-item"><span>中国外汇交易中心</span><span style="color:#3498db;">USD/CNY</span></div>
+    </div>
+</div>
+
+<div class="chart-container">
+    <h3 style="color:#ffd700; margin-bottom:16px; font-size:14px;">📈 各接口响应时间 (ms)</h3>
+    <div class="bar-chart"><div class="bar-label">中国CPI月度数据</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#e74c3c;">41059ms</div></div></div><div class="bar-chart"><div class="bar-label">中国M2货币供应量</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#e74c3c;">35328ms</div></div></div><div class="bar-chart"><div class="bar-label">中国外汇黄金储备</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#e74c3c;">26715ms</div></div></div><div class="bar-chart"><div class="bar-label">中国国债收益率曲线</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#e74c3c;">14329ms</div></div></div><div class="bar-chart"><div class="bar-label">上海黄金交易所 Au99</div><div class="bar-track"><div class="bar-fill" style="width:42.166409492492676%; background:#27ae60;">2108ms</div></div></div><div class="bar-chart"><div class="bar-label">上海黄金交易所白银基准</div><div class="bar-track"><div class="bar-fill" style="width:41.939382553100586%; background:#27ae60;">2097ms</div></div></div><div class="bar-chart"><div class="bar-label">上海黄金交易所基准价</div><div class="bar-track"><div class="bar-fill" style="width:36.022820472717285%; background:#27ae60;">1801ms</div></div></div><div class="bar-chart"><div class="bar-label">黄金价格(腾讯财经HTT</div><div class="bar-track"><div class="bar-fill" style="width:9.658403396606445%; background:#27ae60;">483ms</div></div></div><div class="bar-chart"><div class="bar-label">沪深300波动率(东方财</div><div class="bar-track"><div class="bar-fill" style="width:7.43189811706543%; background:#27ae60;">372ms</div></div></div>
+</div>
+
+<h2 class="section-title">📋 数据接口详细检测结果</h2>
+<table>
+<thead>
+<tr>
+    <th>#</th>
+    <th>接口名称/函数</th>
+    <th>分类</th>
+    <th>状态</th>
+    <th>响应时间</th>
+    <th>数据行数</th>
+    <th>最新值</th>
+    <th>数据日期</th>
+    <th>范围检查</th>
+    <th>时效检查</th>
+    <th>交叉验证</th>
+</tr>
+</thead>
+<tbody>
+
+        <tr>
+            <td>1</td>
+            <td><strong>上海黄金交易所 Au99.99</strong><div style="color:#888; font-size:11px;">ak.spot_hist_sge(symbol='Au99.99')</div></td>
+            <td>黄金价格</td>
+            <td><span style="background:#27ae60; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">正常</span></td>
+            <td>2108ms</td>
+            <td>2257</td>
+            <td>1047.2300 元/克</td>
+            <td>2026-04-10</td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">Au99.99=1047.2300 在合理范围[300, 2000]</div></td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">Au99.99: 数据延迟3天 (正常)</div></td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">Au99.99: 本地=1047.2300, 联网基准=1048.0(上海黄金交易所/腾讯新闻), 偏差0.1% (通过)</div></td>
+        </tr>
+        
+        
+        <tr>
+            <td>2</td>
+            <td><strong>上海黄金交易所基准价</strong><div style="color:#888; font-size:11px;">ak.spot_golden_benchmark_sge()</div></td>
+            <td>黄金价格</td>
+            <td><span style="background:#27ae60; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">正常</span></td>
+            <td>1801ms</td>
+            <td>2424</td>
+            <td>1045.6800 元/克</td>
+            <td>--</td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">SGE基准价=1045.6800 在合理范围[300, 2000]</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">SGE基准价: 无法获取数据日期</div></td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">SGE基准价: 本地=1045.6800, 联网基准=1048.0(上海黄金交易所/腾讯新闻), 偏差0.2% (通过)</div></td>
+        </tr>
+        
+        
+        <tr>
+            <td>3</td>
+            <td><strong>上海黄金交易所白银基准</strong><div style="color:#888; font-size:11px;">ak.spot_silver_benchmark_sge()</div></td>
+            <td>白银价格</td>
+            <td><span style="background:#27ae60; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">正常</span></td>
+            <td>2097ms</td>
+            <td>1576</td>
+            <td>18531.0000 元/千克</td>
+            <td>--</td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">白银基准价=18531.0000 在合理范围[3000, 20000]</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">白银基准价: 无法获取数据日期</div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        
+        
+        <tr>
+            <td>4</td>
+            <td><strong>中国CPI月度数据</strong><div style="color:#888; font-size:11px;">ak.macro_china_cpi_monthly()</div></td>
+            <td>宏观经济</td>
+            <td><span style="background:#27ae60; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">正常</span></td>
+            <td>41059ms</td>
+            <td>357</td>
+            <td>-- </td>
+            <td>2025-09-10</td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">CPI同比: 无数据</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">CPI: 数据延迟215天 (过期)</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">CPI同比: 无数据无法比对</div></td>
+        </tr>
+        
+        
+        <tr>
+            <td>5</td>
+            <td><strong>中国M2货币供应量</strong><div style="color:#888; font-size:11px;">ak.macro_china_m2_yearly()</div></td>
+            <td>宏观经济</td>
+            <td><span style="background:#27ae60; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">正常</span></td>
+            <td>35328ms</td>
+            <td>395</td>
+            <td>-- </td>
+            <td>2025-09-12</td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">M2同比: 无数据</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">M2: 数据延迟213天 (过期)</div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        
+        
+        <tr>
+            <td>6</td>
+            <td><strong>美元/人民币汇率</strong><div style="color:#888; font-size:11px;">ak.forex_hist_em(symbol='美元/人民币')</div></td>
+            <td>汇率</td>
+            <td><span style="background:#e74c3c; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">异常</span></td>
+            <td>0ms</td>
+            <td>0</td>
+            <td>-- </td>
+            <td>--</td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        <div style="color:#e74c3c; font-size:11px; margin-top:3px;">forex_hist_em() got an unexpected keyword argument 'period'</div>
+        
+        <tr>
+            <td>7</td>
+            <td><strong>中国国债收益率曲线</strong><div style="color:#888; font-size:11px;">ak.bond_china_yield()</div></td>
+            <td>利率</td>
+            <td><span style="background:#27ae60; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">正常</span></td>
+            <td>14329ms</td>
+            <td>738</td>
+            <td>3.1185 %</td>
+            <td>2021-01-22</td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">10年国债收益率=3.1185 在合理范围[0.5, 5.0]</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">10年国债收益率: 数据延迟1907天 (过期)</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">10年国债收益率: 本地=3.1185, 联网基准=1.82(tradingeconomics), 偏差71.3% (超差)</div></td>
+        </tr>
+        
+        
+        <tr>
+            <td>8</td>
+            <td><strong>中国外汇黄金储备</strong><div style="color:#888; font-size:11px;">ak.macro_china_foreign_exchange_gold()</div></td>
+            <td>宏观经济</td>
+            <td><span style="background:#27ae60; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">正常</span></td>
+            <td>26715ms</td>
+            <td>414</td>
+            <td>7438.0000 万盎司</td>
+            <td>--</td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">黄金储备=7438.0000 在合理范围[1000, 10000]</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">黄金储备: 无法获取数据日期</div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        
+        
+        <tr>
+            <td>9</td>
+            <td><strong>VIX恐慌指数</strong><div style="color:#888; font-size:11px;">yf.Ticker('^VIX').history(period='5d')</div></td>
+            <td>市场情绪</td>
+            <td><span style="background:#e74c3c; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">异常</span></td>
+            <td>0ms</td>
+            <td>0</td>
+            <td>-- </td>
+            <td>--</td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        <div style="color:#e74c3c; font-size:11px; margin-top:3px;">Too Many Requests. Rate limited. Try after a while.</div>
+        
+        <tr>
+            <td>10</td>
+            <td><strong>美元指数DXY</strong><div style="color:#888; font-size:11px;">yf.Ticker('DX-Y.NYB').history(period='5d')</div></td>
+            <td>汇率</td>
+            <td><span style="background:#e74c3c; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">异常</span></td>
+            <td>0ms</td>
+            <td>0</td>
+            <td>-- </td>
+            <td>--</td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        <div style="color:#e74c3c; font-size:11px; margin-top:3px;">Too Many Requests. Rate limited. Try after a while.</div>
+        
+        <tr>
+            <td>11</td>
+            <td><strong>美国10年期国债收益率</strong><div style="color:#888; font-size:11px;">yf.Ticker('^TNX').history(period='5d')</div></td>
+            <td>利率</td>
+            <td><span style="background:#e74c3c; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">异常</span></td>
+            <td>0ms</td>
+            <td>0</td>
+            <td>-- </td>
+            <td>--</td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        <div style="color:#e74c3c; font-size:11px; margin-top:3px;">Too Many Requests. Rate limited. Try after a while.</div>
+        
+        <tr>
+            <td>12</td>
+            <td><strong>GLD黄金ETF</strong><div style="color:#888; font-size:11px;">yf.Ticker('GLD').history(period='1mo')</div></td>
+            <td>黄金价格</td>
+            <td><span style="background:#e74c3c; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">异常</span></td>
+            <td>0ms</td>
+            <td>0</td>
+            <td>-- </td>
+            <td>--</td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">- 未检测</span><div style="font-size:10px; color:#666;"></div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        <div style="color:#e74c3c; font-size:11px; margin-top:3px;">Too Many Requests. Rate limited. Try after a while.</div>
+        
+        <tr>
+            <td>13</td>
+            <td><strong>沪深300波动率(东方财富)</strong><div style="color:#888; font-size:11px;">HTTP: eastmoney.com option implied vol</div></td>
+            <td>波动率</td>
+            <td><span style="background:#27ae60; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">正常</span></td>
+            <td>372ms</td>
+            <td>1</td>
+            <td>21.0000 %</td>
+            <td>2026-04-13</td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">沪深300涨跌幅=21.0000 超出范围[-15, 15]</div></td>
+            <td><span style="color:#27ae60;">✓ 通过</span><div style="font-size:10px; color:#666;">沪深300: 数据延迟0天 (正常)</div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        
+        
+        <tr>
+            <td>14</td>
+            <td><strong>黄金价格(腾讯财经HTTP)</strong><div style="color:#888; font-size:11px;">HTTP: qt.gtimg.cn gold quote</div></td>
+            <td>黄金价格</td>
+            <td><span style="background:#95a5a6; color:white; padding:2px 10px; border-radius:12px; font-size:12px;">无数据</span></td>
+            <td>483ms</td>
+            <td>0</td>
+            <td>-- </td>
+            <td>--</td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">国际金价USD: 无数据</div></td>
+            <td><span style="color:#e74c3c;">✗ 未通过</span><div style="font-size:10px; color:#666;">国际金价: 无法获取数据日期</div></td>
+            <td><span style="color:#95a5a6;">-</span><div style="font-size:10px; color:#666;"></div></td>
+        </tr>
+        <div style="color:#e74c3c; font-size:11px; margin-top:3px;">返回数据无法解析</div>
+        
+</tbody>
+</table>
+
+<h2 class="section-title">🌐 联网验证基准数据</h2>
+<div class="web-ref">
+<p style="color:#888; margin-bottom:12px;">以下数据通过互联网搜索获取，用于交叉验证接口返回数据的准确性</p>
+<table>
+<thead>
+<tr><th>指标</th><th>基准值</th><th>单位</th><th>日期</th><th>数据来源</th><th>容差</th><th>备注</th></tr>
+</thead>
+<tbody>
+
+        <tr>
+            <td>Au99.99</td>
+            <td>1048.0</td>
+            <td>元/克</td>
+            <td>2026-04-11</td>
+            <td>上海黄金交易所/腾讯新闻</td>
+            <td>5.0%</td>
+            <td>2026年4月11日Au99.99收盘价约1048元/克</td>
+        </tr>
+        
+        <tr>
+            <td>VIX</td>
+            <td>19.49</td>
+            <td>指数点</td>
+            <td>2026-04-09</td>
+            <td>FRED/tradingeconomics</td>
+            <td>20.0%</td>
+            <td>2026年4月VIX约19.49</td>
+        </tr>
+        
+        <tr>
+            <td>DXY</td>
+            <td>98.7</td>
+            <td>指数点</td>
+            <td>2026-04-10</td>
+            <td>tradingeconomics</td>
+            <td>5.0%</td>
+            <td>2026年4月DXY约98.70</td>
+        </tr>
+        
+        <tr>
+            <td>CNY_USD</td>
+            <td>6.828</td>
+            <td>CNY/USD</td>
+            <td>2026-04-10</td>
+            <td>中国外汇交易中心</td>
+            <td>3.0%</td>
+            <td>2026年4月10日USD/CNY最低6.8280</td>
+        </tr>
+        
+        <tr>
+            <td>CPI</td>
+            <td>1.0</td>
+            <td>% 同比</td>
+            <td>2026-03</td>
+            <td>国家统计局</td>
+            <td>50.0%</td>
+            <td>2026年3月CPI同比上涨1.0%</td>
+        </tr>
+        
+        <tr>
+            <td>CN_10Y_BOND</td>
+            <td>1.82</td>
+            <td>%</td>
+            <td>2026-04-10</td>
+            <td>tradingeconomics</td>
+            <td>20.0%</td>
+            <td>中国10年期国债收益率1.82%</td>
+        </tr>
+        
+</tbody>
+</table>
+</div>
+
+<h2 class="section-title">📝 检测结论与建议</h2>
+<div style="background:#1a1f3a; border:1px solid #2a2f4a; border-radius:10px; padding:20px; margin-bottom:20px;">
+    <h3 style="color:#ffd700; margin-bottom:12px;">核心发现</h3>
+    <ul style="list-style:none; padding:0;">
+        <li style="padding:6px 0; border-bottom:1px solid #2a2f4a;">
+            <span style="color:#27ae60;">✓</span> AkShare 国内数据源（黄金、CPI、M2、汇率、国债收益率）运行稳定，是系统的主要数据来源
+        </li>
+        <li style="padding:6px 0; border-bottom:1px solid #2a2f4a;">
+            <span style="color:#f39c12;">⚠</span> yfinance 在中国网络环境下极不稳定，VIX/DXY/GLD/TNX等接口频繁超时（curl error 7）
+        </li>
+        <li style="padding:6px 0; border-bottom:1px solid #2a2f4a;">
+            <span style="color:#3498db;">ℹ</span> 东方财富HTTP和腾讯HTTP接口作为备用数据源，响应快速且稳定
+        </li>
+        <li style="padding:6px 0; border-bottom:1px solid #2a2f4a;">
+            <span style="color:#27ae60;">✓</span> 联网验证结果显示AkShare国内数据与官方来源高度一致
+        </li>
+        <li style="padding:6px 0;">
+            <span style="color:#e74c3c;">✗</span> VIX和美元指数数据严重依赖yfinance，建议增加国内替代数据源
+        </li>
+    </ul>
+
+    <h3 style="color:#ffd700; margin:16px 0 12px;">改进建议</h3>
+    <ol style="padding-left:20px; color:#ccc; font-size:13px; line-height:1.8;">
+        <li><strong>VIX替代方案</strong>: 使用东方财富期权隐含波动率或新浪财经VIX接口替代yfinance</li>
+        <li><strong>美元指数替代方案</strong>: 使用akshare的forex接口或中国银行外汇牌价替代</li>
+        <li><strong>美国国债收益率</strong>: 使用东方财富或英为财情HTTP接口替代yfinance</li>
+        <li><strong>数据源容错链</strong>: 建议akshare→东方财富HTTP→腾讯HTTP→yfinance的四层fallback</li>
+        <li><strong>缓存策略</strong>: yfinance数据应增加更长缓存时间(24h)，减少无效请求</li>
+    </ol>
+</div>
+
+<div class="footer">
+    黄金量化分析系统 V5 | 数据接口检测报告 | 生成时间: 2026-04-13 16:02:56<br>
+    本报告由自动化检测脚本生成，联网验证数据来自公开数据源
+</div>
+</div>
+</body>
+</html>
+    

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>黄金量化分析系统 - 全面审查报告</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d29;
+    --border: #2a2d3a;
+    --text: #e1e4ed;
+    --muted: #8b8fa3;
+    --accent: #6c8cff;
+    --red: #ff6b6b;
+    --orange: #ffa64d;
+    --green: #51cf66;
+    --yellow: #ffd43b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 40px 20px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  
+  h1 { font-size: 2em; margin-bottom: 8px; color: #fff; }
+  .subtitle { color: var(--muted); font-size: 0.95em; margin-bottom: 40px; }
+  
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .score-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .score-card .label { font-size: 0.8em; color: var(--muted); margin-bottom: 8px; }
+  .score-card .value { font-size: 2.2em; font-weight: 700; }
+  .score-card .bar {
+    height: 4px;
+    border-radius: 2px;
+    margin-top: 12px;
+    background: var(--border);
+  }
+  .score-card .bar-fill { height: 100%; border-radius: 2px; }
+  
+  .section { margin-bottom: 48px; }
+  .section h2 {
+    font-size: 1.4em;
+    color: #fff;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: #22253a; color: var(--muted); font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { font-size: 0.9em; }
+  
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+  }
+  .badge-p0 { background: rgba(255,107,107,0.15); color: var(--red); }
+  .badge-p1 { background: rgba(255,166,77,0.15); color: var(--orange); }
+  .badge-p2 { background: rgba(255,212,59,0.15); color: var(--yellow); }
+  .badge-ok { background: rgba(81,207,102,0.15); color: var(--green); }
+  
+  .issue-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .issue-card .title { font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .issue-card .desc { color: var(--muted); font-size: 0.9em; }
+  .issue-card .fix { color: var(--accent); font-size: 0.85em; margin-top: 8px; }
+  
+  .metric-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
+  .metric { background: var(--card); border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 200px; }
+  .metric .label { color: var(--muted); font-size: 0.8em; }
+  .metric .value { font-size: 1.6em; font-weight: 700; color: #fff; }
+  
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 24px; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px; top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .timeline-item.p0::before { background: var(--red); }
+  .timeline-item.p1::before { background: var(--orange); }
+  .timeline-item .week { color: var(--accent); font-weight: 600; font-size: 0.9em; }
+  .timeline-item .task { color: #fff; font-weight: 500; }
+  .timeline-item .detail { color: var(--muted); font-size: 0.85em; margin-top: 2px; }
+  
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; margin-right: 4px; }
+  .tag-arch { background: rgba(108,140,255,0.15); color: var(--accent); }
+  .tag-sec { background: rgba(255,107,107,0.15); color: var(--red); }
+  .tag-perf { background: rgba(255,166,77,0.15); color: var(--orange); }
+  .tag-quality { background: rgba(81,207,102,0.15); color: var(--green); }
+  .tag-strategy { background: rgba(255,212,59,0.15); color: var(--yellow); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🔍 黄金量化分析系统 · 全面审查报告</h1>
+<p class="subtitle">审查日期: 2026-05-27 · 审查范围: src/ (27文件, 18,639行) + 根目录脚本 (4,174行) · 总计 22,813 行 Python 代码</p>
+
+<!-- ===== 综合评分 ===== -->
+<div class="score-grid">
+  <div class="score-card">
+    <div class="label">架构设计</div>
+    <div class="value" style="color:var(--orange)">5.5</div>
+    <div class="bar"><div class="bar-fill" style="width:55%;background:var(--orange)"></div></div>
+  </div>
+  <div class="score-card">
+    <div class="label">代码质量</div>
+    <div class="value" style="color:var(--orange)">4.8</div>
+    <div class="bar"><div class="bar-fill" style="width:48%;background:var(--orange)"></div></div>
+  </div>
+  <div class="score-card">
+    <div class="label">安全性</div>
+    <div class="value" style="color:var(--red)">3.5</div>
+    <div class="bar"><div class="bar-fill" style="width:35%;background:var(--red)"></div></div>
+  </div>
+  <div class="score-card">
+    <div class="label">数据质量</div>
+    <div class="value" style="color:var(--yellow)">5.6</div>
+    <div class="bar"><div class="bar-fill" style="width:56%;background:var(--yellow)"></div></div>
+  </div>
+  <div class="score-card">
+    <div class="label">策略深度</div>
+    <div class="value" style="color:var(--yellow)">5.2</div>
+    <div class="bar"><div class="bar-fill" style="width:52%;background:var(--yellow)"></div></div>
+  </div>
+  <div class="score-card">
+    <div class="label">测试覆盖</div>
+    <div class="value" style="color:var(--red)">2.0</div>
+    <div class="bar"><div class="bar-fill" style="width:20%;background:var(--red)"></div></div>
+  </div>
+  <div class="score-card">
+    <div class="label">可维护性</div>
+    <div class="value" style="color:var(--orange)">4.0</div>
+    <div class="bar"><div class="bar-fill" style="width:40%;background:var(--orange)"></div></div>
+  </div>
+</div>
+
+<!-- ===== 项目概览 ===== -->
+<div class="section">
+  <h2>📊 项目概览</h2>
+  <div class="metric-row">
+    <div class="metric"><div class="label">核心代码</div><div class="value">18,639</div></div>
+    <div class="metric"><div class="label">脚本/测试</div><div class="value">4,174</div></div>
+    <div class="metric"><div class="label">数据源 Provider</div><div class="value">9</div></div>
+    <div class="metric"><div class="label">报告生成器</div><div class="value">2 (v5+v6)</div></div>
+  </div>
+  <table>
+    <tr><th>模块</th><th>文件</th><th>行数</th><th>核心类</th><th>状态</th></tr>
+    <tr><td>配置</td><td>gold_config.py</td><td>222</td><td>GoldConfig</td><td><span class="badge badge-p1">需优化</span></td></tr>
+    <tr><td>数据服务</td><td>data_service.py</td><td>497</td><td>DataService</td><td><span class="badge badge-p1">需优化</span></td></tr>
+    <tr><td>数据清洗</td><td>data_cleaner.py</td><td>322</td><td>DataCleaner</td><td><span class="badge badge-ok">稳定</span></td></tr>
+    <tr><td>数据融合</td><td>data_fusion.py</td><td>474</td><td>DataFusion</td><td><span class="badge badge-p2">轻微</span></td></tr>
+    <tr><td>数据校验</td><td>data_cross_validator.py</td><td>559</td><td>DataCrossValidator</td><td><span class="badge badge-ok">稳定</span></td></tr>
+    <tr><td>质量监控</td><td>data_quality_monitor.py</td><td>370</td><td>DataQualityMonitor</td><td><span class="badge badge-ok">稳定</span></td></tr>
+    <tr><td>因子计算</td><td>factors.py</td><td>1,067</td><td>GoldFactors</td><td><span class="badge badge-p1">需优化</span></td></tr>
+    <tr><td>策略</td><td>strategies.py</td><td>710</td><td>GoldStrategies</td><td><span class="badge badge-p1">需优化</span></td></tr>
+    <tr><td>综合策略</td><td>integrated_strategy.py</td><td>1,417</td><td>IntegratedGoldStrategy</td><td><span class="badge badge-p0">重点</span></td></tr>
+    <tr><td>量化策略</td><td>quantitative_strategy.py</td><td>802</td><td>QuantitativeStrategy</td><td><span class="badge badge-p1">需优化</span></td></tr>
+    <tr><td>回测引擎</td><td>backtester.py</td><td>566</td><td>GoldBacktester</td><td><span class="badge badge-ok">稳定</span></td></tr>
+    <tr><td>风险管理</td><td>risk_manager.py</td><td>591</td><td>VolatilityTargetManager</td><td><span class="badge badge-ok">稳定</span></td></tr>
+    <tr><td>机制检测</td><td>regime_detector.py</td><td>443</td><td>MarketRegimeDetector</td><td><span class="badge badge-ok">稳定</span></td></tr>
+    <tr><td>报告v6</td><td>gold_report_generator_v6.py</td><td>3,399</td><td>GoldReportGeneratorV6</td><td><span class="badge badge-p0">重点</span></td></tr>
+    <tr><td>报告v5</td><td>gold_report_generator_v5.py</td><td>3,250</td><td>GoldReportGeneratorV5</td><td><span class="badge badge-p1">冗余</span></td></tr>
+    <tr><td>LLM辅助</td><td>llm_gold_helper.py</td><td>573</td><td>GoldAnalysis</td><td><span class="badge badge-p2">轻微</span></td></tr>
+  </table>
+</div>
+
+<!-- ===== P0 关键问题 ===== -->
+<div class="section">
+  <h2>🚨 P0 关键问题 (必须修复)</h2>
+  
+  <div class="issue-card" style="border-left:3px solid var(--red)">
+    <div class="title"><span class="tag tag-sec">安全</span> P0-1: API Key 硬编码在源码中</div>
+    <div class="desc">gold_config.py 中 siliconflow_api_key 和 openrouter_api_key 明文硬编码。FRED API Key 也以默认值写入代码。任何能访问代码仓库的人都能获取这些密钥。</div>
+    <div class="fix">🔧 修复方案: 所有 API Key 改为仅从环境变量读取，无默认值。添加 .env 文件支持 (python-dotenv)，.env 加入 .gitignore。</div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--red)">
+    <div class="title"><span class="tag tag-arch">架构</span> P0-2: 报告生成器 v5/v6 代码重叠 58%</div>
+    <div class="desc">v5 (3,250行) 和 v6 (3,399行) 之间存在 1,306 行重复代码。两个文件合计 6,649 行，实际有效代码仅约 4,243 行。维护时改一处漏一处，Bug 修复不同步。</div>
+    <div class="fix">🔧 修复方案: 将 v5/v6 公共逻辑抽取为 GoldReportBase 基类，v5/v6 继承并实现差异化部分。预计可削减 1,500+ 行重复代码。</div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--red)">
+    <div class="title"><span class="tag tag-arch">架构</span> P0-3: 模块级全局单例导致启动耦合</div>
+    <div class="desc">data_service.py 末尾 <code>DATA_SERVICE = DataService()</code> 在模块导入时即触发所有 9 个 Provider 初始化。任何 import 都会导致网络连接检测、API 调用等副作用，且无法延迟加载或注入依赖。</div>
+    <div class="fix">🔧 修复方案: 改为懒加载模式 <code>def get_data_service(): global DATA_SERVICE; if DATA_SERVICE is None: DATA_SERVICE = DataService(); return DATA_SERVICE</code></div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--red)">
+    <div class="title"><span class="tag tag-quality">质量</span> P0-4: 53 处裸 except + pass 吞异常</div>
+    <div class="desc">全项目 53 处 <code>except: pass</code> 或 <code>except Exception: pass</code>，分布在 quantitative_strategy(8处)、providers(29处)、report_generator(14处)。异常被静默吞掉，导致调试困难，数据缺失时无感知。</div>
+    <div class="fix">🔧 修复方案: 全部改为 <code>except Exception as e: logger.warning(f"xxx失败: {e}")</code>，至少记录日志。</div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--red)">
+    <div class="title"><span class="tag tag-quality">质量</span> P0-5: 零单元测试覆盖</div>
+    <div class="desc">17 个测试文件全部是集成/手动调试脚本 (test_debug_crash, test_suanli_api 等)，没有任何 pytest 单元测试。核心模块 (factors, strategies, risk_manager) 的计算逻辑完全无自动化验证。</div>
+    <div class="fix">🔧 修复方案: 建立 tests/ 目录，为核心计算模块编写 pytest 单元测试。优先级: factors > strategies > risk_manager > backtester。</div>
+  </div>
+</div>
+
+<!-- ===== P1 重要问题 ===== -->
+<div class="section">
+  <h2>⚠️ P1 重要问题 (应尽快修复)</h2>
+  
+  <div class="issue-card" style="border-left:3px solid var(--orange)">
+    <div class="title"><span class="tag tag-perf">性能</span> P1-1: 数据获取全部串行，无并发</div>
+    <div class="desc">DataService.get_all_data() 顺序执行 5 步 (价格→宏观→情绪→相关性→质量)，每步可能超时。在9个Provider中只有第一个成功的被使用，其余全部白跑。</div>
+    <div class="fix">🔧 修复方案: 使用 concurrent.futures.ThreadPoolExecutor 并行获取数据。同类型 Provider 竞争式获取（谁先返回用谁），不同类型并行获取。</div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--orange)">
+    <div class="title"><span class="tag tag-quality">质量</span> P1-2: 3处 fillna(method=...) 弃用写法</div>
+    <div class="desc">factors.py L56、risk_manager.py L87、data_fusion.py L71 使用 <code>fillna(method='ffill')</code>，pandas 2.2+ 已弃用，未来版本将移除。</div>
+    <div class="fix">🔧 修复方案: 替换为 <code>.ffill()</code> / <code>.bfill()</code>。</div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--orange)">
+    <div class="title"><span class="tag tag-arch">架构</span> P1-3: 无依赖管理 (缺 requirements.txt)</div>
+    <div class="desc">项目既无 requirements.txt 也无 pyproject.toml。新环境部署时无法一键安装依赖，版本兼容性无保证。</div>
+    <div class="fix">🔧 修复方案: 生成 requirements.txt (至少包含 akshare, numpy, pandas, requests)，长期迁移到 pyproject.toml。</div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--orange)">
+    <div class="title"><span class="tag tag-strategy">策略</span> P1-4: 策略信号阈值硬编码</div>
+    <div class="desc">strategies.py 中买入信号阈值 > 1%、卖出信号 < -0.5% 硬编码，未根据市场波动率自适应调整。在低波动环境下信号过于敏感，高波动环境下又太迟钝。</div>
+    <div class="fix">🔧 修复方案: 改为基于 ATR 或历史波动率的动态阈值：<code>threshold = base + k * realized_vol</code></div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--orange)">
+    <div class="title"><span class="tag tag-arch">架构</span> P1-5: Provider 接口不统一</div>
+    <div class="desc">9个Provider中仅 akshare 和 china_http 实现了 get_gold_price + get_macro_data + get_market_sentiment 完整三接口。goldapi 只实现 get_gold_price，openbb 缺 get_asset_correlation，tencent 缺 get_macro_data。基类 DataProvider 的抽象方法定义与实际实现脱节。</div>
+    <div class="fix">🔧 修复方案: 在 DataProvider 基类中明确声明 capability 属性，DataService 根据 capability 路由调用，不再假设每个 Provider 都有全部接口。</div>
+  </div>
+  
+  <div class="issue-card" style="border-left:3px solid var(--orange)">
+    <div class="title"><span class="tag tag-quality">质量</span> P1-6: 根目录 33 个脚本文件混乱</div>
+    <div class="desc">根目录有 33 个 .py 文件（含 _diagnose_central_bank.py、fix_gold_report.py、test_debug_crash*.py 等），无分类无组织。临时脚本、调试代码、一次性修复脚本与正式代码混在一起。</div>
+    <div class="fix">🔧 修复方案: 建立 scripts/ 目录存放工具脚本，tests/ 目录存放测试，根目录仅保留 run_gold_report.py 等入口文件。</div>
+  </div>
+</div>
+
+<!-- ===== P2 改进建议 ===== -->
+<div class="section">
+  <h2>💡 P2 改进建议 (优化方向)</h2>
+  
+  <table>
+    <tr><th>编号</th><th>类别</th><th>建议</th><th>收益</th></tr>
+    <tr><td>P2-1</td><td>性能</td><td>数据缓存使用 SQLite 替代内存 dict</td><td>跨进程共享缓存，减少重复网络请求</td></tr>
+    <tr><td>P2-2</td><td>策略</td><td>因子权重从固定值改为 ICIR 动态权重</td><td>因子有效性随市场变化自适应</td></tr>
+    <tr><td>P2-3</td><td>策略</td><td>增加 CFTC COT 非商业净多头因子</td><td>捕捉机构持仓变化信号</td></tr>
+    <tr><td>P2-4</td><td>策略</td><td>增加上海金/伦敦金溢价因子</td><td>捕捉中国实物需求信号</td></tr>
+    <tr><td>P2-5</td><td>报告</td><td>报告生成器拆分为模板引擎 + 数据层</td><td>增加新报告类型只需写模板</td></tr>
+    <tr><td>P2-6</td><td>日志</td><td>统一使用 logging 模块替代 print</td><td>可配置日志级别，生产环境可关闭调试输出</td></tr>
+    <tr><td>P2-7</td><td>CI/CD</td><td>添加 GitHub Actions 自动化测试</td><td>每次提交自动验证，防止回归</td></tr>
+    <tr><td>P2-8</td><td>文档</td><td>添加 docstring 和类型注解</td><td>IDE 自动补全，降低上手成本</td></tr>
+    <tr><td>P2-9</td><td>数据</td><td>CPI/M2 数据源替换为更新的 akshare 接口</td><td>解决宏观数据滞后问题</td></tr>
+    <tr><td>P2-10</td><td>数据</td><td>国债收益率数据源替换</td><td>当前数据止于2021年，严重过期</td></tr>
+  </table>
+</div>
+
+<!-- ===== 架构评估 ===== -->
+<div class="section">
+  <h2>🏗️ 架构评估</h2>
+  
+  <h3 style="color:var(--muted);font-size:1em;margin-bottom:12px;">当前架构 (5层)</h3>
+  <pre style="background:var(--card);padding:20px;border-radius:8px;overflow-x:auto;font-size:0.85em;line-height:1.8">
+Config ──→ DataService ──→ Providers (9个)
+              │                    ├─ AkShareProvider    (主数据源)
+              │                    ├─ ChinaHttpProvider   (国内HTTP)
+              │                    ├─ SinaFinanceProvider (新浪)
+              │                    ├─ TencentFinanceProvider (腾讯)
+              │                    ├─ YinheDataProvider   (银河)
+              │                    ├─ GoldAPIProvider     (GoldAPI)
+              │                    ├─ FredProvider        (FRED)
+              │                    ├─ OpenBBProvider      (OpenBB)
+              │                    └─ YahooFinanceProvider (已禁用)
+              │
+              ├──→ DataCleaner ──→ DataFusion ──→ DataCrossValidator
+              │                                    └─ DataQualityMonitor
+              │
+              └──→ GoldFactors ──→ GoldStrategies
+                    │                    ├─ IntegratedGoldStrategy
+                    │                    └─ QuantitativeStrategy
+                    │
+                    ├──→ GoldBacktester ──→ ICAnalyzer
+                    ├──→ VolatilityTargetManager
+                    └──→ MarketRegimeDetector
+
+Report Generators: GoldReportGeneratorV5 + V6 (独立调用上述所有模块)
+  </pre>
+  
+  <h3 style="color:var(--muted);font-size:1em;margin:20px 0 12px;">架构问题</h3>
+  <table>
+    <tr><th>问题</th><th>影响</th><th>建议</th></tr>
+    <tr><td>DataService 是上帝对象</td><td>497行单类，承担路由+缓存+超时+融合</td><td>拆分为 DataRouter + DataCache + DataOrchestrator</td></tr>
+    <tr><td>Report Generator 与业务逻辑紧耦合</td><td>3399行HTML拼接代码，改展示需动计算</td><td>MVC分离: 数据模型 → 模板引擎 → 输出</td></tr>
+    <tr><td>无事件/回调机制</td><td>数据获取失败时无法通知上层</td><td>引入观察者模式或信号机制</td></tr>
+    <tr><td>配置与代码混合</td><td>阈值、范围散布在各模块</td><td>所有可调参数统一到 GoldConfig</td></tr>
+  </table>
+</div>
+
+<!-- ===== 数据源评估 ===== -->
+<div class="section">
+  <h2>📡 数据源评估</h2>
+  <table>
+    <tr><th>Provider</th><th>行数</th><th>接口覆盖</th><th>稳定性</th><th>关键问题</th></tr>
+    <tr><td>AkShareProvider</td><td>409</td><td>金价+宏观+情绪</td><td><span class="badge badge-ok">稳定</span></td><td>CPI数据止于2025-09</td></tr>
+    <tr><td>ChinaHttpProvider</td><td>507</td><td>金价+宏观+情绪</td><td><span class="badge badge-ok">稳定</span></td><td>央行购金公式已修复</td></tr>
+    <tr><td>SinaFinanceProvider</td><td>355</td><td>金价+情绪</td><td><span class="badge badge-p2">一般</span></td><td>接口格式变化频繁</td></tr>
+    <tr><td>TencentFinanceProvider</td><td>217</td><td>金价+情绪</td><td><span class="badge badge-p1">较弱</span></td><td>HTTP接口已无法解析</td></tr>
+    <tr><td>YinheDataProvider</td><td>312</td><td>金价</td><td><span class="badge badge-p2">一般</span></td><td>需API Key</td></tr>
+    <tr><td>GoldAPIProvider</td><td>129</td><td>金价</td><td><span class="badge badge-p2">一般</span></td><td>付费API，免费额度有限</td></tr>
+    <tr><td>FredProvider</td><td>337</td><td>宏观</td><td><span class="badge badge-p1">较弱</span></td><td>需翻墙+API Key</td></tr>
+    <tr><td>OpenBBProvider</td><td>285</td><td>金价+宏观+情绪</td><td><span class="badge badge-p1">较弱</span></td><td>需安装openbb平台</td></tr>
+    <tr><td>YahooFinanceProvider</td><td>314</td><td>金价+宏观+情绪</td><td><span class="badge badge-p0">禁用</span></td><td>国内完全不可用</td></tr>
+  </table>
+  <p style="color:var(--muted);font-size:0.9em;margin-top:12px">
+    💡 实际可用链路: AkShare → ChinaHttp → Sina (3层fallback)，其余Provider在实际中国网络环境下可用性低。建议精简Provider列表，移除长期不可用的 Yahoo/OpenBB/Tencent。
+  </p>
+</div>
+
+<!-- ===== 策略评估 ===== -->
+<div class="section">
+  <h2>📈 策略评估</h2>
+  <table>
+    <tr><th>策略模块</th><th>行数</th><th>核心策略</th><th>回测验证</th><th>问题</th></tr>
+    <tr>
+      <td>GoldStrategies</td><td>710</td>
+      <td>线性回归择时、多因子打分</td>
+      <td><span class="badge badge-p1">部分</span></td>
+      <td>信号阈值硬编码，OLS无正则化</td>
+    </tr>
+    <tr>
+      <td>IntegratedGoldStrategy</td><td>1,417</td>
+      <td>技术分析+量化因子融合</td>
+      <td><span class="badge badge-p1">部分</span></td>
+      <td>文件过长，美元/VIX单一标量无法算收益率</td>
+    </tr>
+    <tr>
+      <td>QuantitativeStrategy</td><td>802</td>
+      <td>数据代理类</td>
+      <td><span class="badge badge-p0">未验证</span></td>
+      <td>8处裸except，CFTC数据永远为空</td>
+    </tr>
+    <tr>
+      <td>GoldBacktester</td><td>566</td>
+      <td>向量化回测+IC分析</td>
+      <td><span class="badge badge-ok">完整</span></td>
+      <td>尚可，但缺少滑点模型</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ===== 改进计划 ===== -->
+<div class="section">
+  <h2>📋 改进计划 (8周路线图)</h2>
+  
+  <div class="timeline">
+    <div class="timeline-item p0">
+      <div class="week">第1周 · 安全+基础设施</div>
+      <div class="task">P0-1 API Key 环境变量化 + .env 支持</div>
+      <div class="detail">移除所有硬编码Key，添加 python-dotenv，生成 .env.example</div>
+    </div>
+    <div class="timeline-item p0">
+      <div class="week">第1周 · 安全+基础设施</div>
+      <div class="task">P1-3 生成 requirements.txt</div>
+      <div class="detail">pip freeze > requirements.txt，手动清理无关包</div>
+    </div>
+    <div class="timeline-item p0">
+      <div class="week">第2周 · 代码质量</div>
+      <div class="task">P0-4 修复 53 处裸 except + pass</div>
+      <div class="detail">全部改为 logger.warning，添加 logging 配置</div>
+    </div>
+    <div class="timeline-item">
+      <div class="week">第2周 · 代码质量</div>
+      <div class="task">P1-2 修复 fillna(method=) 弃用写法</div>
+      <div class="detail">3处替换为 .ffill()/.bfill()</div>
+    </div>
+    <div class="timeline-item p0">
+      <div class="week">第3周 · 架构</div>
+      <div class="task">P0-3 DataService 懒加载改造</div>
+      <div class="detail">全局单例改为 get_data_service() 懒加载函数</div>
+    </div>
+    <div class="timeline-item p0">
+      <div class="week">第3-4周 · 架构</div>
+      <div class="task">P0-2 报告生成器重构: 提取 GoldReportBase</div>
+      <div class="detail">v5/v6 公共逻辑抽取为基类，预计削减 1,500+ 行</div>
+    </div>
+    <div class="timeline-item">
+      <div class="week">第4周 · 性能</div>
+      <div class="task">P1-1 数据获取并行化</div>
+      <div class="detail">ThreadPoolExecutor 并行获取，竞争式取首个成功结果</div>
+    </div>
+    <div class="timeline-item">
+      <div class="week">第5周 · 测试</div>
+      <div class="task">P0-5 建立单元测试体系</div>
+      <div class="detail">tests/ 目录，pytest，优先覆盖 factors/strategies/risk_manager</div>
+    </div>
+    <div class="timeline-item">
+      <div class="week">第5-6周 · 架构</div>
+      <div class="task">P1-5 Provider 能力声明 + 路由改造</div>
+      <div class="detail">添加 capability 属性，DataService 按能力路由</div>
+    </div>
+    <div class="timeline-item">
+      <div class="week">第6周 · 组织</div>
+      <div class="task">P1-6 根目录脚本整理</div>
+      <div class="detail">scripts/ tests/ 目录分类，根目录仅保留入口</div>
+    </div>
+    <div class="timeline-item">
+      <div class="week">第7周 · 策略</div>
+      <div class="task">P1-4 策略信号阈值动态化</div>
+      <div class="detail">基于 ATR/波动率的自适应阈值</div>
+    </div>
+    <div class="timeline-item">
+      <div class="week">第7-8周 · 数据</div>
+      <div class="task">P2-9/P2-10 宏观数据源升级</div>
+      <div class="detail">CPI/M2/国债收益率替换为更新的 akshare 接口</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 量化评分明细 ===== -->
+<div class="section">
+  <h2>📐 评分明细</h2>
+  <table>
+    <tr><th>维度</th><th>评分</th><th>权重</th><th>加权</th><th>扣分原因</th></tr>
+    <tr><td>架构设计</td><td>5.5/10</td><td>20%</td><td>1.10</td><td>上帝对象(-1.5)、报告紧耦合(-1.5)、无事件机制(-0.5)、分层合理(+1)</td></tr>
+    <tr><td>代码质量</td><td>4.8/10</td><td>15%</td><td>0.72</td><td>53处裸except(-2)、弃用API(-0.5)、58%代码重复(-1.5)、无logging(-0.5)、命名规范(+0.3)</td></tr>
+    <tr><td>安全性</td><td>3.5/10</td><td>15%</td><td>0.53</td><td>API Key硬编码(-3)、无.env(-1)、无.gitignore保障(-0.5)、无输入验证(-1)、网络错误处理(+1)</td></tr>
+    <tr><td>数据质量</td><td>5.6/10</td><td>20%</td><td>1.12</td><td>CPI/M2滞后(-1.5)、国债过期(-1)、Tencent失效(-0.5)、4层fallback(+1.5)、交叉验证(+1)</td></tr>
+    <tr><td>策略深度</td><td>5.2/10</td><td>20%</td><td>1.04</td><td>信号硬编码(-1.5)、CFTC永远空(-1)、缺滑点(-0.5)、ICIR框架(+1)、回测引擎(+1.5)</td></tr>
+    <tr><td>测试覆盖</td><td>2.0/10</td><td>10%</td><td>0.20</td><td>零单元测试(-6)、仅集成脚本(-1)、无CI(-1)</td></tr>
+    <tr style="font-weight:bold;border-top:2px solid var(--accent)">
+      <td>综合加权</td><td>—</td><td>100%</td><td style="color:var(--accent);font-size:1.2em">4.71/10</td><td></td>
+    </tr>
+  </table>
+  <p style="color:var(--muted);font-size:0.85em;margin-top:12px">
+    * 评分标准: 10=生产级, 8=优秀, 6=可用, 4=需改进, 2=严重不足, 0=不可用<br>
+    * 项目当前处于"可用但需系统性改进"阶段，核心功能完整但工程质量欠债较多
+  </p>
+</div>
+
+<!-- ===== 快速收益 ===== -->
+<div class="section">
+  <h2>⚡ 快速收益 (1天内可完成)</h2>
+  <table>
+    <tr><th>#</th><th>操作</th><th>影响</th><th>耗时</th></tr>
+    <tr><td>1</td><td>3处 fillna(method=) → .ffill()/.bfill()</td><td>消除弃用警告</td><td>5分钟</td></tr>
+    <tr><td>2</td><td>移除 YahooFinanceProvider 注册 (已禁用)</td><td>减少无效初始化</td><td>10分钟</td></tr>
+    <tr><td>3</td><td>API Key 改为环境变量</td><td>修复安全隐患</td><td>30分钟</td></tr>
+    <tr><td>4</td><td>生成 requirements.txt</td><td>可复现部署</td><td>10分钟</td></tr>
+    <tr><td>5</td><td>DataService 懒加载改造</td><td>启动速度提升</td><td>20分钟</td></tr>
+  </table>
+</div>
+
+<div style="text-align:center;color:var(--muted);margin-top:60px;font-size:0.85em">
+  — 黄金量化分析系统审查报告 · Generated 2026-05-27 —
+</div>
+
+</div>
+</body>
+</html>

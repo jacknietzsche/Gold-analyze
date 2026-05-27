@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>黄金量化系统 · 全面优化分析报告</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F4E5A1;
+    --gold-dark: #8B6914;
+    --bg-dark: #0D0D12;
+    --bg-card: #14141E;
+    --bg-card2: #1A1A28;
+    --text-primary: #E8E4D8;
+    --text-secondary: #9A9585;
+    --accent-blue: #4A9EFF;
+    --accent-green: #2ECC71;
+    --accent-red: #E74C3C;
+    --accent-orange: #F39C12;
+    --accent-purple: #9B59B6;
+    --border: rgba(201, 168, 76, 0.2);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  /* ===== Header ===== */
+  .header {
+    background: linear-gradient(135deg, #0D0D12 0%, #1A1428 50%, #0D0D12 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 48px 60px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .header h1 span { color: var(--gold); }
+  .header-meta {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-top: 14px;
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+  /* ===== Nav ===== */
+  .toc {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 60px;
+    display: flex; gap: 6px; flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .toc a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .toc a:hover { background: rgba(201,168,76,0.1); color: var(--gold); }
+  /* ===== Layout ===== */
+  .container { max-width: 1400px; margin: 0 auto; padding: 40px 60px 80px; }
+  /* ===== Section ===== */
+  .section {
+    margin-bottom: 48px;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; color: #000;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 22px; font-weight: 700; color: #fff; }
+  .section-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+  /* ===== Cards ===== */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+  .card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card p, .card li { color: var(--text-primary); font-size: 14px; }
+  .card ul { padding-left: 18px; }
+  .card li { margin-bottom: 6px; }
+  /* ===== Score Summary ===== */
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .score-item {
+    background: var(--bg-card2);
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-align: center;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .score-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .score-item.critical::before { background: var(--accent-red); }
+  .score-item.high::before { background: var(--accent-orange); }
+  .score-item.medium::before { background: var(--accent-blue); }
+  .score-item.low::before { background: var(--accent-green); }
+  .score-num {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .critical .score-num { color: var(--accent-red); }
+  .high .score-num { color: var(--accent-orange); }
+  .medium .score-num { color: var(--accent-blue); }
+  .low .score-num { color: var(--accent-green); }
+  .score-label { font-size: 13px; color: var(--text-secondary); }
+  /* ===== Issues ===== */
+  .issue {
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    border-left: 4px solid;
+    background: var(--bg-card2);
+  }
+  .issue.P0 { border-color: var(--accent-red); }
+  .issue.P1 { border-color: var(--accent-orange); }
+  .issue.P2 { border-color: var(--accent-blue); }
+  .issue.P3 { border-color: var(--accent-green); }
+  .issue-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+  }
+  .issue-tag {
+    padding: 2px 10px; border-radius: 12px; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.5px;
+  }
+  .P0 .issue-tag { background: rgba(231,76,60,0.2); color: var(--accent-red); }
+  .P1 .issue-tag { background: rgba(243,156,18,0.2); color: var(--accent-orange); }
+  .P2 .issue-tag { background: rgba(74,158,255,0.2); color: var(--accent-blue); }
+  .P3 .issue-tag { background: rgba(46,204,113,0.2); color: var(--accent-green); }
+  .issue-title { font-size: 15px; font-weight: 600; color: #fff; }
+  .issue-body { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; }
+  .issue-body strong { color: var(--text-primary); }
+  .fix-label {
+    display: inline-block;
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 3px 10px; border-radius: 6px;
+    font-size: 12px; margin-bottom: 8px;
+  }
+  .code-block {
+    background: #0A0A10;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 12.5px;
+    color: #C3E88D;
+    overflow-x: auto;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .code-comment { color: #546E7A; }
+  .code-keyword { color: #C792EA; }
+  .code-string { color: #C3E88D; }
+  .code-num { color: #F78C6C; }
+  /* ===== Comparison Table ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  th {
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-primary);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .tag-current { background: rgba(231,76,60,0.2); color: #E74C3C; }
+  .tag-target { background: rgba(46,204,113,0.2); color: #2ECC71; }
+  /* ===== Roadmap ===== */
+  .roadmap-phase {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .phase-header {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+  }
+  .phase-badge {
+    padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+  }
+  .phase1 { background: rgba(231,76,60,0.15); color: #E74C3C; }
+  .phase2 { background: rgba(243,156,18,0.15); color: #F39C12; }
+  .phase3 { background: rgba(74,158,255,0.15); color: #4A9EFF; }
+  .phase4 { background: rgba(155,89,182,0.15); color: #9B59B6; }
+  .phase-title { font-size: 17px; font-weight: 600; color: #fff; }
+  .phase-time { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .task-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .task-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .task-text { font-size: 14px; color: var(--text-primary); }
+  .task-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+  /* ===== Academic references ===== */
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+  .ref-item {
+    background: var(--bg-card2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+  }
+  .ref-title { font-size: 13.5px; font-weight: 600; color: var(--gold); margin-bottom: 6px; }
+  .ref-body { font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; }
+  /* ===== Footer ===== */
+  .footer {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    padding: 24px 60px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 12px;
+  }
+  /* ===== Misc ===== */
+  .highlight { color: var(--gold); font-weight: 600; }
+  .text-green { color: var(--accent-green); }
+  .text-red { color: var(--accent-red); }
+  .text-orange { color: var(--accent-orange); }
+  .text-blue { color: var(--accent-blue); }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .callout {
+    background: rgba(201,168,76,0.07);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .callout-title { font-weight: 600; color: var(--gold); margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-badge">Quantitative Review · 2026</div>
+  <h1>黄金量化分析系统 · <span>全面优化报告</span></h1>
+  <p style="color:var(--text-secondary);font-size:14px;margin-top:8px;">
+    对标 WGC GRAM框架、桥水全天候、D.E.Shaw宏观量化及最新学术文献的系统性审查
+  </p>
+  <div class="header-meta">
+    <span>📅 生成时间：2026-04-22</span>
+    <span>📂 系统版本：V5（src/ 模块化架构）</span>
+    <span>📑 审查范围：因子体系 · 策略逻辑 · 数据管道 · 风险管理 · 报告输出</span>
+    <span>🔎 发现问题：12项（3 P0 · 4 P1 · 3 P2 · 2 P3）</span>
+  </div>
+</div>
+
+<!-- ===== NAV ===== -->
+<div class="toc">
+  <a href="#summary">📊 总览评分</a>
+  <a href="#issues">🔥 问题清单</a>
+  <a href="#factor">📐 因子体系</a>
+  <a href="#strategy">🧠 策略逻辑</a>
+  <a href="#risk">🛡️ 风险管理</a>
+  <a href="#data">🗄️ 数据管道</a>
+  <a href="#report">📄 报告系统</a>
+  <a href="#roadmap">🗺️ 优化路线图</a>
+  <a href="#refs">📚 参考文献</a>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="container">
+
+<!-- 0. 总览评分 -->
+<div class="section" id="summary">
+  <div class="section-header">
+    <div class="section-num">0</div>
+    <div>
+      <div class="section-title">系统能力评分总览</div>
+      <div class="section-subtitle">参照桥水/D.E.Shaw/WGC标准对各维度打分（满分10分）</div>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-item medium">
+      <div class="score-num">7.2</div>
+      <div class="score-label">因子体系完整度</div>
+    </div>
+    <div class="score-item critical">
+      <div class="score-num">3.5</div>
+      <div class="score-label">策略回测严谨度</div>
+    </div>
+    <div class="score-item critical">
+      <div class="score-num">2.8</div>
+      <div class="score-label">风险管理体系</div>
+    </div>
+    <div class="score-item high">
+      <div class="score-num">5.6</div>
+      <div class="score-label">数据质量管控</div>
+    </div>
+    <div class="score-item medium">
+      <div class="score-num">6.8</div>
+      <div class="score-label">报告可视化</div>
+    </div>
+    <div class="score-item critical">
+      <div class="score-num">1.0</div>
+      <div class="score-label">因子有效性验证</div>
+    </div>
+    <div class="score-item high">
+      <div class="score-num">5.2</div>
+      <div class="score-label">代码工程化质量</div>
+    </div>
+    <div class="score-item high">
+      <div class="score-num">4.9</div>
+      <div class="score-label">数据源容灾能力</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">⚡ 核心诊断</div>
+    本系统在<strong>因子种类</strong>（25+）和<strong>报告可视化</strong>上已达到中等机构水平，但存在三大系统性短板：<br>
+    <strong class="text-red">① 从未进行任何历史回测</strong>——不能验证策略是否真的有效；<br>
+    <strong class="text-red">② 缺乏专业风险管理框架</strong>——无VaR/CVaR/最大回撤控制，无仓位管理；<br>
+    <strong class="text-red">③ 因子有效性完全未经检验</strong>——因子权重全靠主观拍板，无IC/ICIR分析。
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 1. 关键问题清单 -->
+<div class="section" id="issues">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <div class="section-title">关键问题清单（12项）</div>
+      <div class="section-subtitle">P0=立即修复 · P1=本周完成 · P2=本月完成 · P3=长期优化</div>
+    </div>
+  </div>
+
+  <!-- P0-1 -->
+  <div class="issue P0">
+    <div class="issue-header">
+      <span class="issue-tag">P0</span>
+      <span class="issue-title">integrated_strategy.py 全部使用模拟数据，形成"幽灵模块"</span>
+    </div>
+    <div class="issue-body">
+      <strong>文件：</strong><code>src/analysis/integrated_strategy.py</code><br>
+      在 <code>get_gold_price()</code>、<code>get_dxy()</code>、<code>get_vix()</code> 等所有数据获取方法中，硬编码使用 <code>np.random.uniform()</code> 生成模拟数据，且该模块被作为"综合策略"在系统中存在。任何使用该模块的分析结论均完全无效，且会与真实数据模块产生混淆，带来误导性输出。
+    </div>
+    <div class="fix-label">🔧 修复方案</div>
+    <div class="code-block"><span class="code-comment"># 删除整个 integrated_strategy.py 或重写为接受真实数据的接口</span>
+<span class="code-comment"># 将其职责迁移至 gold_analysis_v5.py 的 GoldQuantAnalyzerV5 类</span>
+<span class="code-comment"># 所有策略入口通过 data_service.get_all_data() 统一获取真实数据</span>
+
+<span class="code-keyword">class</span> IntegratedGoldStrategy:
+    <span class="code-keyword">def</span> __init__(self, data_service):
+        self.data_service = data_service  <span class="code-comment"># 注入真实数据服务，不再硬编码</span>
+    
+    <span class="code-keyword">def</span> run(self):
+        data = self.data_service.get_all_data()
+        <span class="code-comment"># ... 基于真实数据进行分析</span></div>
+  </div>
+
+  <!-- P0-2 -->
+  <div class="issue P0">
+    <div class="issue-header">
+      <span class="issue-tag">P0</span>
+      <span class="issue-title">多因子权重完全主观，无任何实证支撑</span>
+    </div>
+    <div class="issue-body">
+      <strong>文件：</strong><code>src/analysis/strategies.py:218</code><br>
+      <code>multi_factor_scoring_strategy()</code> 中因子权重（<code>'real_rate': 0.25, 'dxy_return': 0.20...</code>）均为手动设定，从未通过IC分析、回归检验或机器学习方法确定。在2022-2026年黄金市场结构性变化背景下，这些权重可能严重失效。更危险的是：<strong>用户可能会根据这个得分做出真实的交易决策</strong>。
+    </div>
+    <div class="fix-label">🔧 修复方案：建立因子有效性验证框架</div>
+    <div class="code-block"><span class="code-keyword">def</span> calculate_factor_ic(self, factor_series, gold_returns, forward_periods=<span class="code-num">20</span>):
+    <span class="code-string">"""计算信息系数(IC)来验证因子有效性"""</span>
+    <span class="code-comment"># IC = 因子值与未来收益率的 Rank 相关系数</span>
+    ic_series = []
+    <span class="code-keyword">for</span> i <span class="code-keyword">in</span> range(<span class="code-num">252</span>, len(factor_series)):
+        window_factor = factor_series.iloc[i-<span class="code-num">252</span>:i]
+        window_return = gold_returns.iloc[i-<span class="code-num">252</span>:i]
+        common = window_factor.dropna().index.intersection(window_return.dropna().index)
+        <span class="code-keyword">if</span> len(common) > <span class="code-num">50</span>:
+            ic = window_factor[common].rank().corr(window_return[common].rank())
+            ic_series.append(ic)
+    
+    ic_series = pd.Series(ic_series)
+    <span class="code-keyword">return</span> {
+        <span class="code-string">'ic_mean'</span>: ic_series.mean(),    <span class="code-comment"># 目标：|IC| > 0.05</span>
+        <span class="code-string">'ic_ir'</span>: ic_series.mean() / ic_series.std(),  <span class="code-comment"># ICIR 目标：> 0.5</span>
+        <span class="code-string">'ic_positive_ratio'</span>: (ic_series > <span class="code-num">0</span>).mean()  <span class="code-comment"># 胜率目标：> 0.55</span>
+    }</div>
+  </div>
+
+  <!-- P0-3 -->
+  <div class="issue P0">
+    <div class="issue-header">
+      <span class="issue-tag">P0</span>
+      <span class="issue-title">零回测历史——策略有效性完全不可知</span>
+    </div>
+    <div class="issue-body">
+      <strong>涉及范围：</strong>整个系统无回测框架<br>
+      系统生成买卖信号但从未验证这些信号的历史表现。事件驱动策略中的阈值（如<code>recent_inflation > avg_inflation * 1.05</code>）、线性回归信号阈值（<code>> 0.01</code>）均为经验猜测，无任何回测支撑。按D.E.Shaw/Two Sigma标准，无回测的量化策略不应进入生产环境。
+    </div>
+    <div class="fix-label">🔧 修复方案：构建轻量级向量化回测引擎</div>
+    <div class="code-block"><span class="code-keyword">class</span> GoldBacktester:
+    <span class="code-string">"""向量化回测引擎（无循环，防前视偏差）"""</span>
+    
+    <span class="code-keyword">def</span> backtest(self, signals: pd.Series, prices: pd.Series, 
+                 transaction_cost=<span class="code-num">0.001</span>, slippage=<span class="code-num">0.0005</span>):
+        <span class="code-comment"># 关键：信号使用 shift(1) 防止前视偏差</span>
+        position = signals.shift(<span class="code-num">1</span>).fillna(<span class="code-num">0</span>)
+        returns = prices.pct_change()
+        
+        <span class="code-comment"># 计算策略收益（扣除交易成本）</span>
+        trade_cost = position.diff().abs() * transaction_cost
+        strategy_returns = position * returns - trade_cost
+        
+        equity = (<span class="code-num">1</span> + strategy_returns).cumprod()
+        
+        <span class="code-keyword">return</span> {
+            <span class="code-string">'annual_return'</span>: strategy_returns.mean() * <span class="code-num">252</span>,
+            <span class="code-string">'sharpe'</span>: strategy_returns.mean() / strategy_returns.std() * np.sqrt(<span class="code-num">252</span>),
+            <span class="code-string">'max_drawdown'</span>: (equity / equity.cummax() - <span class="code-num">1</span>).min(),
+            <span class="code-string">'calmar'</span>: (strategy_returns.mean() * <span class="code-num">252</span>) / abs((equity / equity.cummax() - <span class="code-num">1</span>).min()),
+            <span class="code-string">'win_rate'</span>: (strategy_returns > <span class="code-num">0</span>).mean()
+        }</div>
+  </div>
+
+  <!-- P1-1 -->
+  <div class="issue P1">
+    <div class="issue-header">
+      <span class="issue-tag">P1</span>
+      <span class="issue-title">RSI 计算使用简单移动平均，偏离 Wilder 标准定义</span>
+    </div>
+    <div class="issue-body">
+      <strong>文件：</strong><code>src/analysis/factors.py:337, 615</code><br>
+      RSI 的 <code>avg_gain/avg_loss</code> 使用 <code>.rolling().mean()</code>（SMA），而 Wilder 原始定义使用指数移动平均（EMA，alpha=1/period）。SMA 在价格急剧波动后会低估/高估真实强弱，导致超买/超卖信号延迟约3-5根K线，在黄金单边行情中影响显著。同时 <code>calculate_rsi</code> 和 <code>calculate_rsi_trend</code> 两个方法代码完全重复，违反DRY原则。
+    </div>
+    <div class="fix-label">🔧 修复方案</div>
+    <div class="code-block"><span class="code-keyword">def</span> _calculate_rsi_wilder(self, price_series, period=<span class="code-num">14</span>):
+    <span class="code-string">"""Wilder标准RSI（EMA平滑，非SMA）"""</span>
+    delta = price_series.diff()
+    gain = delta.clip(lower=<span class="code-num">0</span>)
+    loss = (-delta).clip(lower=<span class="code-num">0</span>)
+    
+    <span class="code-comment"># Wilder EMA: alpha = 1/period</span>
+    avg_gain = gain.ewm(alpha=<span class="code-num">1</span>/period, adjust=<span class="code-keyword">False</span>).mean()
+    avg_loss = loss.ewm(alpha=<span class="code-num">1</span>/period, adjust=<span class="code-keyword">False</span>).mean()
+    
+    rs = avg_gain / avg_loss.replace(<span class="code-num">0</span>, np.nan)
+    rsi = <span class="code-num">100</span> - (<span class="code-num">100</span> / (<span class="code-num">1</span> + rs))
+    <span class="code-keyword">return</span> rsi</div>
+  </div>
+
+  <!-- P1-2 -->
+  <div class="issue P1">
+    <div class="issue-header">
+      <span class="issue-tag">P1</span>
+      <span class="issue-title">季节性因子算法失效——忽视春节阳历漂移，中印旺季时间段重叠</span>
+    </div>
+    <div class="issue-body">
+      <strong>文件：</strong><code>src/analysis/factors.py:175</code><br>
+      当前实现将"11月、12月"硬编码为中国黄金旺季，将"10月、11月"硬编码为印度排灯节旺季，导致每年的11月被双重计为利多月份，且均不准确：<br>
+      ① 春节前购金高峰期受<strong>农历正月初一</strong>决定，阳历日期每年偏移约3-5周（1月中旬至2月下旬），固定月份无法捕捉；<br>
+      ② 印度排灯节日期同样基于农历，阳历日期也是浮动的。<br>
+      正确做法是使用 <code>lunardate</code> 库或预定义的节日日历。
+    </div>
+    <div class="fix-label">🔧 修复方案</div>
+    <div class="code-block"><span class="code-comment"># 方案1：使用预定义的黄金消费旺季天数（基于WGC统计的历史规律）</span>
+GOLD_SEASONAL_CALENDAR = {
+    <span class="code-comment"># 格式：(月份, 日期范围) 的 set，季节性强度为 1.0/-1.0/0.5</span>
+    <span class="code-string">'china_cny_before'</span>: <span class="code-keyword">lambda</span> date: (date.month == <span class="code-num">1</span> <span class="code-keyword">and</span> date.day >= <span class="code-num">10</span>) <span class="code-keyword">or</span> date.month == <span class="code-num">2</span>,
+    <span class="code-string">'india_diwali'</span>:     <span class="code-keyword">lambda</span> date: (date.month == <span class="code-num">10</span> <span class="code-keyword">and</span> date.day >= <span class="code-num">15</span>) <span class="code-keyword">or</span> (date.month == <span class="code-num">11</span> <span class="code-keyword">and</span> date.day <= <span class="code-num">15</span>),
+    <span class="code-string">'year_end_rebalance'</span>: <span class="code-keyword">lambda</span> date: date.month == <span class="code-num">12</span> <span class="code-keyword">and</span> date.day >= <span class="code-num">15</span>,
+}
+
+<span class="code-comment"># 方案2（推荐）：使用量化统计的逐月收益率来计算真实季节性</span>
+<span class="code-keyword">def</span> calculate_seasonal_from_history(price_series):
+    monthly_returns = price_series.resample(<span class="code-string">'M'</span>).last().pct_change()
+    seasonal_avg = monthly_returns.groupby(monthly_returns.index.month).mean()
+    <span class="code-keyword">return</span> seasonal_avg  <span class="code-comment"># 1-12月的平均历史收益率，真实反映季节性</span></div>
+  </div>
+
+  <!-- P1-3 -->
+  <div class="issue P1">
+    <div class="issue-header">
+      <span class="issue-tag">P1</span>
+      <span class="issue-title">规则化策略 buy_count/sell_count 存在 NameError 风险</span>
+    </div>
+    <div class="issue-body">
+      <strong>文件：</strong><code>src/analysis/strategies.py:572</code><br>
+      当 <code>signals</code> 列表为空时，代码进入 <code>else</code> 分支后在第572行引用 <code>buy_count</code> 和 <code>sell_count</code>，但这两个变量只在 <code>signals</code> 非空时才定义，此时会抛出 <code>NameError: name 'buy_count' is not defined</code>。同样问题出现在 <code>strategies_data['rule_based']</code> 的保存逻辑中（line 581-582）。
+    </div>
+    <div class="fix-label">🔧 修复方案（一行即可）</div>
+    <div class="code-block"><span class="code-comment"># 在函数开头初始化默认值，避免变量未定义</span>
+buy_count, sell_count = <span class="code-num">0</span>, <span class="code-num">0</span>  <span class="code-comment"># ← 加在 rules = [], signals = [] 后面即可</span>
+<span class="code-comment"># 删除后续所有的 "if 'buy_count' in locals()" 防御性代码</span></div>
+  </div>
+
+  <!-- P1-4 -->
+  <div class="issue P1">
+    <div class="issue-header">
+      <span class="issue-tag">P1</span>
+      <span class="issue-title">数据对齐使用 ffill 前向填充——对高频宏观因子引入严重前视偏差</span>
+    </div>
+    <div class="issue-body">
+      <strong>文件：</strong><code>src/analysis/factors.py:56</code><br>
+      <code>_align_data()</code> 中对宏观数据（CPI月度、M2月度）使用 <code>ffill()</code> 前向填充，本身是合理的，但<strong>存在前视偏差风险</strong>：若宏观数据的时间戳标记为"统计期末"（如CPI数据标注为当月月末），但实际公布时间是下一个月中旬，则在公布前的时间段内使用当月CPI值属于信息泄露。需标记数据的实际公布时间（T+25天），并在对齐时使用 <code>asof()</code> 而非简单 <code>ffill()</code>。
+    </div>
+    <div class="fix-label">🔧 修复方案</div>
+    <div class="code-block"><span class="code-keyword">def</span> _align_data_no_lookahead(self, gold_dates, macro_series, 
+                                 publish_lag_days=<span class="code-num">25</span>):
+    <span class="code-string">"""对齐宏观数据时考虑公布滞后，防止前视偏差"""</span>
+    <span class="code-comment"># 将宏观数据的生效时间后移 publish_lag 天</span>
+    lagged_index = macro_series.index + pd.Timedelta(days=publish_lag_days)
+    lagged_series = macro_series.copy()
+    lagged_series.index = lagged_index
+    
+    <span class="code-comment"># 对每个黄金交易日，取能获取到的最新数据</span>
+    result = lagged_series.reindex(gold_dates, method=<span class="code-string">'ffill'</span>)
+    <span class="code-keyword">return</span> result</div>
+  </div>
+
+  <!-- P2-1 -->
+  <div class="issue P2">
+    <div class="issue-header">
+      <span class="issue-tag">P2</span>
+      <span class="issue-title">线性回归模型 R² 未被实际使用来过滤低效模型</span>
+    </div>
+    <div class="issue-body">
+      <strong>文件：</strong><code>src/analysis/strategies.py:156</code><br>
+      代码计算了 R²（第160行打印）但未用于过滤决策。即使 R²=0.001（模型几乎无解释力）仍会生成交易信号。按D.E.Shaw标准，OOS（样本外）R² < 0.02 的模型不应产生信号。建议增加最低 R² 阈值（如0.05），以及滚动窗口时间序列交叉验证。
+    </div>
+    <div class="fix-label">🔧 修复方案</div>
+    <div class="code-block"><span class="code-keyword">if</span> r2 < <span class="code-num">0.05</span>:  <span class="code-comment"># OOS R² 低于阈值，模型无效</span>
+    print(<span class="code-string">f"  [SKIP] R²={r2:.4f} < 0.05，模型解释力不足，跳过信号生成"</span>)
+    <span class="code-keyword">return</span> {<span class="code-string">'signal'</span>: <span class="code-num">0</span>, <span class="code-string">'predicted_return'</span>: <span class="code-num">0</span>, <span class="code-string">'r2'</span>: r2, <span class="code-string">'skip_reason'</span>: <span class="code-string">'low_r2'</span>}</div>
+  </div>
+
+  <!-- P2-2 -->
+  <div class="issue P2">
+    <div class="issue-header">
+      <span class="issue-tag">P2</span>
+      <span class="issue-title">缺乏仓位管理与动态止损机制</span>
+    </div>
+    <div class="issue-body">
+      <strong>涉及范围：</strong>整个策略层，<code>integrated_strategy.py</code> 中仅有 <code>stop_loss</code> 属性但从未被填充<br>
+      系统输出 <code>signal = 1/-1/0</code> 但对仓位大小没有任何建议（全仓还是半仓？）。缺乏：① ATR动态止损；② 波动率缩放头寸（<code>Kelly Criterion</code> 或 <code>volatility targeting</code>）；③ 相关性约束（防止和其他资产持仓过于相关）。
+    </div>
+    <div class="fix-label">🔧 修复方案：基于ATR的动态止损 + 波动率目标仓位</div>
+    <div class="code-block"><span class="code-keyword">def</span> calculate_position_size(self, signal, price, atr, 
+                               risk_per_trade=<span class="code-num">0.02</span>,  <span class="code-comment"># 单笔风险2%资金</span>
+                               target_volatility=<span class="code-num">0.10</span>):  <span class="code-comment"># 目标年化波动率10%</span>
+    <span class="code-keyword">if</span> signal == <span class="code-num">0</span>:
+        <span class="code-keyword">return</span> <span class="code-num">0</span>, <span class="code-num">0</span>, <span class="code-num">0</span>
+    
+    <span class="code-comment"># ATR动态止损（Chandelier Exit）</span>
+    stop_loss = price - signal * atr * <span class="code-num">2.0</span>
+    
+    <span class="code-comment"># 基于风险的头寸大小</span>
+    risk_amount = abs(price - stop_loss)
+    position_by_risk = risk_per_trade / (risk_amount / price)
+    
+    <span class="code-comment"># 波动率目标约束</span>
+    daily_vol = atr / price  
+    annual_vol = daily_vol * np.sqrt(<span class="code-num">252</span>)
+    position_by_vol = target_volatility / annual_vol
+    
+    <span class="code-comment"># 取两者中较小的</span>
+    final_position = min(position_by_risk, position_by_vol, <span class="code-num">1.0</span>)
+    take_profit = price + signal * atr * <span class="code-num">4.0</span>  <span class="code-comment"># 盈亏比 2:1</span>
+    
+    <span class="code-keyword">return</span> final_position, stop_loss, take_profit</div>
+  </div>
+
+  <!-- P2-3 -->
+  <div class="issue P2">
+    <div class="issue-header">
+      <span class="issue-tag">P2</span>
+      <span class="issue-title">缺少尾部风险量化指标（VaR / CVaR / Expected Shortfall）</span>
+    </div>
+    <div class="issue-body">
+      <strong>涉及范围：</strong><code>src/report/gold_report_generator_v5.py</code> 中的风险分析部分<br>
+      报告中的"压力测试"仅展示百分比回撤（如-12%~-18%），未提供统计意义上的VaR/CVaR，缺少对极端尾部风险的量化。顶级机构（桥水/GS）的标准量化报告中VaR至少包括 95%/99% 置信水平的单日和月度VaR。
+    </div>
+    <div class="fix-label">🔧 修复方案：添加参数VaR和历史模拟VaR</div>
+    <div class="code-block"><span class="code-keyword">def</span> calculate_risk_metrics(self, returns, confidence_levels=(<span class="code-num">0.95</span>, <span class="code-num">0.99</span>)):
+    <span class="code-string">"""计算VaR和CVaR（历史模拟法）"""</span>
+    metrics = {}
+    <span class="code-keyword">for</span> cl <span class="code-keyword">in</span> confidence_levels:
+        var = np.percentile(returns, (<span class="code-num">1</span> - cl) * <span class="code-num">100</span>)
+        cvar = returns[returns <= var].mean()  <span class="code-comment"># Expected Shortfall</span>
+        metrics[<span class="code-string">f'VaR_{int(cl*100)}'</span>] = var
+        metrics[<span class="code-string">f'CVaR_{int(cl*100)}'</span>] = cvar
+    
+    <span class="code-comment"># 最大回撤</span>
+    equity = (<span class="code-num">1</span> + returns).cumprod()
+    drawdown = equity / equity.cummax() - <span class="code-num">1</span>
+    metrics[<span class="code-string">'max_drawdown'</span>] = drawdown.min()
+    metrics[<span class="code-string">'calmar_ratio'</span>] = returns.mean() * <span class="code-num">252</span> / abs(drawdown.min())
+    <span class="code-keyword">return</span> metrics</div>
+  </div>
+
+  <!-- P3-1 -->
+  <div class="issue P3">
+    <div class="issue-header">
+      <span class="issue-tag">P3</span>
+      <span class="issue-title">缺少市场机制检测（Regime Detection）</span>
+    </div>
+    <div class="issue-body">
+      <strong>学术来源：</strong>Hamilton (1989) Hidden Markov Model for Business Cycle Analysis<br>
+      趋势跟踪策略（均线、动量）在震荡市中表现差，反转策略在趋势市中表现差。当前系统的4种策略并行运行，没有依据市场机制（趋势/震荡/高波动）来动态选择策略权重。建议引入基于HMM或波动率聚类的机制检测模块，在高VIX环境中降低趋势策略权重，提升避险因子权重。
+    </div>
+    <div class="fix-label">🔧 优化方向</div>
+    <div class="code-block"><span class="code-comment"># 简单机制检测：使用ADX + 波动率结构</span>
+<span class="code-keyword">def</span> detect_market_regime(self, adx, volatility_structure):
+    <span class="code-keyword">if</span> adx > <span class="code-num">25</span> <span class="code-keyword">and</span> volatility_structure < <span class="code-num">1.2</span>:
+        <span class="code-keyword">return</span> <span class="code-string">'trending'</span>      <span class="code-comment"># 趋势行情：提升动量策略权重</span>
+    <span class="code-keyword">elif</span> adx < <span class="code-num">20</span> <span class="code-keyword">and</span> volatility_structure > <span class="code-num">1.5</span>:
+        <span class="code-keyword">return</span> <span class="code-string">'mean_reverting'</span>  <span class="code-comment"># 震荡市：提升反转策略权重</span>
+    <span class="code-keyword">else</span>:
+        <span class="code-keyword">return</span> <span class="code-string">'transitional'</span>   <span class="code-comment"># 过渡期：降低所有策略信号强度</span>
+    
+STRATEGY_WEIGHTS_BY_REGIME = {
+    <span class="code-string">'trending'</span>:       {<span class="code-string">'linear_regression'</span>: <span class="code-num">1.5</span>, <span class="code-string">'multi_factor'</span>: <span class="code-num">1.0</span>, <span class="code-string">'rule_based'</span>: <span class="code-num">1.2</span>, <span class="code-string">'event_driven'</span>: <span class="code-num">0.6</span>},
+    <span class="code-string">'mean_reverting'</span>: {<span class="code-string">'linear_regression'</span>: <span class="code-num">0.6</span>, <span class="code-string">'multi_factor'</span>: <span class="code-num">0.8</span>, <span class="code-string">'rule_based'</span>: <span class="code-num">0.7</span>, <span class="code-string">'event_driven'</span>: <span class="code-num">1.4</span>},
+    <span class="code-string">'transitional'</span>:  {<span class="code-string">'linear_regression'</span>: <span class="code-num">0.5</span>, <span class="code-string">'multi_factor'</span>: <span class="code-num">0.5</span>, <span class="code-string">'rule_based'</span>: <span class="code-num">0.5</span>, <span class="code-string">'event_driven'</span>: <span class="code-num">0.5</span>},
+}</div>
+  </div>
+
+  <!-- P3-2 -->
+  <div class="issue P3">
+    <div class="issue-header">
+      <span class="issue-tag">P3</span>
+      <span class="issue-title">缺乏对中国央行购金行为的专门建模</span>
+    </div>
+    <div class="issue-body">
+      <strong>学术来源：</strong>WGC (2024) "Central Bank Gold Demand Monitor"；IMF BOP Statistics<br>
+      2022-2024年中国央行连续25个月增持黄金（从1,948吨增至2,256吨），这是推动人民币金价创历史新高的核心结构性因素之一。系统中虽有 <code>china_reserves</code> 静态参考值，但没有追踪增持速度、与国际金价的溢价/折价关系，以及将此作为独立因子建模。这是中国本土化黄金量化分析最独特的竞争优势。
+    </div>
+    <div class="fix-label">🔧 优化方向</div>
+    <div class="code-block"><span class="code-comment"># 需引入的两个新因子：</span>
+<span class="code-comment"># 1. 央行增持速度因子：月度净增量的变化率</span>
+cb_purchase_momentum = (reserves_series / reserves_series.shift(<span class="code-num">3</span>) - <span class="code-num">1</span>).rolling(<span class="code-num">6</span>).mean()
+
+<span class="code-comment"># 2. 上海金/国际金溢价因子（T+D内外盘价差）</span>
+shanghai_premium = sge_price_cny - (xauusd_price * usdcny_rate / <span class="code-num">31.1035</span>)
+premium_zscore = (shanghai_premium - shanghai_premium.rolling(<span class="code-num">252</span>).mean()) / shanghai_premium.rolling(<span class="code-num">252</span>).std()</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 2. 因子体系对标分析 -->
+<div class="section" id="factor">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <div class="section-title">因子体系对标分析</div>
+      <div class="section-subtitle">对比WGC GRAM框架、高盛宏观量化、Two Sigma因子研究</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 已有因子 vs 行业标准完整性评估</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>因子类别</th>
+          <th>当前已有</th>
+          <th>行业标准应有</th>
+          <th>缺口</th>
+          <th>优先级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>实际利率</strong></td>
+          <td><span class="tag tag-current">TIPS代理（国内估算）</span></td>
+          <td>TIPS收益率 + BEI + 实际政策利率</td>
+          <td>缺盈亏平衡通胀（BEI）</td>
+          <td class="text-orange">中</td>
+        </tr>
+        <tr>
+          <td><strong>美元强弱</strong></td>
+          <td><span class="tag tag-current">DXY日收益率</span></td>
+          <td>DXY + G10货币动量 + 贸易加权美元</td>
+          <td>缺货币动量因子</td>
+          <td class="text-orange">中</td>
+        </tr>
+        <tr>
+          <td><strong>通胀预期</strong></td>
+          <td><span class="tag tag-current">CPI同比（月度）</span></td>
+          <td>5Y5Y通胀互换 + Michigan通胀预期 + PPI</td>
+          <td>缺前瞻通胀预期</td>
+          <td class="text-red">高</td>
+        </tr>
+        <tr>
+          <td><strong>央行需求</strong></td>
+          <td><span class="tag tag-current">中国储备静态值</span></td>
+          <td>全球央行净购买量（月度WGC数据）</td>
+          <td>缺全球维度 + 动态追踪</td>
+          <td class="text-red">高</td>
+        </tr>
+        <tr>
+          <td><strong>ETF持仓</strong></td>
+          <td><span class="tag tag-current">GLD成交量代理</span></td>
+          <td>SPDR GLD实际持仓量（吨）+ 全球ETF净流</td>
+          <td>量 vs 持仓量，精度差</td>
+          <td class="text-orange">中</td>
+        </tr>
+        <tr>
+          <td><strong>技术指标</strong></td>
+          <td><span class="tag tag-target">25个因子（RSI/MACD/BB/ADX等）</span></td>
+          <td>~15-20个核心指标</td>
+          <td>✅ 已超越行业平均</td>
+          <td class="text-green">低</td>
+        </tr>
+        <tr>
+          <td><strong>量价关系</strong></td>
+          <td><span class="tag tag-current">OBV + 相对成交量</span></td>
+          <td>VWAP偏离度 + Volume Profile + CVD</td>
+          <td>缺VWAP因子</td>
+          <td class="text-orange">中</td>
+        </tr>
+        <tr>
+          <td><strong>市场情绪</strong></td>
+          <td><span class="tag tag-current">VIX + GPR冲击</span></td>
+          <td>CFTC净多头持仓 + 期权Put/Call比率 + 黄金情绪指数</td>
+          <td><strong class="text-red">严重缺失</strong></td>
+          <td class="text-red">高</td>
+        </tr>
+        <tr>
+          <td><strong>跨资产</strong></td>
+          <td><span class="tag tag-current">仅黄金自身</span></td>
+          <td>股债相关性 + 大宗商品联动 + 比特币替代效应</td>
+          <td>缺跨资产配置视角</td>
+          <td class="text-orange">中</td>
+        </tr>
+        <tr>
+          <td><strong>矿业股信号</strong></td>
+          <td><span class="tag tag-current">无</span></td>
+          <td>GDX/GDXJ 相对金价表现（先行指标）</td>
+          <td>缺全球维度</td>
+          <td class="text-blue">低</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">💡 高价值补充因子建议（来自前沿量化文献）</div>
+    <strong>① CFTC持仓报告因子</strong>（Cheng & Xiong, 2014）：COMEX非商业净多头 / 未平仓合约比 是领先金价变化约2周的重要信号。<br>
+    <strong>② 比特币/数字黄金替代效应</strong>（Dyhrberg 2016, Klein 2018）：BTC与黄金的相关系数在避险情绪上涨时趋于正相关（危机传导），可作为情绪共鸣指标。<br>
+    <strong>③ 实物-期货价差（基差）</strong>：当上海金价相对于国际金价出现异常高溢价时，往往预示着国内需求旺盛，具有预测价值。
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 3. 策略逻辑深度分析 -->
+<div class="section" id="strategy">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <div class="section-title">策略逻辑深度分析</div>
+      <div class="section-subtitle">对比 Bridgewater All Weather、AQR 动量策略标准</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>✅ 优点</h3>
+      <ul>
+        <li>4策略并行 + 加权投票机制，思路正确</li>
+        <li>VIF多重共线性检测（纯numpy实现），实用</li>
+        <li>信号分层（线性回归1.2权重 vs 规则化0.8），体现信号差异</li>
+        <li>ADX量化趋势强度，区分震荡/趋势行情</li>
+        <li>价格运行效率因子（ER），独特且有学术支撑</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>❌ 关键缺陷</h3>
+      <ul>
+        <li>线性回归 OLS 无滚动窗口，参数可能过时</li>
+        <li>信号阈值（1%收益率触发买入）从未验证</li>
+        <li>多因子权重无 IC 支撑</li>
+        <li>策略间相关性未分析（可能高度同向，降低多样性）</li>
+        <li>无 walk-forward 优化，存在过拟合风险</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🚀 前沿改进方向</h3>
+      <ul>
+        <li><strong>因子Zoo修剪</strong>：使用 Ridge / Lasso 回归替代 OLS，自动压缩无效因子权重</li>
+        <li><strong>Black-Litterman</strong>：将模型观点与市场均衡融合，减少参数敏感性</li>
+        <li><strong>集成信号</strong>：类 AQR 方式，对不同时间窗口的动量信号做等权聚合</li>
+        <li><strong>机制自适应权重</strong>：ADX>25时趋势策略权重×1.5</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📐 建议增加的回测指标</h3>
+      <ul>
+        <li>Sharpe Ratio（目标 &gt; 1.2）</li>
+        <li>Sortino Ratio（目标 &gt; 1.5）</li>
+        <li>Calmar Ratio = 年化收益 / 最大回撤</li>
+        <li>Hit Rate + Profit/Loss Ratio</li>
+        <li>Turnover（年化换手率，控制交易成本）</li>
+        <li>IC均值、ICIR（因子有效性）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 4. 风险管理 -->
+<div class="section" id="risk">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div>
+      <div class="section-title">风险管理体系审查</div>
+      <div class="section-subtitle">对标 Bridgewater 风险平价框架、摩根大通量化风控标准</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚠️ 当前风险管理缺口对比</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>风险维度</th>
+          <th>当前状态</th>
+          <th>行业标准</th>
+          <th>差距评级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>仓位大小</td>
+          <td>输出0/1/-1二元信号，无仓位量化</td>
+          <td>基于波动率目标计算连续仓位（0~100%）</td>
+          <td class="text-red">严重缺失</td>
+        </tr>
+        <tr>
+          <td>止损机制</td>
+          <td>ATR已计算但从未用于实际止损设定</td>
+          <td>Chandelier Exit (2-3×ATR) + 最大亏损硬止损</td>
+          <td class="text-red">严重缺失</td>
+        </tr>
+        <tr>
+          <td>尾部风险</td>
+          <td>硬编码百分比回撤（-12%~-18%）</td>
+          <td>95%/99% VaR + CVaR + 压力测试场景</td>
+          <td class="text-orange">不足</td>
+        </tr>
+        <tr>
+          <td>最大回撤控制</td>
+          <td>计算历史最大回撤，但无前瞻控制</td>
+          <td>日级别风险预算，超阈值自动降仓</td>
+          <td class="text-orange">不足</td>
+        </tr>
+        <tr>
+          <td>相关性约束</td>
+          <td>无</td>
+          <td>与股票/债券相关性监控，高相关时降低黄金配置</td>
+          <td class="text-red">完全缺失</td>
+        </tr>
+        <tr>
+          <td>流动性风险</td>
+          <td>无</td>
+          <td>基于ATR调整大单冲击成本估算</td>
+          <td class="text-blue">次要</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">📌 最高优先级：引入波动率目标化（Volatility Targeting）</div>
+    这是机构最常用的风险管理框架。核心思想：根据近期波动率动态调整仓位，使组合的年化波动率稳定在目标水平（如10%）。实现极简：
+    <div class="code-block">position = min(target_vol / (current_vol * sqrt(252)), 1.0)</div>
+    在低波动期间加仓，高波动期间减仓，自动实现逆波动仓位管理，无需额外判断逻辑。
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 5. 数据管道 -->
+<div class="section" id="data">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div>
+      <div class="section-title">数据管道专项审查</div>
+      <div class="section-subtitle">重点关注数据质量、前视偏差、时序一致性</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>✅ 已做得好的部分</h3>
+      <ul>
+        <li>四层 fallback 链设计（akshare→HTTP→openbb→yahoo）</li>
+        <li>DataCleaner 异常值检测（移除上界截断，防止历史新高被错误处理）</li>
+        <li>ChinaHttpProvider 彻底摆脱 yfinance 依赖</li>
+        <li>DataQualityMonitor 独立监控类</li>
+        <li>DataCrossValidator 数据交叉验证</li>
+        <li><code>_fv()/_fd()/_rd()</code> 安全值获取防护</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🔧 需改进的部分</h3>
+      <ul>
+        <li>宏观数据对齐未处理<strong>公布滞后</strong>（前视偏差风险）</li>
+        <li>数据缓存无版本控制（改接口后旧缓存可能污染）</li>
+        <li>多数据源融合策略不清晰（何时用加权平均？何时用最新？）</li>
+        <li>缺少数据新鲜度检查（5年前的数据仍被当作当前）</li>
+        <li>国际金价单位转换逻辑（1600-6000USD判断）仍有隐患</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📊 新增数据源建议</h3>
+      <ul>
+        <li><strong>CFTC COT报告</strong>：commitments_of_traders.com API（免费）</li>
+        <li><strong>WGC持仓数据</strong>：ETF持仓量（非成交量）API</li>
+        <li><strong>FRED API</strong>：美国CPI、PCE、美联储资产负债表（官方免费）</li>
+        <li><strong>上海黄金交易所T+D</strong>：期货实时基差监控</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🛡️ 数据质量检查清单</h3>
+      <ul>
+        <li>✅ 价格异常值（已修复上界截断问题）</li>
+        <li>❌ 时间序列连续性检查（是否有大段缺口）</li>
+        <li>❌ 多源数据一致性报警（偏差超5%告警）</li>
+        <li>❌ 数据新鲜度验证（最新时间戳距今不超N天）</li>
+        <li>❌ 宏观数据公布滞后标记</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 6. 报告系统 -->
+<div class="section" id="report">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div>
+      <div class="section-title">报告系统优化建议</div>
+      <div class="section-subtitle">基于高盛GS研究报告标准 + WGC黄金展望报告框架</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>💎 已达到行业水平的特性</h3>
+      <ul>
+        <li>GRAM 5档评估体系（强势看涨/偏多/中性/偏空/规避）</li>
+        <li>LLM增强四维度分析（DeepSeek-V3）</li>
+        <li>Chart.js 交互式图表</li>
+        <li>机构对比视角（高盛/摩根大通/贝莱德）</li>
+        <li>动态配置比例计算</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🔧 报告内容缺口</h3>
+      <ul>
+        <li>缺历史<strong>信号验证</strong>板块（过去N次信号的命中率）</li>
+        <li>缺<strong>因子贡献图</strong>（哪些因子是当前结论的主驱动）</li>
+        <li>技术图表无<strong>支撑/阻力位标注</strong></li>
+        <li>缺<strong>机构行为追踪</strong>（CFTC持仓变化）</li>
+        <li>LLM分析与量化结论有时<strong>不一致</strong>（需一致性校验）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📈 新增可视化建议</h3>
+      <ul>
+        <li><strong>因子贡献瀑布图</strong>：各因子对GRAM分数的正负贡献</li>
+        <li><strong>历史信号复盘图</strong>：在价格图上标注过去所有买卖信号</li>
+        <li><strong>相关性动态热力图</strong>（20/60/252日滚动相关性）</li>
+        <li><strong>风险预算饼图</strong>（各风险来源占总波动的比例）</li>
+        <li><strong>情景概率分布</strong>（牛熊中性各情景的概率密度图）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🤖 LLM增强优化</h3>
+      <ul>
+        <li>增加 <strong>prompt 一致性约束</strong>：要求LLM输出必须与量化信号方向一致</li>
+        <li>引入 <strong>RAG</strong>：实时注入最新新闻事件作为LLM上下文</li>
+        <li>增加 <strong>置信度标注</strong>：LLM对每个判断标注确定性（高/中/低）</li>
+        <li>加入 <strong>历史类比</strong>：寻找当前市场环境最相似的历史时期</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 7. 优化路线图 -->
+<div class="section" id="roadmap">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div>
+      <div class="section-title">优化路线图</div>
+      <div class="section-subtitle">按紧迫度和投入产出比排序的4阶段执行计划</div>
+    </div>
+  </div>
+
+  <div class="roadmap-phase">
+    <div class="phase-header">
+      <span class="phase-badge phase1">Phase 1 · 紧急</span>
+      <div>
+        <div class="phase-title">Bug修复与数据准确性保障</div>
+        <div class="phase-time">⏰ 预计工时：1-2天</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🔥</span>
+      <div>
+        <div class="task-text"><strong>删除/隔离 integrated_strategy.py 模拟数据</strong></div>
+        <div class="task-sub">将该文件标记为 deprecated，确保不被任何生产代码导入</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🔥</span>
+      <div>
+        <div class="task-text"><strong>修复 rule_based_strategy 中的 NameError 潜在 Bug</strong></div>
+        <div class="task-sub">在函数头部初始化 buy_count=0, sell_count=0</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🔥</span>
+      <div>
+        <div class="task-text"><strong>修复 RSI 使用 Wilder EMA 平滑</strong></div>
+        <div class="task-sub">将 calculate_rsi() 和 calculate_rsi_trend() 合并为使用 ewm(alpha=1/14) 的单一函数</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🔥</span>
+      <div>
+        <div class="task-text"><strong>修复季节性因子使用统计历史替代硬编码月份</strong></div>
+        <div class="task-sub">基于历史月度收益率计算真实季节性模式</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-phase">
+    <div class="phase-header">
+      <span class="phase-badge phase2">Phase 2 · 核心</span>
+      <div>
+        <div class="phase-title">回测框架 + 因子有效性验证</div>
+        <div class="phase-time">⏰ 预计工时：3-5天</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">⚙️</span>
+      <div>
+        <div class="task-text"><strong>构建向量化回测引擎（GoldBacktester类）</strong></div>
+        <div class="task-sub">支持 Sharpe/Calmar/MaxDrawdown，防前视偏差（signals.shift(1)）</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">⚙️</span>
+      <div>
+        <div class="task-text"><strong>实现 IC/ICIR 因子有效性检验框架</strong></div>
+        <div class="task-sub">对全部25+个因子计算 IC均值/ICIR，淘汰无效因子</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">⚙️</span>
+      <div>
+        <div class="task-text"><strong>引入线性回归 OOS R² 阈值过滤</strong></div>
+        <div class="task-sub">R² &lt; 0.05 的模型不产生信号</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">⚙️</span>
+      <div>
+        <div class="task-text"><strong>实现宏观数据公布滞后对齐</strong></div>
+        <div class="task-sub">CPI/M2等宏观数据在对齐时后移25天，消除前视偏差</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-phase">
+    <div class="phase-header">
+      <span class="phase-badge phase3">Phase 3 · 增强</span>
+      <div>
+        <div class="phase-title">风险管理体系 + 新因子</div>
+        <div class="phase-time">⏰ 预计工时：5-7天</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🛡️</span>
+      <div>
+        <div class="task-text"><strong>实现波动率目标化仓位管理</strong></div>
+        <div class="task-sub">基于20日ATR动态计算建议仓位比例（0-100%），替代二元信号</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🛡️</span>
+      <div>
+        <div class="task-text"><strong>添加 VaR/CVaR 计算（95%/99%）</strong></div>
+        <div class="task-sub">历史模拟法 + 参数法，整合到报告的风险评估板块</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">📊</span>
+      <div>
+        <div class="task-text"><strong>引入 CFTC COT 报告因子</strong></div>
+        <div class="task-sub">COMEX非商业净多头变化率，作为情绪领先指标</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">📊</span>
+      <div>
+        <div class="task-text"><strong>引入上海金/国际金溢价因子</strong></div>
+        <div class="task-sub">内外盘基差Z-score，量化中国内需强度</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">📊</span>
+      <div>
+        <div class="task-text"><strong>市场机制检测模块</strong></div>
+        <div class="task-sub">趋势/震荡/高波动三种机制，动态调整策略权重</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-phase">
+    <div class="phase-header">
+      <span class="phase-badge phase4">Phase 4 · 高阶</span>
+      <div>
+        <div class="phase-title">机构级特性（可选）</div>
+        <div class="phase-time">⏰ 预计工时：10-15天</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🚀</span>
+      <div>
+        <div class="task-text"><strong>Walk-Forward 参数优化框架</strong></div>
+        <div class="task-sub">滚动窗口参数寻优，防止过拟合</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🚀</span>
+      <div>
+        <div class="task-text"><strong>HMM 市场机制识别</strong></div>
+        <div class="task-sub">使用隐马尔可夫模型更精确地识别高低波动机制</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🚀</span>
+      <div>
+        <div class="task-text"><strong>Black-Litterman 组合优化</strong></div>
+        <div class="task-sub">将量化信号作为 views 输入BL模型，输出最优黄金配置比例</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <span class="task-icon">🚀</span>
+      <div>
+        <div class="task-text"><strong>因子衰减监控与自动再训练</strong></div>
+        <div class="task-sub">每月检测因子IC稳定性，发现衰减时自动更新权重</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 8. 参考文献 -->
+<div class="section" id="refs">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <div>
+      <div class="section-title">前沿参考文献与框架</div>
+      <div class="section-subtitle">支撑本报告建议的学术文献和机构研究</div>
+    </div>
+  </div>
+
+  <div class="ref-grid">
+    <div class="ref-item">
+      <div class="ref-title">📄 WGC GRAM框架（2023）</div>
+      <div class="ref-body">World Gold Council "Gold Return Attribution Model" — 将黄金收益分解为经济扩张、风险规避、机会成本、动量四个维度，是当前系统GRAM评分的理论基础</div>
+    </div>
+    <div class="ref-item">
+      <div class="ref-title">📄 Erb & Harvey (2013)</div>
+      <div class="ref-body">"The Golden Dilemma" — 实证研究黄金的通胀对冲效果，证明实际利率是黄金最强预测因子（R²约0.35）</div>
+    </div>
+    <div class="ref-item">
+      <div class="ref-title">📄 Cheng & Xiong (2014)</div>
+      <div class="ref-body">"Financialization of Commodity Markets" — CFTC投机持仓对商品价格的领先效应，建议引入COT因子</div>
+    </div>
+    <div class="ref-item">
+      <div class="ref-title">📄 Hamilton (1989)</div>
+      <div class="ref-body">"A New Approach to Economic Analysis of Nonstationary Time Series" — HMM市场机制检测的数学基础，适用于识别黄金趋势/震荡机制</div>
+    </div>
+    <div class="ref-item">
+      <div class="ref-title">📄 Wilder (1978)</div>
+      <div class="ref-body">"New Concepts in Technical Trading Systems" — RSI原始定义使用EMA（Wilder平滑），而非SMA。当前代码使用SMA属于错误实现</div>
+    </div>
+    <div class="ref-item">
+      <div class="ref-title">📄 Harvey et al. (2016)</div>
+      <div class="ref-body">"… and the Cross-Section of Expected Returns" — 因子Zoo问题：多重检验下大量因子无效，强调IC/ICIR验证的重要性</div>
+    </div>
+    <div class="ref-item">
+      <div class="ref-title">📄 AQR (2012)</div>
+      <div class="ref-body">"Value and Momentum Everywhere" — 证明黄金在全球大类资产中同样存在动量效应（12-1月动量），支持系统中的动量因子</div>
+    </div>
+    <div class="ref-item">
+      <div class="ref-title">📄 Barroso & Santa-Clara (2015)</div>
+      <div class="ref-body">"Momentum Has Its Moments" — 波动率目标化（vol targeting）可将动量策略Sharpe提升约30%，适用于黄金量化策略改进</div>
+    </div>
+    <div class="ref-item">
+      <div class="ref-title">📄 He & Litterman (1999)</div>
+      <div class="ref-body">"The Intuition Behind Black-Litterman Model Portfolios" — Black-Litterman框架将量化信号与市场均衡结合，减少极端配置建议</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <p>本报告由黄金量化系统自动审查引擎生成 · 2026-04-22 · 仅供研究参考，不构成投资建议</p>
+  <p style="margin-top:6px;opacity:0.6">参考标准：WGC GRAM · Bridgewater All Weather · D.E.Shaw宏观量化 · AQR因子研究</p>
+</div>
+
+</body>
+</html>

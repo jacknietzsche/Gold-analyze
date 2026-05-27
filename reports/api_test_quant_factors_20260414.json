@@ -1,0 +1,281 @@
+{
+  "test_date": "2026-04-14",
+  "test_category": "quant_factors",
+  "modules_tested": 4,
+  "tests_passed": 40,
+  "tests_failed": 3,
+  "boundary_tests": {
+    "trend_upward_not_clipped": "PASS",
+    "trend_downward_detected": "PASS",
+    "missing_data_handled": "PASS"
+  },
+  "performance": {
+    "avg_calculation_time_ms": 9.73,
+    "max_calculation_time_ms": 13.88,
+    "full_calculation_avg_ms": 40.97,
+    "full_calculation_max_ms": 42.66,
+    "data_cleaning_avg_ms": 43.05,
+    "data_cleaning_max_ms": 53.97
+  },
+  "issues": [],
+  "detailed_results": [
+    {
+      "name": "calculate_momentum 返回正确结构",
+      "passed": true,
+      "details": "返回 3 个因子, 耗时 20.05ms",
+      "category": "general"
+    },
+    {
+      "name": "动量因子 5d 数值有效",
+      "passed": false,
+      "details": "有效值: 95, 范围: [-0.0606, 0.0764]",
+      "category": "general"
+    },
+    {
+      "name": "动量因子 10d 数值有效",
+      "passed": false,
+      "details": "有效值: 90, 范围: [-0.0686, 0.0444]",
+      "category": "general"
+    },
+    {
+      "name": "动量因子 20d 数值有效",
+      "passed": false,
+      "details": "有效值: 80, 范围: [-0.0527, 0.0450]",
+      "category": "general"
+    },
+    {
+      "name": "calculate_ma_trend 返回正确结构",
+      "passed": true,
+      "details": "返回 100 个值, 耗时 15.21ms",
+      "category": "general"
+    },
+    {
+      "name": "calculate_rsi 返回正确类型",
+      "passed": true,
+      "details": "有效值: 87, 耗时 15.78ms",
+      "category": "general"
+    },
+    {
+      "name": "RSI 数值在 [0, 100] 范围内",
+      "passed": true,
+      "details": "实际范围: [38.48, 63.34]",
+      "category": "general"
+    },
+    {
+      "name": "calculate_macd 返回正确类型",
+      "passed": true,
+      "details": "有效值: 100, 耗时 6.33ms",
+      "category": "general"
+    },
+    {
+      "name": "calculate_bb_signal 返回正确类型",
+      "passed": true,
+      "details": "有效值: 81, 耗时 11.24ms",
+      "category": "general"
+    },
+    {
+      "name": "calculate_volatility 返回正确类型",
+      "passed": true,
+      "details": "有效值: 80, 耗时 5.54ms",
+      "category": "general"
+    },
+    {
+      "name": "波动率数值非负",
+      "passed": true,
+      "details": "范围: [24.1247, 50.7246]",
+      "category": "general"
+    },
+    {
+      "name": "calculate_adx 返回正确类型",
+      "passed": true,
+      "details": "有效值: 98, 耗时 25.30ms",
+      "category": "general"
+    },
+    {
+      "name": "calculate_stochastic 返回正确类型",
+      "passed": true,
+      "details": "有效值: 87, 耗时 29.48ms",
+      "category": "general"
+    },
+    {
+      "name": "随机指标数值在 [0, 100] 范围内",
+      "passed": true,
+      "details": "实际范围: [7.61, 99.07]",
+      "category": "general"
+    },
+    {
+      "name": "clean_price_data 处理正常数据",
+      "passed": true,
+      "details": "输入 100 行, 输出 100 行, 耗时 169.92ms",
+      "category": "general"
+    },
+    {
+      "name": "趋势向上数据未被上界截断",
+      "passed": true,
+      "details": "原始最大: 1119.42, 清洗后: 1119.42",
+      "category": "boundary"
+    },
+    {
+      "name": "异常低价被修正为合理值",
+      "passed": true,
+      "details": "最低价: 186.96",
+      "category": "boundary"
+    },
+    {
+      "name": "全部相同价格数据处理不报错",
+      "passed": true,
+      "details": "耗时 66.57ms",
+      "category": "boundary"
+    },
+    {
+      "name": "缺失值被正确填充",
+      "passed": true,
+      "details": "填充后剩余NaN: 0, 耗时 64.23ms",
+      "category": "boundary"
+    },
+    {
+      "name": "MinMax归一化结果在 [0, 1] 范围内",
+      "passed": true,
+      "details": "实际范围: [0.0000, 1.0000]",
+      "category": "general"
+    },
+    {
+      "name": "Z-Score归一化均值≈0, 标准差≈1",
+      "passed": true,
+      "details": "均值: 0.0000, 标准差: 1.0000",
+      "category": "general"
+    },
+    {
+      "name": "calculate_data_quality 返回正确结构",
+      "passed": true,
+      "details": "完整性: 1.0, 时效性: 0.0, 一致性: 1.0",
+      "category": "general"
+    },
+    {
+      "name": "QuantitativeStrategy.get_gold_price",
+      "passed": true,
+      "details": "获取 200 条数据, 耗时 2.62ms",
+      "category": "general"
+    },
+    {
+      "name": "calculate_technical_indicators 计算指标",
+      "passed": true,
+      "details": "计算 11 个指标, 耗时 17.19ms",
+      "category": "general"
+    },
+    {
+      "name": "calculate_aggregate_score 返回正确结构",
+      "passed": true,
+      "details": "综合得分: 0, 耗时 2.00ms",
+      "category": "general"
+    },
+    {
+      "name": "IntegratedGoldStrategy.get_gold_price",
+      "passed": true,
+      "details": "获取 200 条数据, 耗时 1.01ms",
+      "category": "general"
+    },
+    {
+      "name": "IntegratedGoldStrategy.calculate_technical_indicators",
+      "passed": true,
+      "details": "计算 11 个指标, 耗时 13.91ms",
+      "category": "general"
+    },
+    {
+      "name": "calculate_ma 返回正确结构",
+      "passed": true,
+      "details": "返回 200 个均线值",
+      "category": "general"
+    },
+    {
+      "name": "calculate_rsi 数值在 [0, 100]",
+      "passed": true,
+      "details": "有效值: 187, 范围: [37.46, 60.45]",
+      "category": "general"
+    },
+    {
+      "name": "calculate_macd 返回三组分界线",
+      "passed": true,
+      "details": "MACD线: 200 值, 信号线: 200 值, 柱状图: 200 值",
+      "category": "general"
+    },
+    {
+      "name": "布林带关系正确（上轨≥中轨≥下轨）",
+      "passed": true,
+      "details": "有效布林带: 181 / 181",
+      "category": "general"
+    },
+    {
+      "name": "机会成本因子评分在 [0, 10]",
+      "passed": true,
+      "details": "利率得分: 8, 美元得分: 6, 综合: 7.0",
+      "category": "general"
+    },
+    {
+      "name": "风险不确定性因子评分在 [0, 10]",
+      "passed": true,
+      "details": "VIX=18.5, 风险得分: 3",
+      "category": "general"
+    },
+    {
+      "name": "供需格局因子评分在 [0, 10]",
+      "passed": true,
+      "details": "央行购金=55吨, 供需得分: 7",
+      "category": "general"
+    },
+    {
+      "name": "趋势动能因子评分在 [0, 10]",
+      "passed": true,
+      "details": "动量=(0.5+2.1+3.8)/3=2.13%, 趋势得分: 7",
+      "category": "general"
+    },
+    {
+      "name": "GRAM综合评分在 [0, 10]",
+      "passed": true,
+      "details": "总分: 6.0/10",
+      "category": "general"
+    },
+    {
+      "name": "GRAM权重计算公式正确",
+      "passed": true,
+      "details": "0.40*7.0 + 0.25*3 + 0.20*7 + 0.15*7 = 6.0",
+      "category": "general"
+    },
+    {
+      "name": "GRAM展望判定有效",
+      "passed": true,
+      "details": "评分6.0 -> 展望: 偏多",
+      "category": "general"
+    },
+    {
+      "name": "GRAM极端低分边界有效",
+      "passed": true,
+      "details": "极端低分: 1.0/10",
+      "category": "boundary"
+    },
+    {
+      "name": "GRAM极端高分边界有效",
+      "passed": true,
+      "details": "极端高分: 8.6/10",
+      "category": "boundary"
+    },
+    {
+      "name": "单次因子计算 < 100ms",
+      "passed": true,
+      "details": "平均: 9.73ms, 最大: 13.88ms",
+      "category": "general"
+    },
+    {
+      "name": "完整因子计算 < 500ms",
+      "passed": true,
+      "details": "平均: 40.97ms, 最大: 42.66ms",
+      "category": "general"
+    },
+    {
+      "name": "数据清洗（100条） < 50ms",
+      "passed": true,
+      "details": "平均: 43.05ms, 最大: 53.97ms",
+      "category": "general"
+    }
+  ]
+}

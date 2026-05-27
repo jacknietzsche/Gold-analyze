@@ -1,0 +1,365 @@
+{
+  "test_time": "2026-04-13 15:12:24",
+  "online_references": {
+    "Au99.99收盘价": {
+      "值": 1048.0,
+      "单位": "元/克",
+      "日期": "2026-04-11",
+      "来源": "腾讯新闻/上海黄金交易所",
+      "备注": "4月11日Au99.99收盘价1048元/克"
+    },
+    "中国10年期国债收益率": {
+      "值": 1.82,
+      "单位": "%",
+      "日期": "2026-04-10",
+      "来源": "TradingEconomics/聚金数据",
+      "备注": "中国10年期国债收益率持稳于1.82%"
+    },
+    "CPI同比": {
+      "值": 1.0,
+      "单位": "%",
+      "日期": "2026-03",
+      "来源": "国家统计局",
+      "备注": "2026年3月CPI同比上涨1.0%"
+    },
+    "PPI同比": {
+      "值": 0.5,
+      "单位": "%",
+      "日期": "2026-03",
+      "来源": "国家统计局",
+      "备注": "PPI同比由降转涨0.5%，连续下降41个月后首次上涨"
+    },
+    "VIX恐慌指数": {
+      "值": 22.14,
+      "单位": "--",
+      "日期": "2026-04-11",
+      "来源": "聚金数据/英为财情",
+      "备注": "VIX恐慌指数约22.14"
+    },
+    "中国黄金储备": {
+      "值": 7438,
+      "单位": "万盎司(约2313.48吨)",
+      "日期": "2026-03",
+      "来源": "中国人民银行/国家外汇管理局",
+      "备注": "央行连续17个月增持黄金，3月末7438万盎司"
+    },
+    "中国外汇储备": {
+      "值": 33421,
+      "单位": "亿美元",
+      "日期": "2026-03",
+      "来源": "国家外汇管理局",
+      "备注": "3月末外汇储备33421亿美元"
+    },
+    "M2货币供应量": {
+      "值": 340294.81,
+      "单位": "亿元",
+      "日期": "2025-12",
+      "来源": "TradingEconomics/央行",
+      "备注": "2025年12月M2约340294.81亿元(最新可查数据)"
+    }
+  },
+  "http_references": {},
+  "results": [
+    {
+      "name": "akshare.spot_hist_sge(Au99.99)",
+      "category": "黄金价格",
+      "description": "上海黄金交易所Au99.99历史价格数据",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 4655,
+      "data_summary": {
+        "记录数": 2257,
+        "列名": [
+          "date",
+          "open",
+          "close",
+          "low",
+          "high"
+        ],
+        "最新日期": "2026-04-10",
+        "最新收盘价": 1047.23
+      },
+      "validation": {
+        "data_completeness": 1.0,
+        "value_reasonable": true,
+        "cross_check": {
+          "参考源": "web_search(SGE/腾讯新闻)",
+          "参考值": 1048.0,
+          "系统值": 1047.23,
+          "差异百分比": 0.07,
+          "一致": true,
+          "参考日期": "2026-04-11"
+        },
+        "issues": []
+      }
+    },
+    {
+      "name": "akshare.bond_china_yield",
+      "category": "宏观数据",
+      "description": "中国国债收益率曲线数据",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 13309,
+      "data_summary": {
+        "记录数": 738,
+        "10年期国债收益率": 3.1185,
+        "曲线名称": [
+          "中债中短期票据收益率曲线(AAA)",
+          "中债商业银行普通债收益率曲线(AAA)",
+          "中债国债收益率曲线"
+        ]
+      },
+      "validation": {
+        "data_completeness": 1.0,
+        "value_reasonable": true,
+        "cross_check": {
+          "参考源": "TradingEconomics",
+          "参考值": 1.82,
+          "系统值": 3.1185,
+          "差异百分比": 71.35,
+          "一致": false,
+          "参考日期": "2026-04-10",
+          "备注": "akshare返回中债到期收益率(约3.1%), 联网参考为银行间交易收益率(约1.82%), 两者口径不同"
+        },
+        "issues": []
+      }
+    },
+    {
+      "name": "akshare.macro_china_foreign_exchange_gold",
+      "category": "宏观数据",
+      "description": "中国央行外汇黄金储备数据",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 23595,
+      "data_summary": {
+        "记录数": 414,
+        "列名": [
+          "统计时间",
+          "黄金储备",
+          "国家外汇储备"
+        ],
+        "最新黄金储备值": 7438.0,
+        "最新统计时间": "2026.3"
+      },
+      "validation": {
+        "data_completeness": 1.0,
+        "value_reasonable": "True",
+        "cross_check": {
+          "参考源": "中国人民银行",
+          "参考值": 7438,
+          "系统值": 7438.0,
+          "差异百分比": 0.0,
+          "一致": "True",
+          "参考日期": "2026-03"
+        },
+        "issues": []
+      }
+    },
+    {
+      "name": "akshare.macro_china_fx_gold",
+      "category": "宏观数据",
+      "description": "中国外汇黄金储备月度数据",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 1839,
+      "data_summary": {
+        "记录数": 219,
+        "列名": [
+          "月份",
+          "黄金储备-数值",
+          "黄金储备-同比",
+          "黄金储备-环比",
+          "国家外汇储备-数值",
+          "国家外汇储备-同比",
+          "国家外汇储备-环比"
+        ],
+        "最新黄金储备(数值)": 3427.63,
+        "最新外汇储备(数值)": 33421.23
+      },
+      "validation": {
+        "data_completeness": 1.0,
+        "value_reasonable": true,
+        "cross_check": null,
+        "issues": []
+      }
+    },
+    {
+      "name": "akshare.macro_china_cpi_monthly",
+      "category": "宏观数据",
+      "description": "中国CPI月度数据",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 29643,
+      "data_summary": {
+        "记录数": 357,
+        "列名": [
+          "商品",
+          "日期",
+          "今值",
+          "预测值",
+          "前值"
+        ],
+        "最新日期": "2025-09-10"
+      },
+      "validation": {
+        "data_completeness": 1.0,
+        "value_reasonable": true,
+        "cross_check": null,
+        "issues": []
+      }
+    },
+    {
+      "name": "akshare.macro_china_m2_yearly",
+      "category": "宏观数据",
+      "description": "中国M2货币供应量年度数据",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 34548,
+      "data_summary": {
+        "记录数": 395,
+        "列名": [
+          "商品",
+          "日期",
+          "今值",
+          "预测值",
+          "前值"
+        ],
+        "最新日期": "2025-09-12"
+      },
+      "validation": {
+        "data_completeness": 1.0,
+        "value_reasonable": true,
+        "cross_check": null,
+        "issues": []
+      }
+    },
+    {
+      "name": "akshare.forex_hist_em(美元/人民币)",
+      "category": "宏观数据",
+      "description": "美元/离岸人民币汇率历史数据(东方财富)",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 2428,
+      "data_summary": {
+        "记录数": 180,
+        "列名": [
+          "日期",
+          "中行汇买价",
+          "中行钞买价",
+          "中行钞卖价/汇卖价",
+          "央行中间价",
+          "中行折算价"
+        ],
+        "最新汇率": 717.71
+      },
+      "validation": {
+        "data_completeness": 1.0,
+        "value_reasonable": "False",
+        "cross_check": null,
+        "issues": []
+      }
+    },
+    {
+      "name": "akshare.index_investing_global(VIX)",
+      "category": "市场情绪",
+      "description": "VIX恐慌指数(investing来源)",
+      "status": "FAILED",
+      "error_msg": "module 'akshare' has no attribute 'index_investing_global'",
+      "response_time_ms": 0,
+      "data_summary": {},
+      "validation": {
+        "data_completeness": 0.0,
+        "value_reasonable": false,
+        "cross_check": null,
+        "issues": []
+      }
+    },
+    {
+      "name": "akshare.index_investing_global(美元指数)",
+      "category": "宏观数据",
+      "description": "美元指数DXY(investing来源)",
+      "status": "FAILED",
+      "error_msg": "module 'akshare' has no attribute 'index_investing_global'",
+      "response_time_ms": 0,
+      "data_summary": {},
+      "validation": {
+        "data_completeness": 0.0,
+        "value_reasonable": false,
+        "cross_check": null,
+        "issues": []
+      }
+    },
+    {
+      "name": "AkShareDataProvider",
+      "category": "数据提供者",
+      "description": "AkShare数据提供者(价格+宏观+情绪)",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 227102,
+      "data_summary": {
+        "价格数据": "2257条",
+        "宏观数据字段": [
+          "bond_yield",
+          "china_reserves"
+        ],
+        "宏观具体值": {
+          "bond_yield": 3.1185,
+          "china_reserves": 7438.0
+        },
+        "情绪数据字段": [],
+        "数据质量": {
+          "completeness": 0.85,
+          "timeliness": 0.75,
+          "consistency": 0.8
+        }
+      },
+      "validation": {
+        "data_completeness": 0.75,
+        "value_reasonable": false,
+        "cross_check": null,
+        "issues": [
+          "情绪数据为空"
+        ]
+      }
+    },
+    {
+      "name": "DataService.get_all_data",
+      "category": "数据服务层",
+      "description": "数据服务层统一接口",
+      "status": "SUCCESS",
+      "error_msg": "",
+      "response_time_ms": 41579,
+      "data_summary": {
+        "价格数据": "2257条",
+        "宏观数据字段": [
+          "bond_yield",
+          "china_reserves"
+        ],
+        "情绪数据字段": [],
+        "bond_yield": 3.1185,
+        "china_reserves": 3427.63,
+        "最新收盘价": 1000.0
+      },
+      "validation": {
+        "data_completeness": 1.0,
+        "value_reasonable": false,
+        "cross_check": {
+          "参考源": "web_search(SGE)",
+          "参考值": 1048.0,
+          "系统值": 1000.0,
+          "差异百分比": 4.58,
+          "一致": false,
+          "参考日期": "2026-04-11"
+        },
+        "issues": []
+      }
+    }
+  ],
+  "summary": {
+    "total": 11,
+    "success": 9,
+    "failed": 2,
+    "cross_checked": 4,
+    "cross_pass": 2
+  }
+}

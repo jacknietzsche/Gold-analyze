@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>量化因子API测试报告 - 2026-04-14</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 15px;
+        }
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .summary-card.failed {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .summary-card.info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .summary-card.warning {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        .summary-card h2 {
+            margin: 0;
+            font-size: 36px;
+        }
+        .summary-card p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+        }
+        .section {
+            margin: 30px 0;
+        }
+        .section h2 {
+            color: #444;
+            border-left: 4px solid #4CAF50;
+            padding-left: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .pass {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .fail {
+            color: #f44336;
+            font-weight: bold;
+        }
+        .boundary-tests {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .boundary-card {
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        .boundary-card.pass {
+            background: #E8F5E9;
+            border-color: #4CAF50;
+        }
+        .boundary-card.fail {
+            background: #FFEBEE;
+            border-color: #f44336;
+        }
+        .issues {
+            background: #FFF3E0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #FF9800;
+        }
+        .issues h3 {
+            margin-top: 0;
+            color: #E65100;
+        }
+        .performance {
+            background: #E3F2FD;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .perf-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .perf-item h4 {
+            margin: 0;
+            color: #1976D2;
+        }
+        .perf-item p {
+            margin: 5px 0 0 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>[CHART] 量化因子API测试报告</h1>
+        <p><strong>测试日期:</strong> 2026-04-14 | <strong>测试类别:</strong> quant_factors</p>
+
+        <div class="summary">
+            <div class="summary-card">
+                <h2>4</h2>
+                <p>测试模块数</p>
+            </div>
+            <div class="summary-card">
+                <h2>40</h2>
+                <p>通过测试</p>
+            </div>
+            <div class="summary-card failed">
+                <h2>3</h2>
+                <p>失败测试</p>
+            </div>
+            <div class="summary-card warning">
+                <h2>93.0%</h2>
+                <p>通过率</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>[EMOJI] 边界条件测试</h2>
+            <div class="boundary-tests">
+                <div class="boundary-card pass">
+                    <strong>trend_upward_not_clipped</strong>: PASS
+                </div><div class="boundary-card pass">
+                    <strong>trend_downward_detected</strong>: PASS
+                </div><div class="boundary-card pass">
+                    <strong>missing_data_handled</strong>: PASS
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚡ 性能测试结果</h2>
+            <div class="performance">
+                <div class="performance-grid">
+                    <div class="perf-item">
+                        <h4>单次因子计算</h4>
+                        <p>9.73 ms</p>
+                    </div>
+                    <div class="perf-item">
+                        <h4>完整因子计算</h4>
+                        <p>40.97 ms</p>
+                    </div>
+                    <div class="perf-item">
+                        <h4>数据清洗(100条)</h4>
+                        <p>43.05 ms</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>[EMOJI] 详细测试结果</h2>
+            <table>
+                <tr>
+                    <th>测试名称</th>
+                    <th>类别</th>
+                    <th>结果</th>
+                    <th>详情</th>
+                </tr>
+                <tr>
+                    <td>calculate_momentum 返回正确结构</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>返回 3 个因子, 耗时 20.05ms</td>
+                </tr><tr>
+                    <td>动量因子 5d 数值有效</td>
+                    <td>general</td>
+                    <td class="fail">[FAIL] FAIL</td>
+                    <td>有效值: 95, 范围: [-0.0606, 0.0764]</td>
+                </tr><tr>
+                    <td>动量因子 10d 数值有效</td>
+                    <td>general</td>
+                    <td class="fail">[FAIL] FAIL</td>
+                    <td>有效值: 90, 范围: [-0.0686, 0.0444]</td>
+                </tr><tr>
+                    <td>动量因子 20d 数值有效</td>
+                    <td>general</td>
+                    <td class="fail">[FAIL] FAIL</td>
+                    <td>有效值: 80, 范围: [-0.0527, 0.0450]</td>
+                </tr><tr>
+                    <td>calculate_ma_trend 返回正确结构</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>返回 100 个值, 耗时 15.21ms</td>
+                </tr><tr>
+                    <td>calculate_rsi 返回正确类型</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>有效值: 87, 耗时 15.78ms</td>
+                </tr><tr>
+                    <td>RSI 数值在 [0, 100] 范围内</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>实际范围: [38.48, 63.34]</td>
+                </tr><tr>
+                    <td>calculate_macd 返回正确类型</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>有效值: 100, 耗时 6.33ms</td>
+                </tr><tr>
+                    <td>calculate_bb_signal 返回正确类型</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>有效值: 81, 耗时 11.24ms</td>
+                </tr><tr>
+                    <td>calculate_volatility 返回正确类型</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>有效值: 80, 耗时 5.54ms</td>
+                </tr><tr>
+                    <td>波动率数值非负</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>范围: [24.1247, 50.7246]</td>
+                </tr><tr>
+                    <td>calculate_adx 返回正确类型</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>有效值: 98, 耗时 25.30ms</td>
+                </tr><tr>
+                    <td>calculate_stochastic 返回正确类型</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>有效值: 87, 耗时 29.48ms</td>
+                </tr><tr>
+                    <td>随机指标数值在 [0, 100] 范围内</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>实际范围: [7.61, 99.07]</td>
+                </tr><tr>
+                    <td>clean_price_data 处理正常数据</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>输入 100 行, 输出 100 行, 耗时 169.92ms</td>
+                </tr><tr>
+                    <td>趋势向上数据未被上界截断</td>
+                    <td>boundary</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>原始最大: 1119.42, 清洗后: 1119.42</td>
+                </tr><tr>
+                    <td>异常低价被修正为合理值</td>
+                    <td>boundary</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>最低价: 186.96</td>
+                </tr><tr>
+                    <td>全部相同价格数据处理不报错</td>
+                    <td>boundary</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>耗时 66.57ms</td>
+                </tr><tr>
+                    <td>缺失值被正确填充</td>
+                    <td>boundary</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>填充后剩余NaN: 0, 耗时 64.23ms</td>
+                </tr><tr>
+                    <td>MinMax归一化结果在 [0, 1] 范围内</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>实际范围: [0.0000, 1.0000]</td>
+                </tr><tr>
+                    <td>Z-Score归一化均值≈0, 标准差≈1</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>均值: 0.0000, 标准差: 1.0000</td>
+                </tr><tr>
+                    <td>calculate_data_quality 返回正确结构</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>完整性: 1.0, 时效性: 0.0, 一致性: 1.0</td>
+                </tr><tr>
+                    <td>QuantitativeStrategy.get_gold_price</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>获取 200 条数据, 耗时 2.62ms</td>
+                </tr><tr>
+                    <td>calculate_technical_indicators 计算指标</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>计算 11 个指标, 耗时 17.19ms</td>
+                </tr><tr>
+                    <td>calculate_aggregate_score 返回正确结构</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>综合得分: 0, 耗时 2.00ms</td>
+                </tr><tr>
+                    <td>IntegratedGoldStrategy.get_gold_price</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>获取 200 条数据, 耗时 1.01ms</td>
+                </tr><tr>
+                    <td>IntegratedGoldStrategy.calculate_technical_indicators</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>计算 11 个指标, 耗时 13.91ms</td>
+                </tr><tr>
+                    <td>calculate_ma 返回正确结构</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>返回 200 个均线值</td>
+                </tr><tr>
+                    <td>calculate_rsi 数值在 [0, 100]</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>有效值: 187, 范围: [37.46, 60.45]</td>
+                </tr><tr>
+                    <td>calculate_macd 返回三组分界线</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>MACD线: 200 值, 信号线: 200 值, 柱状图: 200 值</td>
+                </tr><tr>
+                    <td>布林带关系正确（上轨≥中轨≥下轨）</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>有效布林带: 181 / 181</td>
+                </tr><tr>
+                    <td>机会成本因子评分在 [0, 10]</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>利率得分: 8, 美元得分: 6, 综合: 7.0</td>
+                </tr><tr>
+                    <td>风险不确定性因子评分在 [0, 10]</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>VIX=18.5, 风险得分: 3</td>
+                </tr><tr>
+                    <td>供需格局因子评分在 [0, 10]</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>央行购金=55吨, 供需得分: 7</td>
+                </tr><tr>
+                    <td>趋势动能因子评分在 [0, 10]</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>动量=(0.5+2.1+3.8)/3=2.13%, 趋势得分: 7</td>
+                </tr><tr>
+                    <td>GRAM综合评分在 [0, 10]</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>总分: 6.0/10</td>
+                </tr><tr>
+                    <td>GRAM权重计算公式正确</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>0.40*7.0 + 0.25*3 + 0.20*7 + 0.15*7 = 6.0</td>
+                </tr><tr>
+                    <td>GRAM展望判定有效</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>评分6.0 -> 展望: 偏多</td>
+                </tr><tr>
+                    <td>GRAM极端低分边界有效</td>
+                    <td>boundary</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>极端低分: 1.0/10</td>
+                </tr><tr>
+                    <td>GRAM极端高分边界有效</td>
+                    <td>boundary</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>极端高分: 8.6/10</td>
+                </tr><tr>
+                    <td>单次因子计算 < 100ms</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>平均: 9.73ms, 最大: 13.88ms</td>
+                </tr><tr>
+                    <td>完整因子计算 < 500ms</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>平均: 40.97ms, 最大: 42.66ms</td>
+                </tr><tr>
+                    <td>数据清洗（100条） < 50ms</td>
+                    <td>general</td>
+                    <td class="pass">[PASS] PASS</td>
+                    <td>平均: 43.05ms, 最大: 53.97ms</td>
+                </tr>
+            </table>
+        </div>
+
+        
+
+        <div style="text-align: center; margin-top: 30px; color: #999; font-size: 12px;">
+            <p>Generated by 量化因子API测试系统 | 2026-04-14 18:37:15</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄金量化系统 - 数据接口检测报告</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 30px; margin-bottom: 30px; border: 1px solid #2a2a3e; }
+        .header h1 { font-size: 24px; color: #d4af37; margin-bottom: 10px; }
+        .header .subtitle { color: #888; font-size: 14px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #1a1a2e; border-radius: 10px; padding: 20px; border: 1px solid #2a2a3e; text-align: center; }
+        .stat-card .value { font-size: 32px; font-weight: bold; }
+        .stat-card .label { font-size: 12px; color: #888; margin-top: 5px; }
+        .category-section { margin-bottom: 30px; }
+        .category-title { background: #1a1a2e; padding: 15px 20px; border-radius: 10px 10px 0 0; border: 1px solid #2a2a3e; border-bottom: none; font-size: 16px; color: #d4af37; }
+        .test-card { background: #111; border: 1px solid #2a2a3e; padding: 20px; margin-bottom: 1px; }
+        .test-card:last-child { border-radius: 0 0 10px 10px; }
+        .test-name { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+        .test-desc { font-size: 12px; color: #888; margin-bottom: 10px; }
+        .test-status { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #fff; }
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin-top: 10px; }
+        .data-item { background: #0a0a0a; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+        .data-item .key { color: #888; }
+        .data-item .val { color: #d4af37; font-weight: 600; }
+        .validation { margin-top: 10px; padding: 10px; background: #0d0d1a; border-radius: 6px; }
+        .validation .label { color: #888; font-size: 12px; }
+        .progress-bar { background: #2a2a3e; border-radius: 4px; height: 8px; margin-top: 5px; }
+        .progress-fill { height: 100%; border-radius: 4px; }
+        .issue { color: #e67e22; font-size: 12px; margin-top: 4px; }
+        .cross-check { margin-top: 8px; padding: 8px; background: #0a1a0a; border-radius: 6px; border: 1px solid #1a3a1a; font-size: 12px; }
+        .ref-section { background: #1a1a2e; border-radius: 10px; padding: 20px; margin-bottom: 30px; border: 1px solid #2a2a3e; }
+        .ref-title { font-size: 16px; color: #d4af37; margin-bottom: 15px; }
+        .footer { text-align: center; color: #555; font-size: 12px; margin-top: 40px; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ 黄金量化系统 - 数据接口全面检测报告</h1>
+            <div class="subtitle">检测时间: 2026-04-12 20:25:54 | 检测接口数: 20 | 联网参考源: 0</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="value" style="color:#3498db">20</div>
+                <div class="label">总检测数</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" style="color:#27ae60">7</div>
+                <div class="label">成功</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" style="color:#c0392b">13</div>
+                <div class="label">失败</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" style="color:#d4af37">18%</div>
+                <div class="label">平均数据完整性</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" style="color:#9b59b6">3720ms</div>
+                <div class="label">平均响应时间</div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title">📊 黄金价格 (1/2 通过)</div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.spot_hist_sge <span class="test-status" style="background:#27ae60">✓ 成功</span></div>
+                <div class="test-desc">上海黄金交易所Au99.99历史价格数据 | 响应: 5640ms</div>
+                <div class="data-grid"><div class="data-item"><span class="key">记录数:</span> <span class="val">2257</span></div><div class="data-item"><span class="key">列名:</span> <span class="val">["date", "open", "close", "low", "high"]</span></div><div class="data-item"><span class="key">最新日期:</span> <span class="val">2026-04-10</span></div><div class="data-item"><span class="key">最新价格:</span> <span class="val">1047.23</span></div></div>
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 100%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:100.0%;background:#27ae60"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: ✓ 合理</div>
+</div>
+                
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">yfinance.GLD <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">GLD黄金ETF价格数据(Yahoo Finance) | 响应: 13ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: 'NoneType' object is not subscriptable</div>
+            </div>
+</div>
+        <div class="category-section">
+            <div class="category-title">📊 宏观数据 (1/9 通过)</div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.bond_china_yield <span class="test-status" style="background:#27ae60">✓ 成功</span></div>
+                <div class="test-desc">中国国债收益率曲线数据 | 响应: 15596ms</div>
+                <div class="data-grid"><div class="data-item"><span class="key">记录数:</span> <span class="val">738</span></div><div class="data-item"><span class="key">曲线名称:</span> <span class="val">["中债中短期票据收益率曲线(AAA)", "中债商业银行普通债收益率曲线(AAA)", "中债国债收益率曲线"]</span></div><div class="data-item"><span class="key">10年期国债收益率:</span> <span class="val">3.1185</span></div></div>
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 100%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:100.0%;background:#27ae60"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: ✓ 合理</div>
+</div>
+                
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.macro_china_foreign_exchange_gold <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">中国央行外汇黄金储备数据 | 响应: 33970ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: HTTPSConnectionPool(host='quotes.sina.cn', port=443): Max retries exceeded with url: /mac/api/jsonp_v3.php/SINAREMOTECALLCALLBACK1601651495761/MacPage_Service.get_pagedata?cate=fininfo&event=5&from=15</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.macro_china_fx_gold <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">中国外汇黄金储备数据 | 响应: 2ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: HTTPSConnectionPool(host='datacenter-web.eastmoney.com', port=443): Max retries exceeded with url: /api/data/v1/get?columns=REPORT_DATE%2CTIME%2CGOLD_RESERVES%2CGOLD_RESERVES_SAME%2CGOLD_RESERVES_SEQU</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.macro_china_cpi_monthly <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">中国CPI月度数据 | 响应: 2ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: HTTPSConnectionPool(host='datacenter-api.jin10.com', port=443): Max retries exceeded with url: /reports/list_v2?max_date=&category=ec&attr_id=72&_=1775996813694 (Caused by NameResolutionError("<urllib</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.macro_china_m2_yearly <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">中国M2货币供应量年度数据 | 响应: 2ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: HTTPSConnectionPool(host='datacenter-api.jin10.com', port=443): Max retries exceeded with url: /reports/list_v2?max_date=&category=ec&attr_id=59&_=1775996814698 (Caused by NameResolutionError("<urllib</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.currency_zh_usd <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">美元/人民币汇率数据 | 响应: 0ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: module 'akshare' has no attribute 'currency_zh_usd'</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.index_spot_hist_sina <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">美元指数(Sina来源) | 响应: 0ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: module 'akshare' has no attribute 'index_spot_hist_sina'</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">yfinance.DX-Y.NYB <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">美元指数(Yahoo Finance) | 响应: 2ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">yfinance.^TNX <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">美国10年期国债收益率(Yahoo Finance) | 响应: 5ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: 'NoneType' object is not subscriptable</div>
+            </div>
+</div>
+        <div class="category-section">
+            <div class="category-title">📊 市场情绪 (0/3 通过)</div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.index_option_sse_sina_vol <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">VIX恐慌指数(Sina来源) | 响应: 0ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: module 'akshare' has no attribute 'index_option_sse_sina_vol'</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">akshare.fund_etf_hist_sina <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">黄金ETF历史数据(Sina来源) | 响应: 4ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: HTTPSConnectionPool(host='finance.sina.com.cn', port=443): Max retries exceeded with url: /realstock/company/%E9%BB%84%E9%87%91/hisdata_klc2/klc_kl.js (Caused by NameResolutionError("<urllib3.connecti</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">yfinance.^VIX <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">VIX恐慌指数(Yahoo Finance) | 响应: 374ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.</div>
+            </div>
+</div>
+        <div class="category-section">
+            <div class="category-title">📊 数据提供者 (4/5 通过)</div>
+
+            <div class="test-card">
+                <div class="test-name">AkShareDataProvider <span class="test-status" style="background:#27ae60">✓ 成功</span></div>
+                <div class="test-desc">AkShare数据提供者(价格+宏观+情绪) | 响应: 62ms</div>
+                <div class="data-grid"><div class="data-item"><span class="key">价格数据:</span> <span class="val">空</span></div><div class="data-item"><span class="key">宏观数据字段:</span> <span class="val">[]</span></div><div class="data-item"><span class="key">宏观具体值:</span> <span class="val">{}</span></div><div class="data-item"><span class="key">情绪数据字段:</span> <span class="val">[]</span></div><div class="data-item"><span class="key">数据质量:</span> <span class="val">{"completeness": 0.85, "timeliness": 0.75, "consistency": 0.8}</span></div></div>
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 25%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:25.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: ✗ 不合理</div>
+<div class="issue">⚠ 价格数据为空</div><div class="issue">⚠ 宏观数据为空</div><div class="issue">⚠ 情绪数据为空</div></div>
+                
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">YahooFinanceProvider <span class="test-status" style="background:#27ae60">✓ 成功</span></div>
+                <div class="test-desc">Yahoo Finance数据提供者(价格+宏观+情绪) | 响应: 37ms</div>
+                <div class="data-grid"><div class="data-item"><span class="key">价格数据:</span> <span class="val">空</span></div><div class="data-item"><span class="key">宏观数据字段:</span> <span class="val">[]</span></div><div class="data-item"><span class="key">宏观具体值:</span> <span class="val">{}</span></div><div class="data-item"><span class="key">情绪数据字段:</span> <span class="val">["vix", "sentiment", "gld_volume", "gld_price_change", "market_sentiment"]</span></div><div class="data-item"><span class="key">数据质量:</span> <span class="val">{"completeness": 0.95, "timeliness": 0.9, "consistency": 0.92}</span></div></div>
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 50%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:50.0%;background:#e67e22"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: ✗ 不合理</div>
+<div class="issue">⚠ 价格数据为空</div><div class="issue">⚠ 宏观数据为空</div></div>
+                
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">GoldAPIProvider <span class="test-status" style="background:#27ae60">✓ 成功</span></div>
+                <div class="test-desc">Gold-API.com数据提供者(需要API Key) | 响应: 0ms</div>
+                <div class="data-grid"><div class="data-item"><span class="key">API Key:</span> <span class="val">未配置</span></div><div class="data-item"><span class="key">备注:</span> <span class="val">需要API Key才能获取真实数据</span></div><div class="data-item"><span class="key">支持的宏观数据:</span> <span class="val">不支持</span></div><div class="data-item"><span class="key">支持的情绪数据:</span> <span class="val">不支持</span></div><div class="data-item"><span class="key">支持的相关性数据:</span> <span class="val">不支持</span></div></div>
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: ✗ 不合理</div>
+<div class="issue">⚠ 未配置API Key，无法获取数据</div></div>
+                
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">YinheDataProvider <span class="test-status" style="background:#c0392b">✗ 失败</span></div>
+                <div class="test-desc">银禾数据YinheData(需要API Key) | 响应: 0ms</div>
+                
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: --</div>
+</div>
+                <div style="color:#c0392b;font-size:12px;margin-top:5px">错误: 'NoneType' object has no attribute 'get'</div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-name">OpenBBProvider <span class="test-status" style="background:#27ae60">✓ 成功</span></div>
+                <div class="test-desc">OpenBB数据提供者(需要安装openbb) | 响应: 5ms</div>
+                <div class="data-grid"><div class="data-item"><span class="key">OpenBB可用:</span> <span class="val">False</span></div><div class="data-item"><span class="key">备注:</span> <span class="val">需要安装openbb包才能使用</span></div></div>
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 0%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:#c0392b"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: ✗ 不合理</div>
+<div class="issue">⚠ OpenBB未安装</div></div>
+                
+            </div>
+</div>
+        <div class="category-section">
+            <div class="category-title">📊 数据服务层 (1/1 通过)</div>
+
+            <div class="test-card">
+                <div class="test-name">DataService.get_all_data <span class="test-status" style="background:#27ae60">✓ 成功</span></div>
+                <div class="test-desc">数据服务层统一接口 | 响应: 90ms</div>
+                <div class="data-grid"><div class="data-item"><span class="key">价格数据:</span> <span class="val">空</span></div><div class="data-item"><span class="key">宏观数据字段:</span> <span class="val">["vix", "dollar_index", "bond_yield", "china_reserves", "central_bank_buying"]</span></div><div class="data-item"><span class="key">情绪数据字段:</span> <span class="val">["vix", "market_sentiment", "gld_volume", "gld_price_change"]</span></div><div class="data-item"><span class="key">相关性数据:</span> <span class="val">空</span></div></div>
+                
+                <div class="validation">
+                    <div class="label">数据完整性: 75%</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:75.0%;background:#e67e22"></div></div>
+                    <div class="label" style="margin-top:5px">数值合理性: ✗ 不合理</div>
+<div class="issue">⚠ 价格数据为空</div></div>
+                
+            </div>
+</div>
+        <div class="ref-section">
+            <div class="ref-title">🌐 联网参考数据源</div>
+<div style="color:#888">未获取到联网参考数据</div>
+            </div>
+        </div>
+        <div class="footer">
+            ⚠️ 本报告仅供学术研究参考，不构成投资建议。数据可能存在延迟。<br>
+            黄金量化分析系统 V5 | 数据接口全面检测报告
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宏观经济因子 API 测试报告</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 40px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #333; border-bottom: 3px solid #4A90D9; padding-bottom: 10px; }
+        .summary { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
+        .summary-item { background: #f8f9fa; padding: 15px; border-radius: 6px; text-align: center; }
+        .summary-item .label { color: #666; font-size: 14px; }
+        .summary-item .value { color: #333; font-size: 24px; font-weight: bold; margin-top: 5px; }
+        .summary-item.passed { background: #d4edda; }
+        .summary-item.failed { background: #f8d7da; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        th { background: #4A90D9; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px 12px; border-bottom: 1px solid #eee; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: #f8f9fa; }
+        .status-success { color: #28a745; font-weight: bold; }
+        .status-error { color: #dc3545; font-weight: bold; }
+        .status-failed { color: #ffc107; font-weight: bold; }
+        .response-time { font-family: monospace; }
+        .reference { background: #e9ecef; padding: 3px 6px; border-radius: 3px; font-size: 12px; }
+        .issues { background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107; }
+        .issue-item { margin: 5px 0; }
+        .severity-high { color: #dc3545; font-weight: bold; }
+        .footer { text-align: center; color: #666; margin-top: 30px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 宏观经济因子 API 测试报告</h1>
+        
+        <div class="summary">
+            <h2>测试概览</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">测试日期</div>
+                    <div class="value">2026-04-14</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">总API数</div>
+                    <div class="value">11</div>
+                </div>
+                <div class="summary-item passed">
+                    <div class="label">通过</div>
+                    <div class="value">5</div>
+                </div>
+                <div class="summary-item failed">
+                    <div class="label">失败</div>
+                    <div class="value">6</div>
+                </div>
+            </div>
+            <p style="margin-top:15px; color:#666;">测试耗时: 561.15秒 | 通过率: 45.5%</p>
+        </div>
+        
+        <h2>详细结果</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>API名称</th>
+                    <th>描述</th>
+                    <th>状态</th>
+                    <th>响应时间</th>
+                    <th>数据形状</th>
+                    <th>一致性检测</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><code>macro_china_cpi_monthly</code></td>
+                    <td>CPI月度数据</td>
+                    <td class="status-success">✓ 成功</td>
+                    <td class="response-time">113620.34 ms</td>
+                    <td>(357, 5)</td>
+                    <td>pass</td>
+                </tr>
+
+                <tr>
+                    <td><code>macro_china_cpi_yearly</code></td>
+                    <td>CPI年度数据</td>
+                    <td class="status-success">✓ 成功</td>
+                    <td class="response-time">95240.5 ms</td>
+                    <td>(477, 5)</td>
+                    <td>pass</td>
+                </tr>
+
+                <tr>
+                    <td><code>macro_china_m2_yearly</code></td>
+                    <td>M2年度数据</td>
+                    <td class="status-success">✓ 成功</td>
+                    <td class="response-time">51007.7 ms</td>
+                    <td>(395, 5)</td>
+                    <td>pass</td>
+                </tr>
+
+                <tr>
+                    <td><code>macro_china_m2_quarterly</code></td>
+                    <td>M2季度数据</td>
+                    <td class="status-error">⚠ 错误</td>
+                    <td class="response-time">1.98 ms</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+
+                <tr>
+                    <td><code>bond_china_yield</code></td>
+                    <td>中国国债收益率</td>
+                    <td class="status-success">✓ 成功</td>
+                    <td class="response-time">14877.75 ms</td>
+                    <td>(738, 10)</td>
+                    <td>pass</td>
+                </tr>
+
+                <tr>
+                    <td><code>bond_zh_cf_daily</code></td>
+                    <td>债券财富指数日线</td>
+                    <td class="status-error">⚠ 错误</td>
+                    <td class="response-time">0.0 ms</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+
+                <tr>
+                    <td><code>bond_zh_hs_cov_spot</code></td>
+                    <td>沪深债券现货</td>
+                    <td class="status-success">✓ 成功</td>
+                    <td class="response-time">4092.67 ms</td>
+                    <td>(360, 15)</td>
+                    <td>pass</td>
+                </tr>
+
+                <tr>
+                    <td><code>forex_hist_em</code></td>
+                    <td>离岸人民币汇率</td>
+                    <td class="status-error">⚠ 错误</td>
+                    <td class="response-time">0.0 ms</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+
+                <tr>
+                    <td><code>exchange_rate</code></td>
+                    <td>汇率列表</td>
+                    <td class="status-error">⚠ 错误</td>
+                    <td class="response-time">0.0 ms</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+
+                <tr>
+                    <td><code>futures_oil</code></td>
+                    <td>原油期货</td>
+                    <td class="status-error">⚠ 错误</td>
+                    <td class="response-time">0.0 ms</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+
+                <tr>
+                    <td><code>spot_oil</code></td>
+                    <td>原油现货</td>
+                    <td class="status-error">⚠ 错误</td>
+                    <td class="response-time">0.0 ms</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <h2>问题汇总</h2>
+<div class="issues"><div class="issue-item"><span class="severity-high">[HIGH]</span> <code>macro_china_m2_quarterly</code>: AttributeError: module 'akshare' has no attribute 'macro_china_m2_quarterly'</div><div class="issue-item"><span class="severity-high">[HIGH]</span> <code>bond_zh_cf_daily</code>: AttributeError: module 'akshare' has no attribute 'bond_zh_cf_daily'</div><div class="issue-item"><span class="severity-high">[HIGH]</span> <code>forex_hist_em</code>: TypeError: forex_hist_em() got an unexpected keyword argument 'period'</div><div class="issue-item"><span class="severity-high">[HIGH]</span> <code>exchange_rate</code>: AttributeError: module 'akshare' has no attribute 'exchange_rate'</div><div class="issue-item"><span class="severity-high">[HIGH]</span> <code>futures_oil</code>: AttributeError: module 'akshare' has no attribute 'futures_oil'</div><div class="issue-item"><span class="severity-high">[HIGH]</span> <code>spot_oil</code>: AttributeError: module 'akshare' has no attribute 'spot_oil'</div></div>
+        <h2>参考基准值</h2>
+        <table>
+            <thead>
+                <tr><th>指标</th><th>参考值</th><th>单位</th><th>参考周期</th></tr>
+            </thead>
+            <tbody>
+<tr><td>cpi</td><td><strong>1.0</strong></td><td>%</td><td>2026-03</td></tr><tr><td>m2</td><td><strong>3100000</strong></td><td>亿元</td><td>2026-03</td></tr><tr><td>bond_10y</td><td><strong>1.82</strong></td><td>%</td><td>2026-04-11</td></tr><tr><td>usdcny</td><td><strong>6.82</strong></td><td>CNY/USD</td><td>2026-04-14</td></tr><tr><td>wti_oil</td><td><strong>75</strong></td><td>USD/桶</td><td>2026-04-14</td></tr>
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <p>黄金量化分析系统 | 宏观经济因子API测试 | 生成时间: 2026-04-14 18:40:17</p>
+        </div>
+    </div>
+</body>
+</html>

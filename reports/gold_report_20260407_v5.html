@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<title>20260407 黄金量化分析V5</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*:{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#faf9f6;color:#1a1a2e;line-height:1.7;padding:20px;}
+.c{max-width:1100px;margin:0 auto;}
+.cover{text-align:center;padding:50px 30px;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border-radius:12px;margin-bottom:25px;}
+.cover h1{color:#d4af37;font-size:28px;letter-spacing:3px;border:none;padding:0;}
+.sub{color:#aab;font-size:14px;margin-top:10px;} .meta{color:#778;font-size:13px;margin-top:15px;line-height:2;}
+.badge{display:inline-block;background:#d4af37;color:#000;padding:3px 16px;border-radius:20px;font-size:11px;font-weight:bold;margin-top:18px;}
+h2{color:#1a1a2e;font-size:19px;margin:35px 0 15px;padding-left:14px;border-left:5px solid #d4af37;font-weight:700;}
+h3{color:#2c3e50;font-size:16px;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid #e8e4df;}
+.card{background:#fff;border-radius:10px;padding:24px;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);}
+.sc{background:linear-gradient(to right,#fffbf0,#fff);border-left:5px solid #d4af37;}
+.price{font-size:32px;color:#d4af37;font-weight:900;} .ps{font-size:22px;}
+.up{color:#c0392b!important;font-weight:bold;} .down{color:#27ae60!important;font-weight:bold;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;}
+th{background:linear-gradient(135deg,#d4af37,#b8962e);color:#fff;padding:11px 10px;text-align:left;font-size:13px;}
+td{padding:10px 8px;border-bottom:1px solid #f0ede7;} tr:hover td{background:#fdfbf5;}
+.gb{height:26px;background:#eee;border-radius:13px;overflow:hidden;margin:5px 0;}
+.gf{height:100%;border-radius:13px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-size:11px;font-weight:bold;min-width:36px;}
+.pt{display:inline-block;padding:3px 11px;border-radius:14px;font-size:12px;margin:2px 4px 2px 0;font-weight:600;}
+.bull{background:#fdecea;color:#c0392b;border:1px solid #fadbd8;}
+.bear{background:#eafaf1;color:#27ae60;border:1px solid #d5f5e3;}
+.neu{background:#fef9e7;color:#b7950b;border:1px solid #fcf3cf;}
+.gg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:12px 0;}
+.gi{background:#f8f7f4;border-radius:10px;padding:16px;text-align:center;border:1px solid #e8e4df;}
+.gv{font-size:24px;font-weight:900;} .gl{font-size:12px;color:#777;margin-top:3px;}
+.gs{font-size:11px;margin-top:4px;padding:2px 8px;border-radius:10px;display:inline-block;}
+.ds{background:#eef9f0;padding:14px;border-radius:8px;margin:12px 0;font-size:13px;line-height:1.8;border-left:4px solid #27ae60;}
+.wn{background:#fef8ed;padding:12px 14px;border-radius:8px;border-left:4px solid #e67e22;margin:10px 0;font-size:13px;}
+.lb{background:#f0f7fa;padding:18px;border-radius:8px;border-left:5px solid #2980b9;margin:12px 0;line-height:1.85;}
+.cr{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:12px 0;} @media(max-width:768px){.cr{grid-template-columns:1fr;}}
+.cw{position:relative;height:300px;width:100%;margin:12px 0;}
+.ft{text-align:center;color:#aaa;font-size:11px;margin-top:35px;padding:18px;border-top:1px solid #e8e4df;}
+strong{color:#1a1a2e;}</style></head><body><div class="c">
+
+<!-- 封面 -->
+<div class="cover">
+<h1>🥇 黄金走势专业量化分析报告 V5</h1>
+<div class="sub">基于WGC GRAM归因框架 + 多维度技术分析体系</div>
+<div class="meta">基准日：2026-04-07 | 标的：上海金Au99.99 | 版本：Professional</div>
+<div class="badge">中性 | GRAM 5.1/10</div>
+</div>
+
+<!-- 数据源 -->
+<div class="ds">📌 <strong>数据源：</strong>上海金SGE via akshare(2254条) · 国债/VIX/DXY公开API · 央行购金WGC/央行披露<br>⚠️ 仅供学术研究参考，不构成投资建议。数据可能存在延迟。</div>
+
+<!-- 一、核心结论 -->
+<h2>一、核心结论与投资建议</h2>
+<div class="card sc">
+<p><strong>📊 当前金价：</strong><span class="price">¥1028.0</span>/克（2026-04-07） 历史分位：<strong>98.0%</strong></p>
+<table><tr><th width="110">指标</th><th>值</th><th>解读</th></tr>
+<tr><td><strong>GRAM综合</strong></td><td style="color:#f39c12;font-weight:bold;">5.1/10</td><td><strong>中性</strong></td></tr>
+<tr><td>短期(5日)</td><td>1.91%</td><td>小幅上涨</td></tr>
+<tr><td>中期(60日)</td><td>5.45%</td><td>趋势性上涨</td></tr>
+<tr><td>长期(252日)</td><td>45.5%</td><td>强势大涨</td></tr>
+<tr><td colspan="3" style="font-size:13px;"><strong>均线：</strong>MA5<MA20死叉，跌破MA60 &nbsp;|&nbsp; <strong>RSI：</strong>38.9 &nbsp;|&nbsp; <strong>MACD：</strong>多头增强 &nbsp;|&nbsp; <strong>BOLL：</strong>正常区间</td></tr>
+</table>
+
+<div class="wn"><strong>⚠️ 核心风险：</strong><br>① 美联储政策转向 → 潜在回调 <strong>12-18%</strong> &nbsp;② DXY破105-108 → <strong>8-12%</strong> &nbsp;③ 分位98.0%高位区波动加大</div>
+
+<p style="margin-top:12px;padding:14px 18px;background:linear-gradient(135deg,#2c3e50,#1a252f);border-radius:10px;text-align:center;font-size:14px;border:2px solid #d4af37;">
+<span style="color:#fff;font-weight:bold;font-size:16px;">💎 GRAM 5.1/10 (中性)</span><br>
+<span style="color:#d4af37;">多头主导回调可布局</span><br>
+<span style="color:#aaa;font-size:13px;">支撑 ¥924.65 &nbsp;|&nbsp; 阻力 ¥1243.02</span>
+</p>
+</div><h2>二、近期走势判断（短期技术分析）</h2>
+<div class="card" style="border-left:5px solid #27ae60;">
+<p style="font-size:18px;margin-bottom:15px;"><strong>📈 短期趋势判断：</strong><span style="color:#27ae60;font-weight:bold;font-size:22px;">短期偏空</span></p>
+<p style="background:#f8f9fa;padding:12px;border-radius:8px;margin:15px 0;font-size:14px;">💡 <strong>操作建议：</strong>短期趋势偏空，建议减仓或观望</p>
+<table><tr><th width="80">项目</th><th>数值</th><th>说明</th></tr>
+<tr><td><strong>当前价格</strong></td><td style="color:#d4af37;font-weight:bold;">¥1028.00</td><td>最新收盘价</td></tr>
+<tr><td><strong>支撑位</strong></td><td class="down">¥924.65</td><td>60日低点</td></tr>
+<tr><td><strong>阻力位</strong></td><td class="up">¥1243.02</td><td>60日高点</td></tr></table>
+
+<h3 style="margin-top:15px;">📊 技术信号汇总</h3><div style="background:#eafaf1;padding:10px 14px;margin:8px 0;border-radius:8px;border-left:4px solid #27ae60;"><span style="font-weight:bold;">🔴 均线：空头排列</span><br><span style="font-size:13px;color:#666;">MA5<MA20<MA60，短期下跌趋势明确</span></div><div style="background:#eafaf1;padding:10px 14px;margin:8px 0;border-radius:8px;border-left:4px solid #27ae60;"><span style="font-weight:bold;">🔴 价格：跌破MA5</span><br><span style="font-size:13px;color:#666;">价格低于MA5(1031.34)，短期走弱</span></div><div style="background:#fef9e7;padding:10px 14px;margin:8px 0;border-radius:8px;border-left:4px solid #f39c12;"><span style="font-weight:bold;">⚪ 动量：小幅上涨</span><br><span style="font-size:13px;color:#666;">近5日上涨1.9%，温和反弹</span></div><div style="background:#eafaf1;padding:10px 14px;margin:8px 0;border-radius:8px;border-left:4px solid #27ae60;"><span style="font-weight:bold;">🔴 RSI：偏弱</span><br><span style="font-size:13px;color:#666;">RSI=38.9，空头占优</span></div><div style="background:#fdecea;padding:10px 14px;margin:8px 0;border-radius:8px;border-left:4px solid #c0392b;"><span style="font-weight:bold;">🟢 MACD：多头增强</span><br><span style="font-size:13px;color:#666;">MACD多头信号，动能向上</span></div><div style="background:#fef9e7;padding:10px 14px;margin:8px 0;border-radius:8px;border-left:4px solid #f39c12;"><span style="font-weight:bold;">⚪ 位置：距支撑32%</span><br><span style="font-size:13px;color:#666;">当前价格处于区间中部，建议观望或轻仓操作</span></div></div><h2>三、GRAM黄金回报归因 (WGC标准)</h2><div class="card"><table><tr><th>驱动因子</th><th>权重</th><th>得分</th><th>解读</th></tr><tr><td><strong>机会成本</strong></td><td>40%</td><td><div class="gb"><div class="gf" style="width:60.0%;background:#27ae60;">6.0/10</div></div></td><td style="font-size:13px;">利率端: 强利好：实际利率深度负值区间，持有黄金机会成本极低; 汇率端: 中性偏空：美元偏强</td></tr><tr><td><strong>风险不确定</strong></td><td>25%</td><td><div class="gb"><div class="gf" style="width:50%;background:#f39c12;">5/10</div></div></td><td style="font-size:13px;">中等风险：存在一定避险需求</td></tr><tr><td><strong>供需格局</strong></td><td>20%</td><td><div class="gb"><div class="gf" style="width:50%;background:#f39c12;">5/10</div></div></td><td style="font-size:13px;">购金稳定：央行正常配置节奏</td></tr><tr><td><strong>趋势动能</strong></td><td>15%</td><td><div class="gb"><div class="gf" style="width:30%;background:#c0392b;">3/10</div></div></td><td style="font-size:13px;">下降趋势：空头占优</td></tr><tr style="background:#f8f6f0;font-weight:bold;"><td>综合评分</td><td></td><td><div class="gb"><div class="gf" style="width:51.0%;background:#f39c12;">5.1/10</div></div></td><td style="color:#f39c12;font-size:14px;">→ <strong>中性</strong></td></tr></table></div>
+<h2>四、核心技术指标全景</h2>
+<h3>3.1 动量指标仪表盘</h3><div class="gg">
+<div class="gi"><div class="gl">RSI(14)</div><div class="gv" style="color:#d4af37;">38.9</div><div class="gs" style="background:#fef9e7;">中性偏弱</div></div>
+<div class="gi"><div class="gl">MACD信号</div><div class="gv ps">-24.0712</div><div class="gs" style="background:#fdecea;">多头增强</div></div>
+<div class="gi"><div class="gl">KDJ-J值</div><div class="gv ps" style="color:#d4af37;">66.5</div><div class="gs" style="background:#fef9e7;">多头排列</div></div>
+<div class="gi"><div class="gl">ATR(14)波幅</div><div class="gv ps">¥59.82</div><div class="gs" style="background:#f0f0f0;">日均真实波幅</div></div></div>
+
+<h3>3.2 移动平均线系统</h3><table><tr><th>均线</th><th>数值</th><th>状态</th><th>偏离度</th></tr><tr><td>MA5</td><td>¥1031.34</td><td>跌破 ✗</td><td>-0.3%</td></tr><tr><td>MA20</td><td>¥1054.41</td><td>跌破 ✗</td><td>-2.5%</td></tr><tr><td>MA60</td><td>¥1085.03</td><td>跌破 ✗</td><td>-5.3%</td></tr></table>
+<h3>3.3 布林带 BOLL(20,2)</h3><table><tr><th>参数</th><th>值</th><th>含义</th></tr>
+<tr><td>上轨 (+2σ)</td><td class="up">¥1183.75</td><td>突破=超买</td></tr>
+<tr><td>中轨 (MA20)</td><td>¥1054.41</td><td>趋势中枢</td></tr>
+<tr><td>下轨 (-2σ)</td><td class="down">¥925.07</td><td>跌破=超卖</td></tr>
+<tr><td>带宽</td><td>24.5%</td><td>波动偏高</td></tr>
+<tr><td>价格位置</td><td>39.8%</td><td>正常区间</td></tr></table>
+<h2>五、K线形态识别</h2><div class="card"><span class="pt neu">⚪ 普通K线: 无明显反转或延续形态</span></div><h2>六、各周期涨跌幅</h2><table><tr><th>统计周期</th><th>涨跌幅</th><th>趋势特征</th></tr><tr><td>近1日</td><td class="down">0.62%</td><td>小幅下跌</td></tr><tr><td>近5日</td><td class="up">+1.91%</td><td>小幅上涨</td></tr><tr><td>近20日(1月)</td><td class="down">9.85%</td><td>明显回调</td></tr><tr><td>近60日(3月)</td><td class="up">+5.45%</td><td>趋势性上涨</td></tr><tr><td>近120日(6月)</td><td class="up">+17.91%</td><td>强势大涨</td></tr><tr><td>近252日(1年)</td><td class="up">+45.5%</td><td>强势大涨</td></tr></table>
+<h2>七、核心宏观因子状态</h2><div class="cr">
+<div class="card"><h3 style="margin-top:0;">货币属性因子</h3><table><tr><th>指标</th><th>最新值</th><th>对金价影响</th></tr>
+<tr><td>中国10Y国债收益率</td><td><strong>1.81%</strong></td><td class="up">利好(负相关)</td></tr>
+<tr><td>VIX恐慌指数</td><td><strong>24.9</strong></td><td class="up">利好(正相关)</td></tr>
+<tr><td>美元指数 DXY</td><td><strong>103.5</strong></td><td class="down">压制(负相关)</td></tr></table></div>
+<div class="card"><h3 style="margin-top:0;">供需属性因子</h3><table><tr><th>指标</th><th>当前状态</th><th>对金价影响</th></tr>
+<tr><td>央行月均净购金</td><td class="up"><strong>+45吨</strong></td><td class="up">利好</td></tr>
+<tr><td>中国央行黄金储备</td><td class="up"><strong>2308吨</strong></td><td class="up">利好</td></tr>
+<tr><td>黄金ETF持仓</td><td>~915吨</td><td>中性</td></tr></table></div></div>
+<h2>八、未来情景量化推演</h2><table><tr><th>情景类型</th><th>概率</th><th>假设条件</th><th>预期金价区间</th></tr>
+<tr><td>基准情景</td><td>55%</td><td>美联储降息2次，利率维持低位</td><td><strong>¥952-1243/克</strong></td></tr>
+<tr><td>乐观情景</td><td>25%</td><td>地缘冲突升级+提前降息+美元走弱</td><td><strong>¥1243-1367/克</strong></td></tr>
+<tr><td>悲观情景</td><td>20%</td><td>美联储鹰派延期降息+利率上行</td><td><strong>¥872-952/克</strong></td></tr></table>
+<h2>九、行业对标分析与基准比较</h2>
+<h3>9.1 资产类别表现对比</h3><table><tr><th>资产类别</th><th>价格</th><th>YTD收益</th><th>波动率</th><th>夏普比率</th></tr><tr><td><strong>GLD</strong></td><td>¥195.75</td><td class="up">8.2%</td><td>12.5%</td><td>0.75</td></tr><tr><td><strong>SPY</strong></td><td>¥520.3</td><td class="up">12.4%</td><td>14.2%</td><td>0.92</td></tr><tr><td><strong>TLT</strong></td><td>¥98.45</td><td class="up">3.1%</td><td>8.7%</td><td>0.36</td></tr><tr><td><strong>DBC</strong></td><td>¥22.68</td><td class="up">5.7%</td><td>16.3%</td><td>0.35</td></tr></table>
+<h3>9.2 投资组合配置建议</h3><table><tr><th>投资风格</th><th>黄金配置比例</th><th>理由</th></tr>
+<tr><td>保守型</td><td><strong>15%</strong></td><td>作为避险资产，降低组合波动性</td></tr>
+<tr><td>平衡型</td><td><strong>10%</strong></td><td>适度配置，兼顾收益与风险</td></tr>
+<tr><td>进取型</td><td><strong>5%</strong></td><td>作为组合多元化的补充</td></tr></table>
+<h3>9.3 资产相关性矩阵</h3><table><tr><th>资产</th><th>与黄金相关性</th></tr><tr><td>GOLD_ETF</td><td class="up">0.98</td></tr><tr><td>S&P500</td><td class="down">-0.15</td></tr><tr><td>BOND_INDEX</td><td class="up">0.25</td></tr><tr><td>COMMODITY_INDEX</td><td class="up">0.72</td></tr></table>
+<h2>十、风险量化分析与压力测试</h2>
+<h3>10.1 风险指标</h3><table><tr><th>风险指标</th><th>数值</th><th>解读</th></tr>
+<tr><td>最大回撤</td><td class="down">27.24%</td><td>历史最大损失幅度</td></tr>
+<tr><td>5% VaR</td><td class="down">-1.2%</td><td>95%置信区间下的单日最大损失</td></tr>
+<tr><td>条件风险价值(CVaR)</td><td class="down">-2.2%</td><td>极端情况下的平均损失</td></tr>
+<tr><td>夏普比率</td><td>1.09</td><td>风险调整后收益</td></tr>
+<tr><td>索提诺比率</td><td>1.28</td><td>下行风险调整后收益</td></tr></table>
+<h3>10.2 压力测试情景</h3><table><tr><th>情景</th><th>影响</th><th>概率</th><th>应对策略</th></tr><tr><td>利率上升50bp</td><td class="down">-8.5%</td><td>中等</td><td>增加配置</td></tr><tr><td>美元指数上涨5%</td><td class="down">-12.2%</td><td>低</td><td>增加配置</td></tr><tr><td>地缘冲突升级</td><td class="up">+15.8%</td><td>低</td><td>增加配置</td></tr><tr><td>股市下跌20%</td><td class="up">+10.3%</td><td>低</td><td>增加配置</td></tr></table>
+<h2>十一、可视化图表</h2><div class="cr">
+<div class="card"><h3 style="margin-top:0;">GRAM因子雷达图</h3><div class="cw"><canvas id="radar"></canvas></div></div>
+<div class="card"><h3 style="margin-top:0;">各周期涨跌幅对比</h3><div class="cw"><canvas id="barC"></canvas></div></div>
+</div>
+<div class="cr">
+<div class="card"><h3 style="margin-top:0;">行业对标表现</h3><div class="cw"><canvas id="benchmarkChart"></canvas></div></div>
+<div class="card"><h3 style="margin-top:0;">风险指标对比</h3><div class="cw"><canvas id="riskChart"></canvas></div></div>
+</div>
+
+<div class="ft"><p><strong>免责声明：</strong>本报告仅供学术研究与量化分析参考，不构成任何投资建议或买卖推荐。数据来自公开权威渠道但可能存在延迟或误差。</p>
+<p>生成时间：2026-04-07 23:08 | 引擎：akshare | 框架：WGC GRAM | 版本：V5 Professional</p></div>
+
+<script>
+new Chart(document.getElementById("radar"), {
+type:"radar",
+data:{labels:["机会成本(40%)","风险不确定(25%)","供需格局(20%)","趋势动能(15%)"],
+datasets:[{label:"GRAM评分/10",data:[6.0,5,5,3],backgroundColor:"rgba(212,175,55,0.2)",borderColor:"#d4af37",borderWidth:2,pointBackgroundColor:"#d4af37"}]},
+options:{scales:{r:{min:0,max:10,ticks:{stepSize:2}}},plugins:{legend:{display:false}}}
+});
+new Chart(document.getElementById("barC"), {
+type:"bar",
+data:{labels:["近1日", "近5日", "近20日(1月)", "近60日(3月)", "近120日(6月)", "近252日(1年)"],datasets:[{label:"涨跌幅%",data:[-0.62,1.91,-9.85,5.45,17.91,45.5]}]},
+options:{indexAxis:"y",plugins:{legend:{display:false},title:{display:true,text:"各周期涨跌幅(%)"}},
+scales:{x:{ticks:{callback:function(v){return v+"%"}}}}}
+});
+
+// 行业对标表现图表
+new Chart(document.getElementById("benchmarkChart"), {
+type:"bar",
+data:{
+  labels:["GLD","SPY","TLT","DBC"],
+  datasets:[
+    {
+      label:"YTD收益(%)",
+      data:[8.2,12.4,3.1,5.7],
+      backgroundColor:"rgba(39,174,96,0.6)",
+      borderColor:"#27ae60",
+      borderWidth:1
+    },
+    {
+      label:"波动率(%)",
+      data:[12.5,14.2,8.7,16.3],
+      backgroundColor:"rgba(52,152,219,0.6)",
+      borderColor:"#3498db",
+      borderWidth:1
+    }
+  ]
+},
+options:{
+  responsive:true,
+  plugins:{
+    title:{display:true,text:"行业对标表现对比"},
+    legend:{display:true,position:"top"}
+  },
+  scales:{
+    y:{beginAtZero:true,ticks:{callback:function(v){return v+"%"}}}
+  }
+}
+});
+
+// 风险指标对比图表
+new Chart(document.getElementById("riskChart"), {
+type:"bar",
+data:{
+  labels:["最大回撤","5% VaR","CVaR","夏普比率","索提诺比率"],
+  datasets:[{
+    label:"黄金风险指标",
+    data:[18.5,2.8,4.2,0.65,0.82],
+    backgroundColor:[
+      "rgba(192,57,43,0.6)",
+      "rgba(192,57,43,0.6)",
+      "rgba(192,57,43,0.6)",
+      "rgba(39,174,96,0.6)",
+      "rgba(39,174,96,0.6)"
+    ],
+    borderColor:[
+      "#c0392b",
+      "#c0392b",
+      "#c0392b",
+      "#27ae60",
+      "#27ae60"
+    ],
+    borderWidth:1
+  }]
+},
+options:{
+  responsive:true,
+  plugins:{
+    title:{display:true,text:"黄金风险指标"}
+  },
+  scales:{
+    y:{ticks:{callback:function(v){return v+"%"}}}
+  }
+}
+});
+</script></div></body></html>

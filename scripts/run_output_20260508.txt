@@ -1,0 +1,4 @@
+  File "C:\Users\21471\WorkBuddy\gold\_run_today.py", line 15
+    os.environ['SILICONFLOW_API_KEY'] = 'YOUR_API_KEY"
+                                        ^
+SyntaxError: unterminated string literal (detected at line 15)

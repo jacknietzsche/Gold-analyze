@@ -1,0 +1,74 @@
+[
+  {
+    "id": "free:QwQ-32B",
+    "object": "model",
+    "created": 1626777600,
+    "owned_by": "custom",
+    "permission": [
+      {
+        "id": "modelperm-LwHkVFn8AcMItP432fKKDIKJ",
+        "object": "model_permission",
+        "created": 1626777600,
+        "allow_create_engine": true,
+        "allow_sampling": true,
+        "allow_logprobs": true,
+        "allow_search_indices": false,
+        "allow_view": true,
+        "allow_fine_tuning": false,
+        "organization": "*",
+        "group": null,
+        "is_blocking": false
+      }
+    ],
+    "root": "free:QwQ-32B",
+    "parent": null
+  },
+  {
+    "id": "deepseek-r1:7b",
+    "object": "model",
+    "created": 1626777600,
+    "owned_by": "custom",
+    "permission": [
+      {
+        "id": "modelperm-LwHkVFn8AcMItP432fKKDIKJ",
+        "object": "model_permission",
+        "created": 1626777600,
+        "allow_create_engine": true,
+        "allow_sampling": true,
+        "allow_logprobs": true,
+        "allow_search_indices": false,
+        "allow_view": true,
+        "allow_fine_tuning": false,
+        "organization": "*",
+        "group": null,
+        "is_blocking": false
+      }
+    ],
+    "root": "deepseek-r1:7b",
+    "parent": null
+  },
+  {
+    "id": "free:Qwen3-30B-A3B",
+    "object": "model",
+    "created": 1626777600,
+    "owned_by": "custom",
+    "permission": [
+      {
+        "id": "modelperm-LwHkVFn8AcMItP432fKKDIKJ",
+        "object": "model_permission",
+        "created": 1626777600,
+        "allow_create_engine": true,
+        "allow_sampling": true,
+        "allow_logprobs": true,
+        "allow_search_indices": false,
+        "allow_view": true,
+        "allow_fine_tuning": false,
+        "organization": "*",
+        "group": null,
+        "is_blocking": false
+      }
+    ],
+    "root": "free:Qwen3-30B-A3B",
+    "parent": null
+  }
+]

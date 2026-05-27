@@ -1,0 +1,220 @@
+{
+  "test_date": "2026-04-14",
+  "test_time": "18:40:17",
+  "test_category": "macro_factors",
+  "total_apis": 11,
+  "passed": 5,
+  "failed": 6,
+  "total_test_time_sec": 561.15,
+  "data_coverage": {
+    "cpi_latest": "unknown",
+    "m2_latest": "unknown",
+    "bond_yield_latest": "unknown",
+    "usdcny_latest": "unknown",
+    "oil_latest": "unknown"
+  },
+  "reference_values": {
+    "cpi": {
+      "value": 1.0,
+      "unit": "%",
+      "period": "2026-03"
+    },
+    "m2": {
+      "value": 3100000,
+      "unit": "亿元",
+      "period": "2026-03"
+    },
+    "bond_10y": {
+      "value": 1.82,
+      "unit": "%",
+      "period": "2026-04-11"
+    },
+    "usdcny": {
+      "value": 6.82,
+      "unit": "CNY/USD",
+      "period": "2026-04-14"
+    },
+    "wti_oil": {
+      "value": 75,
+      "unit": "USD/桶",
+      "period": "2026-04-14"
+    }
+  },
+  "results": [
+    {
+      "api_name": "macro_china_cpi_monthly",
+      "description": "CPI月度数据",
+      "status": "success",
+      "response_time_ms": 113620.34,
+      "data_freshness": null,
+      "data_shape": "(357, 5)",
+      "latest_value": "{'商品': '中国CPI月率报告', '日期': datetime.date(2025, 9, 10), '今值': nan, '预测值': nan, '前值': 0.4}",
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": null,
+      "consistency_check": "pass"
+    },
+    {
+      "api_name": "macro_china_cpi_yearly",
+      "description": "CPI年度数据",
+      "status": "success",
+      "response_time_ms": 95240.5,
+      "data_freshness": null,
+      "data_shape": "(477, 5)",
+      "latest_value": "{'商品': '中国CPI年率报告', '日期': datetime.date(2025, 9, 10), '今值': nan, '预测值': nan, '前值': 0.0}",
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": null,
+      "consistency_check": "pass"
+    },
+    {
+      "api_name": "macro_china_m2_yearly",
+      "description": "M2年度数据",
+      "status": "success",
+      "response_time_ms": 51007.7,
+      "data_freshness": null,
+      "data_shape": "(395, 5)",
+      "latest_value": "{'商品': '中国M2货币供应年率报告', '日期': datetime.date(2025, 9, 12), '今值': nan, '预测值': nan, '前值': 8.8}",
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": null,
+      "consistency_check": "pass"
+    },
+    {
+      "api_name": "macro_china_m2_quarterly",
+      "description": "M2季度数据",
+      "status": "error",
+      "response_time_ms": 1.98,
+      "data_freshness": null,
+      "data_shape": null,
+      "latest_value": null,
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": "AttributeError: module 'akshare' has no attribute 'macro_china_m2_quarterly'",
+      "consistency_check": null
+    },
+    {
+      "api_name": "bond_china_yield",
+      "description": "中国国债收益率",
+      "status": "success",
+      "response_time_ms": 14877.75,
+      "data_freshness": null,
+      "data_shape": "(738, 10)",
+      "latest_value": "{'曲线名称': '中债国债收益率曲线', '日期': datetime.date(2021, 1, 22), '3月': 2.0316, '6月': 2.1355, '1年': 2.4525, '3年': 2.7645, '5年': 2.9373, '7年': 3.1112, '10年': 3.1185, '30年': 3.7156}",
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": null,
+      "consistency_check": "pass"
+    },
+    {
+      "api_name": "bond_zh_cf_daily",
+      "description": "债券财富指数日线",
+      "status": "error",
+      "response_time_ms": 0.0,
+      "data_freshness": null,
+      "data_shape": null,
+      "latest_value": null,
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": "AttributeError: module 'akshare' has no attribute 'bond_zh_cf_daily'",
+      "consistency_check": null
+    },
+    {
+      "api_name": "bond_zh_hs_cov_spot",
+      "description": "沪深债券现货",
+      "status": "success",
+      "response_time_ms": 4092.67,
+      "data_freshness": null,
+      "data_shape": "(360, 15)",
+      "latest_value": "{'symbol': 'sz128142', 'name': '新乳转债', 'trade': '131.736', 'pricechange': '0.245', 'changepercent': '0.186', 'buy': '131.736', 'sell': '131.864', 'settlement': '131.491', 'open': '131.997', 'high': '1",
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": null,
+      "consistency_check": "pass"
+    },
+    {
+      "api_name": "forex_hist_em",
+      "description": "离岸人民币汇率",
+      "status": "error",
+      "response_time_ms": 0.0,
+      "data_freshness": null,
+      "data_shape": null,
+      "latest_value": null,
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": "TypeError: forex_hist_em() got an unexpected keyword argument 'period'",
+      "consistency_check": null
+    },
+    {
+      "api_name": "exchange_rate",
+      "description": "汇率列表",
+      "status": "error",
+      "response_time_ms": 0.0,
+      "data_freshness": null,
+      "data_shape": null,
+      "latest_value": null,
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": "AttributeError: module 'akshare' has no attribute 'exchange_rate'",
+      "consistency_check": null
+    },
+    {
+      "api_name": "futures_oil",
+      "description": "原油期货",
+      "status": "error",
+      "response_time_ms": 0.0,
+      "data_freshness": null,
+      "data_shape": null,
+      "latest_value": null,
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": "AttributeError: module 'akshare' has no attribute 'futures_oil'",
+      "consistency_check": null
+    },
+    {
+      "api_name": "spot_oil",
+      "description": "原油现货",
+      "status": "error",
+      "response_time_ms": 0.0,
+      "data_freshness": null,
+      "data_shape": null,
+      "latest_value": null,
+      "reference_value": null,
+      "deviation_pct": null,
+      "error": "AttributeError: module 'akshare' has no attribute 'spot_oil'",
+      "consistency_check": null
+    }
+  ],
+  "issues": [
+    {
+      "api": "macro_china_m2_quarterly",
+      "issue": "AttributeError: module 'akshare' has no attribute 'macro_china_m2_quarterly'",
+      "severity": "high"
+    },
+    {
+      "api": "bond_zh_cf_daily",
+      "issue": "AttributeError: module 'akshare' has no attribute 'bond_zh_cf_daily'",
+      "severity": "high"
+    },
+    {
+      "api": "forex_hist_em",
+      "issue": "TypeError: forex_hist_em() got an unexpected keyword argument 'period'",
+      "severity": "high"
+    },
+    {
+      "api": "exchange_rate",
+      "issue": "AttributeError: module 'akshare' has no attribute 'exchange_rate'",
+      "severity": "high"
+    },
+    {
+      "api": "futures_oil",
+      "issue": "AttributeError: module 'akshare' has no attribute 'futures_oil'",
+      "severity": "high"
+    },
+    {
+      "api": "spot_oil",
+      "issue": "AttributeError: module 'akshare' has no attribute 'spot_oil'",
+      "severity": "high"
+    }
+  ]
+}

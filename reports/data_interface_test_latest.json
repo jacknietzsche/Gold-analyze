@@ -1,0 +1,395 @@
+{
+  "test_time": "2026-04-13T16:18:39.488120",
+  "total": 14,
+  "ok": 9,
+  "error": 4,
+  "timeout": 0,
+  "nodata": 1,
+  "web_validation_data": {
+    "Au99.99": {
+      "source": "上海黄金交易所/腾讯新闻",
+      "date": "2026-04-11",
+      "value": 1048.0,
+      "unit": "元/克",
+      "tolerance_pct": 5.0,
+      "note": "2026年4月11日Au99.99收盘价约1048元/克"
+    },
+    "VIX": {
+      "source": "FRED/tradingeconomics",
+      "date": "2026-04-09",
+      "value": 19.49,
+      "unit": "指数点",
+      "tolerance_pct": 20.0,
+      "note": "2026年4月VIX约19.49"
+    },
+    "DXY": {
+      "source": "tradingeconomics",
+      "date": "2026-04-10",
+      "value": 98.7,
+      "unit": "指数点",
+      "tolerance_pct": 5.0,
+      "note": "2026年4月DXY约98.70"
+    },
+    "CNY_USD": {
+      "source": "中国外汇交易中心",
+      "date": "2026-04-10",
+      "value": 6.828,
+      "unit": "CNY/USD",
+      "tolerance_pct": 3.0,
+      "note": "2026年4月10日USD/CNY最低6.8280"
+    },
+    "CPI": {
+      "source": "国家统计局",
+      "date": "2026-03",
+      "value": 1.0,
+      "unit": "% 同比",
+      "tolerance_pct": 50.0,
+      "note": "2026年3月CPI同比上涨1.0%"
+    },
+    "CN_10Y_BOND": {
+      "source": "tradingeconomics",
+      "date": "2026-04-10",
+      "value": 1.82,
+      "unit": "%",
+      "tolerance_pct": 20.0,
+      "note": "中国10年期国债收益率1.82%"
+    }
+  },
+  "results": [
+    {
+      "name": "上海黄金交易所 Au99.99",
+      "category": "黄金价格",
+      "api_function": "ak.spot_hist_sge(symbol='Au99.99')",
+      "status": "正常",
+      "response_time_ms": 1464.5447731018066,
+      "data_rows": 2258,
+      "latest_value": 1042.3,
+      "latest_date": "2026-04-13",
+      "value_unit": "元/克",
+      "error_msg": "",
+      "validation": {
+        "range_check": {
+          "pass": true,
+          "reason": "Au99.99=1042.3000 在合理范围[300, 2000]"
+        },
+        "timeliness": {
+          "pass": true,
+          "delay_days": 0,
+          "reason": "Au99.99: 数据延迟0天 (正常)"
+        },
+        "cross_check": {
+          "pass": true,
+          "web_value": 1048.0,
+          "dev_pct": 0.54,
+          "web_source": "上海黄金交易所/腾讯新闻",
+          "web_date": "2026-04-11",
+          "reason": "Au99.99: 本地=1042.3000, 联网基准=1048.0(上海黄金交易所/腾讯新闻), 偏差0.5% (通过)"
+        }
+      },
+      "data_sample": "列: ['date', 'open', 'close', 'low', 'high'], 最新5行close列: [1028.0, 1059.91, 1036.0, 1047.23, 1042.3]"
+    },
+    {
+      "name": "上海黄金交易所基准价",
+      "category": "黄金价格",
+      "api_function": "ak.spot_golden_benchmark_sge()",
+      "status": "正常",
+      "response_time_ms": 1357.9518795013428,
+      "data_rows": 2424,
+      "latest_value": 1045.68,
+      "latest_date": "",
+      "value_unit": "元/克",
+      "error_msg": "",
+      "validation": {
+        "range_check": {
+          "pass": true,
+          "reason": "SGE基准价=1045.6800 在合理范围[300, 2000]"
+        },
+        "timeliness": {
+          "pass": false,
+          "delay_days": 999,
+          "reason": "SGE基准价: 无法获取数据日期"
+        },
+        "cross_check": {
+          "pass": true,
+          "web_value": 1048.0,
+          "dev_pct": 0.22,
+          "web_source": "上海黄金交易所/腾讯新闻",
+          "web_date": "2026-04-11",
+          "reason": "SGE基准价: 本地=1045.6800, 联网基准=1048.0(上海黄金交易所/腾讯新闻), 偏差0.2% (通过)"
+        }
+      },
+      "data_sample": "列: ['交易时间', '晚盘价', '早盘价'], 行数: 2424"
+    },
+    {
+      "name": "上海黄金交易所白银基准",
+      "category": "白银价格",
+      "api_function": "ak.spot_silver_benchmark_sge()",
+      "status": "正常",
+      "response_time_ms": 1380.5177211761475,
+      "data_rows": 1576,
+      "latest_value": 18531.0,
+      "latest_date": "",
+      "value_unit": "元/千克",
+      "error_msg": "",
+      "validation": {
+        "range_check": {
+          "pass": true,
+          "reason": "白银基准价=18531.0000 在合理范围[3000, 20000]"
+        },
+        "timeliness": {
+          "pass": false,
+          "delay_days": 999,
+          "reason": "白银基准价: 无法获取数据日期"
+        }
+      },
+      "data_sample": ""
+    },
+    {
+      "name": "中国CPI月度数据",
+      "category": "宏观经济",
+      "api_function": "ak.macro_china_cpi_monthly()",
+      "status": "正常",
+      "response_time_ms": 26726.278066635132,
+      "data_rows": 357,
+      "latest_value": 0.4,
+      "latest_date": "2025-09-10",
+      "value_unit": "%",
+      "error_msg": "",
+      "validation": {
+        "range_check": {
+          "pass": true,
+          "reason": "CPI同比=0.4000 在合理范围[-5, 10]"
+        },
+        "timeliness": {
+          "pass": false,
+          "delay_days": 215,
+          "reason": "CPI: 数据延迟215天 (过期)"
+        },
+        "cross_check": {
+          "pass": false,
+          "web_value": 1.0,
+          "dev_pct": 60.0,
+          "web_source": "国家统计局",
+          "web_date": "2026-03",
+          "reason": "CPI同比: 本地=0.4000, 联网基准=1.0(国家统计局), 偏差60.0% (超差)"
+        }
+      },
+      "data_sample": "列: ['商品', '日期', '今值', '预测值', '前值'], 尾部3行: {'商品': {354: '中国CPI月率报告', 355: '中国CPI月率报告', 356: '中国CPI月率报告'}, '日期': {354: datetime.date(2025, 7, 9), 355: datetime.date(2025, 8, 9), 356: datetime.date(2025, 9, 10)}, '今值': {354: -0.1, 355: 0.4, 356: nan}, '预测值': {354: 0.0, 355: 0.3, 356: nan}, '前值': {354: -0.2, 355: -0.1, 356: 0.4}}"
+    },
+    {
+      "name": "中国M2货币供应量",
+      "category": "宏观经济",
+      "api_function": "ak.macro_china_m2_yearly()",
+      "status": "正常",
+      "response_time_ms": 29741.04642868042,
+      "data_rows": 395,
+      "latest_value": 8.8,
+      "latest_date": "2025-09-12",
+      "value_unit": "%",
+      "error_msg": "",
+      "validation": {
+        "range_check": {
+          "pass": true,
+          "reason": "M2同比=8.8000 在合理范围[-5, 30]"
+        },
+        "timeliness": {
+          "pass": false,
+          "delay_days": 213,
+          "reason": "M2: 数据延迟213天 (过期)"
+        }
+      },
+      "data_sample": "列: ['商品', '日期', '今值', '预测值', '前值'], 尾部3行: {'商品': {392: '中国M2货币供应年率报告', 393: '中国M2货币供应年率报告', 394: '中国M2货币供应年率报告'}, '日期': {392: datetime.date(2025, 8, 13), 393: datetime.date(2025, 8, 14), 394: datetime.date(2025, 9, 12)}, '今值': {392: 8.8, 393: nan, 394: nan}, '预测值': {392: 8.3, 393: 8.2, 394: nan}, '前值': {392: 8.3, 393: 8.3, 394: 8.8}}"
+    },
+    {
+      "name": "美元/人民币汇率(USDCNH)",
+      "category": "汇率",
+      "api_function": "ak.forex_hist_em(symbol='USDCNH')",
+      "status": "正常",
+      "response_time_ms": 1399.2395401000977,
+      "data_rows": 4068,
+      "latest_value": null,
+      "latest_date": "2026-04-13",
+      "value_unit": "",
+      "error_msg": "",
+      "validation": {
+        "range_check": {
+          "pass": false,
+          "reason": "USDCNH: 无数据"
+        },
+        "timeliness": {
+          "pass": true,
+          "delay_days": 0,
+          "reason": "USDCNH: 数据延迟0天 (正常)"
+        },
+        "cross_check": {
+          "pass": false,
+          "web_value": null,
+          "dev_pct": null,
+          "reason": "USDCNH: 无数据无法比对"
+        }
+      },
+      "data_sample": ""
+    },
+    {
+      "name": "中国国债收益率",
+      "category": "利率",
+      "api_function": "ak.bond_china_yield() + fallback: ak.bond_zh_cf_daily()",
+      "status": "正常",
+      "response_time_ms": 14516.966581344604,
+      "data_rows": 738,
+      "latest_value": 3.1185,
+      "latest_date": "2021-01-22",
+      "value_unit": "%",
+      "error_msg": "⚠️ 数据严重过期: 最后更新2021-01-22, 已超过1年未更新",
+      "validation": {
+        "range_check": {
+          "pass": true,
+          "reason": "10年国债收益率=3.1185 在合理范围[0.5, 5.0]"
+        },
+        "timeliness": {
+          "pass": false,
+          "delay_days": 1907,
+          "reason": "10年国债收益率: 数据延迟1907天 (过期)"
+        },
+        "cross_check": {
+          "pass": false,
+          "web_value": 1.82,
+          "dev_pct": 71.35,
+          "web_source": "tradingeconomics",
+          "web_date": "2026-04-10",
+          "reason": "10年国债收益率: 本地=3.1185, 联网基准=1.82(tradingeconomics), 偏差71.3% (超差)"
+        },
+        "data_stale": true
+      },
+      "data_sample": "列: ['曲线名称', '日期', '3月', '6月', '1年', '3年', '5年', '7年', '10年', '30年'], 行数: 738, 最后3行: {'曲线名称': {735: '中债中短期票据收益率曲线(AAA)', 736: '中债商业银行普通债收益率曲线(AAA)', 737: '中债国债收益率曲线'}, '日期': {735: datetime.date(2021, 1, 22), 736: datetime.date(2021, 1, 22), 737: datetime.date(2021, 1, 22)}, '3月': {735: 2.608, 736: 2.521, 737: 2.0316}, '6月': {735: 2.7656, 736: 2.6557, 737: 2.1355}, '1年': {735: 2.949, 736: 2.858, 737: 2.4525}, '3年': {735: 3.5403, 736: 3.3284, 737: 2.7645}, '5年': {735: 3.7004, 736: 3.5453, 737: 2.9373}, '7年': {735: 3.8979, 736: 3.6985, 737: 3.1112}, '10年': {735: 4.0566, 736: 3.8367, 737: 3.1185}, '30年': {735: nan, 736: 4.4626, 737: 3.7156}}"
+    },
+    {
+      "name": "中国外汇黄金储备",
+      "category": "宏观经济",
+      "api_function": "ak.macro_china_foreign_exchange_gold()",
+      "status": "正常",
+      "response_time_ms": 17397.598266601562,
+      "data_rows": 414,
+      "latest_value": 7438.0,
+      "latest_date": "",
+      "value_unit": "万盎司",
+      "error_msg": "",
+      "validation": {
+        "range_check": {
+          "pass": true,
+          "reason": "黄金储备=7438.0000 在合理范围[1000, 10000]"
+        },
+        "timeliness": {
+          "pass": false,
+          "delay_days": 999,
+          "reason": "黄金储备: 无法获取数据日期"
+        }
+      },
+      "data_sample": ""
+    },
+    {
+      "name": "VIX恐慌指数",
+      "category": "市场情绪",
+      "api_function": "yf.Ticker('^VIX').history(period='5d')",
+      "status": "异常",
+      "response_time_ms": 0,
+      "data_rows": 0,
+      "latest_value": null,
+      "latest_date": "",
+      "value_unit": "",
+      "error_msg": "Too Many Requests. Rate limited. Try after a while.",
+      "validation": {},
+      "data_sample": ""
+    },
+    {
+      "name": "美元指数DXY",
+      "category": "汇率",
+      "api_function": "yf.Ticker('DX-Y.NYB').history(period='5d')",
+      "status": "异常",
+      "response_time_ms": 0,
+      "data_rows": 0,
+      "latest_value": null,
+      "latest_date": "",
+      "value_unit": "",
+      "error_msg": "Too Many Requests. Rate limited. Try after a while.",
+      "validation": {},
+      "data_sample": ""
+    },
+    {
+      "name": "美国10年期国债收益率",
+      "category": "利率",
+      "api_function": "yf.Ticker('^TNX').history(period='5d')",
+      "status": "异常",
+      "response_time_ms": 0,
+      "data_rows": 0,
+      "latest_value": null,
+      "latest_date": "",
+      "value_unit": "",
+      "error_msg": "Too Many Requests. Rate limited. Try after a while.",
+      "validation": {},
+      "data_sample": ""
+    },
+    {
+      "name": "GLD黄金ETF",
+      "category": "黄金价格",
+      "api_function": "yf.Ticker('GLD').history(period='1mo')",
+      "status": "异常",
+      "response_time_ms": 0,
+      "data_rows": 0,
+      "latest_value": null,
+      "latest_date": "",
+      "value_unit": "",
+      "error_msg": "Too Many Requests. Rate limited. Try after a while.",
+      "validation": {},
+      "data_sample": ""
+    },
+    {
+      "name": "沪深300行情(东方财富)",
+      "category": "波动率",
+      "api_function": "HTTP: eastmoney.com index quote",
+      "status": "正常",
+      "response_time_ms": 555.9372901916504,
+      "data_rows": 1,
+      "latest_value": 4646.15,
+      "latest_date": "2026-04-13",
+      "value_unit": "指数点",
+      "error_msg": "",
+      "validation": {
+        "range_check": {
+          "pass": true,
+          "reason": "沪深300点位=4646.1500 在合理范围[2000, 8000]"
+        },
+        "timeliness": {
+          "pass": true,
+          "delay_days": 0,
+          "reason": "沪深300: 数据延迟0天 (正常)"
+        }
+      },
+      "data_sample": "沪深300: 价格=4646.15, 涨跌幅=0.21%, 原始={'f43': 464615, 'f44': 465340, 'f45': 461513, 'f46': 461513, 'f47': 196712277, 'f48': 556620945240.3, 'f57': '000300', 'f58': '沪深300', 'f170': 21}"
+    },
+    {
+      "name": "国际金价(腾讯财经HTTP)",
+      "category": "黄金价格",
+      "api_function": "HTTP: qt.gtimg.cn gold quote",
+      "status": "无数据",
+      "response_time_ms": 742.6226139068604,
+      "data_rows": 0,
+      "latest_value": null,
+      "latest_date": "",
+      "value_unit": "",
+      "error_msg": "返回数据无法解析, 长度=110",
+      "validation": {
+        "range_check": {
+          "pass": false,
+          "reason": "国际金价USD: 无数据"
+        },
+        "timeliness": {
+          "pass": false,
+          "delay_days": 999,
+          "reason": "国际金价: 无法获取数据日期"
+        }
+      },
+      "data_sample": ""
+    }
+  ]
+}

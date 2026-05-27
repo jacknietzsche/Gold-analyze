@@ -1,0 +1,158 @@
+{
+  "report_title": "数据系统全面检查报告 - 周五收盘后验证",
+  "reference_time": "2026-04-11 (周五收盘)",
+  "generated_at": "2026-04-12 18:54:13",
+  "sections": {
+    "data_source_accuracy": {
+      "akshare_au9999": {
+        "provider": "AkShare",
+        "symbol": "Au99.99",
+        "system_values": {
+          "close": 1047.23,
+          "high": 1055.0,
+          "low": 1043.0,
+          "open": 1047.0,
+          "date": "2256"
+        },
+        "reference_values": {
+          "close": 1048.5,
+          "change": 2.05,
+          "change_pct": 0.2,
+          "high": 1053.6,
+          "low": 1044.78,
+          "open": 1049.0,
+          "prev_close": 1046.45,
+          "unit": "元/克",
+          "source": "上海黄金交易所(SGE)"
+        },
+        "comparison": {
+          "close_diff_abs": 1.27,
+          "close_diff_pct": 0.121,
+          "match_status": "PASS"
+        }
+      }
+    },
+    "data_completeness": {
+      "indicators_check": {
+        "收盘价": {
+          "present": false,
+          "null_count": null,
+          "status": "MISSING"
+        },
+        "最高价": {
+          "present": false,
+          "null_count": null,
+          "status": "MISSING"
+        },
+        "最低价": {
+          "present": false,
+          "null_count": null,
+          "status": "MISSING"
+        },
+        "开盘价": {
+          "present": false,
+          "null_count": null,
+          "status": "MISSING"
+        },
+        "成交量": {
+          "present": false,
+          "null_count": null,
+          "status": "MISSING"
+        }
+      },
+      "missing_items": [
+        "收盘价",
+        "最高价",
+        "最低价",
+        "开盘价",
+        "成交量",
+        "vix",
+        "dollar_index",
+        "central_bank_buying"
+      ],
+      "macro_present": [
+        "bond_yield",
+        "china_reserves"
+      ],
+      "macro_missing": [
+        "vix",
+        "dollar_index",
+        "central_bank_buying"
+      ]
+    },
+    "cross_module_consistency": {},
+    "macro_indicators": {
+      "indicators": {
+        "bond_yield": {
+          "value": 3.1185,
+          "range": [
+            0,
+            5
+          ],
+          "in_range": true
+        },
+        "china_reserves": {
+          "value": 3427.63,
+          "range": [
+            2000,
+            5000
+          ],
+          "in_range": true
+        }
+      },
+      "anomalies": []
+    }
+  },
+  "summary": {
+    "total_issues": 6,
+    "by_severity": {
+      "CRITICAL": 0,
+      "HIGH": 5,
+      "MEDIUM": 1,
+      "WARNING": 0
+    },
+    "issues_list": [
+      {
+        "severity": "HIGH",
+        "category": "completeness",
+        "source": "AkShare/Au99.99",
+        "message": "Missing column: 收盘价"
+      },
+      {
+        "severity": "HIGH",
+        "category": "completeness",
+        "source": "AkShare/Au99.99",
+        "message": "Missing column: 最高价"
+      },
+      {
+        "severity": "HIGH",
+        "category": "completeness",
+        "source": "AkShare/Au99.99",
+        "message": "Missing column: 最低价"
+      },
+      {
+        "severity": "HIGH",
+        "category": "completeness",
+        "source": "AkShare/Au99.99",
+        "message": "Missing column: 开盘价"
+      },
+      {
+        "severity": "HIGH",
+        "category": "completeness",
+        "source": "AkShare/Au99.99",
+        "message": "Missing column: 成交量"
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "consistency",
+        "source": "DataService/bond_yield",
+        "message": "bond_yield mismatch: get_macro_data=3.1185, get_all_data=2.6336312096821626"
+      }
+    ],
+    "recommendations": [
+      "Resolve HIGH issues ASAP - ensure core indicators are complete",
+      "Monitor WARNING/MEDIUM issues - evaluate threshold adjustments or add data sources",
+      "Establish daily automated data validation pipeline for continuous monitoring"
+    ]
+  }
+}
