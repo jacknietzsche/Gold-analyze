@@ -67,9 +67,9 @@ sys.modules['tqdm.autonotebook'] = VirtualTqdmModule()
 
 # 第二步：设置LLM API Key
 # 使用SiliconFlow API (DeepSeek-R1模型)
-os.environ['SILICONFLOW_API_KEY'] = 'sk-hqnodatprosxnithfeowllkxmkqnhogbwhamsbtbxdmkarme'
-os.environ['CHERRY_API_KEY'] = 'sk-pIuObd3r9W0r1cbckH532O4wC4Tn7skct5YxXSq3Lnlrikxf'
-os.environ['FRED_API_KEY'] = '839291aeb4b78415e3eeef65ab06d807'  # 美联储FRED经济数据
+os.environ['SILICONFLOW_API_KEY'] = 'YOUR_SILICONFLOW_API_KEY'
+os.environ['CHERRY_API_KEY'] = 'YOUR_CHERRY_API_KEY'
+os.environ['FRED_API_KEY'] = 'YOUR_FRED_API_KEY'  # 美联储FRED经济数据
 
 def run_with_progress():
     """带进度显示运行报告生成器"""

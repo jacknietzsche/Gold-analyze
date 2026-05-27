@@ -11,9 +11,9 @@ if sys.platform == 'win32':
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 # 设置API Keys
-os.environ['FRED_API_KEY'] = '839291aeb4b78415e3eeef65ab06d807'
-os.environ['SILICONFLOW_API_KEY'] = 'sk-hqnodatprosxnithfeowllkxmkqnhogbwhamsbtbxdmkarme"
-os.environ['CHERRY_API_KEY'] = 'sk-pIuObd3r9W0r1cbckH532O4wC4Tn7skct5YxXSq3Lnlrikxf"
+os.environ['FRED_API_KEY'] = 'YOUR_FRED_API_KEY'
+os.environ['SILICONFLOW_API_KEY'] = 'YOUR_SILICONFLOW_API_KEY"
+os.environ['CHERRY_API_KEY'] = 'YOUR_CHERRY_API_KEY"
 
 # 关键：绕过Windows代理
 os.environ['NO_PROXY'] = '*'
