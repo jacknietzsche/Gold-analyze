@@ -1,97 +1,152 @@
-# 黄金量化分析系统
+# Gold Analyze — 黄金量化分析系统
 
-## 项目结构
+> **⚠️ 项目状态：开发中 / 未完成**
+>
+> 本项目仍在积极开发中，存在以下已知问题：
+> - 部分模块尚未完成集成测试，端到端流程可能存在异常
+> - LLM 分析功能依赖外部 API，稳定性受第三方服务影响
+> - 数据源接口可能因上游变动而失效，需要持续维护
+> - 回测模块 (backtester/regime_detector) 尚未与主流程完全对接
+> - 报告模板仍在迭代，输出格式可能变动
+>
+> **本项目仅供学习和研究，不构成任何投资建议。**
 
-本项目经过系统性整理，按照功能模块进行了分类归档，建立了清晰的文件组织结构。
+---
+
+## 简介
+
+基于 Python 的黄金量化分析系统，参考世界黄金协会 (WGC) GRAM 框架和高盛/摩根大通技术分析体系，实现从数据采集、因子计算、策略回测到报告生成的全流程自动化。
+
+## 架构
 
 ```
-gold/
-├── src/                  # 源代码目录
-│   ├── analysis/         # 分析模块
-│   │   ├── gold_analysis_v5.py     # 黄金分析引擎 V5
-│   │   ├── factors.py              # 因子计算模块
-│   │   └── strategies.py            # 策略模块
-│   ├── report/           # 报告生成模块
-│   │   └── gold_report_generator_v5.py  # 报告生成器 V5
-│   ├── utils/            # 工具模块
-│   │   └── llm_gold_helper.py      # LLM 助手
-│   ├── config/           # 配置模块
-│   │   └── gold_config.py          # 系统配置
-│   └── core/             # 核心模块（预留）
-├── data/                 # 数据目录
-├── reports/              # 报告输出目录
-├── docs/                 # 文档目录
-├── run_gold_analysis.py  # 主运行脚本
-├── README.md             # 项目说明
-└── V5_USAGE_GUIDE.md     # V5版本使用指南
+scripts/          ← 入口脚本
+    ↓
+pipeline/         ← 顶层编排
+    ↓
+report/           ← HTML 报告生成
+    ↑
+analysis/         ← 纯函数分析模块（无副作用）
+    ↑
+data/             ← 多源数据采集 + 融合
+    ↑
+config/           ← 配置管理
 ```
 
-## 系统模块说明
+## 目录结构
 
-### 1. 分析模块 (src/analysis/)
-- **gold_analysis_v5.py**: 黄金量化分析引擎 V5，基于akshare的机构研报版，严格对标WGC分析框架
-- **factors.py**: 因子计算模块，提供各种量化因子的计算功能
-- **strategies.py**: 策略模块，包含各种交易策略的实现
+```
+src/
+├── config/
+│   └── gold_config.py              # 全局配置（懒加载）
+├── data/
+│   ├── interfaces.py               # 类型化数据契约
+│   ├── data_service.py             # 数据服务门面
+│   ├── fred_client.py              # FRED API 客户端
+│   ├── data_cleaner.py             # 数据清洗
+│   ├── data_fusion.py              # 多源数据融合
+│   ├── data_cross_validator.py     # 交叉验证
+│   ├── data_quality_monitor.py     # 质量监控
+│   └── providers/                  # 8 个数据源 Provider
+│       ├── akshare_provider.py     # 主力数据源
+│       ├── china_http_provider.py  # 国内 HTTP 直连
+│       ├── fred_provider.py        # 美联储经济数据
+│       ├── goldapi_provider.py     # Gold-API
+│       ├── openbb_provider.py      # OpenBB
+│       ├── sina_provider.py        # 新浪财经
+│       ├── tencent_provider.py     # 腾讯财经
+│       └── yinhe_provider.py       # 银河数据
+├── analysis/
+│   ├── indicators.py               # 技术指标（RSI/MACD/BOLL/KDJ/ATR）
+│   ├── factors.py                  # 因子计算
+│   ├── strategies.py               # 量化策略
+│   ├── gram_scorer.py              # GRAM 评分
+│   ├── risk_analyzer.py            # 风险分析
+│   ├── risk_manager.py             # 波动率目标化管理
+│   ├── trend_judger.py             # 趋势判断
+│   ├── candle_patterns.py          # K 线形态识别
+│   ├── scenario_engine.py          # 情景推演
+│   ├── backtester.py               # 回测引擎
+│   └── regime_detector.py          # 市场状态识别
+├── report/
+│   ├── gold_report_base.py         # 报告基类
+│   ├── gold_report_generator_v5.py # V5 报告
+│   ├── gold_report_generator_v6.py # V6 报告（增强版）
+│   └── html_helpers.py             # HTML 工具函数
+├── pipeline/
+│   └── gold_pipeline.py            # 编排器
+└── utils/
+    └── llm_gold_helper.py          # LLM 多模型集成
+```
 
-### 2. 报告生成模块 (src/report/)
-- **gold_report_generator_v5.py**: 黄金量化分析报告生成器 V5，专业增强版，参考WGC GRAM框架和高盛/摩根大通技术分析体系
+## 快速开始
 
-### 3. 工具模块 (src/utils/)
-- **llm_gold_helper.py**: LLM 助手，提供AI增强分析功能
-
-### 4. 配置模块 (src/config/)
-- **gold_config.py**: 系统配置，包含LLM配置、数据源配置、报告配置等
-
-## 运行说明
-
-### 基本运行
 ```bash
-# 基础分析（不使用LLM）
-python run_gold_analysis.py --no-llm
+# 安装依赖
+pip install -r requirements.txt
 
-# 使用LLM增强分析
-python run_gold_analysis.py --llm
+# 配置环境变量（复制 .env.example 为 .env 后填入 API Key）
+cp .env.example .env
 
-# 指定LLM类型
-python run_gold_analysis.py --llm --llm-type chatanywhere
+# 生成 V5 报告
+python run_gold_report.py
+
+# 生成 V6 报告（增强版）
+python run_gold_final.py
 ```
 
-### 测试功能
+## 测试
+
 ```bash
-# 测试LLM功能
-python run_gold_analysis.py --test-llm
-
-# 查看配置
-python run_gold_analysis.py --show-config
-
-# 显示版本信息
-python run_gold_analysis.py --version
+# 运行核心测试（76 个）
+python -m pytest tests/test_indicators.py tests/test_analysis_modules.py \
+    tests/test_factors.py tests/test_strategies.py \
+    tests/test_risk_manager.py tests/test_data_provider.py -v
 ```
 
-## 系统特性
+## 数据源
 
-- **真实数据源**: 使用akshare API获取真实的黄金价格和宏观数据
-- **量化分析**: 8维度全面分析，包括价格趋势、技术指标、宏观因子等
-- **LLM增强**: 专业AI分析，提供深度洞察
-- **报告系统**: HTML专业报告，包含交互式图表和详细分析
-- **配置体系**: 与quant system兼容的配置管理
+系统支持 8 个数据源，按能力自动路由：
 
-## 版本说明
+| 数据源 | 价格 | 宏观 | 情绪 | 备注 |
+|--------|------|------|------|------|
+| AkShare | ✓ | ✓ | ✓ | 主力数据源 |
+| China HTTP | ✓ | ✓ | ✓ | 国内直连 |
+| FRED | - | ✓ | ✓ | 美联储经济数据 |
+| Gold-API | ✓ | - | - | 国际金价 |
+| OpenBB | ✓ | ✓ | ✓ | 需本地安装 |
+| 新浪财经 | ✓ | - | ✓ | |
+| 腾讯财经 | ✓ | - | ✓ | |
+| 银河数据 | ✓ | - | - | |
 
-当前系统版本为 **V5**，包含以下核心升级：
-1. 新增完整技术指标体系 (MACD, RSI, BOLL, KDJ, ATR)
-2. K线形态识别 (十字星, 锤头线, 吞没形态)
-3. GRAM归因分析框架 (WGC标准)
-4. 交互式Chart.js图表可视化
-5. 相关性热力图 (金价vs美元/利率/VIX)
-6. 专业级排版和配色方案
+## LLM 集成
 
-## 注意事项
+支持多个 LLM 提供商（通过 `.env` 配置 API Key）：
 
-- 本系统仅供学术研究与量化分析参考，不构成任何投资建议
-- 数据来源于公开权威渠道，但可能存在延迟或误差
-- 运行系统需要安装相关依赖，包括akshare、pandas、numpy等
+- **OpenRouter** — 免费模型可用
+- **SiliconFlow** — DeepSeek-R1
+- **ChatAnywhere** — DeepSeek-V3
+- **OpenAI** — GPT-4o-mini
+- **Cherry** — DeepSeek-V3.2
 
-## 联系方式
+## 环境变量
 
-如有问题或建议，请联系项目维护人员。
+参见 `.env.example`，主要配置项：
+
+```
+OPENROUTER_API_KEY=          # OpenRouter API Key
+SILICONFLOW_API_KEY=         # SiliconFlow API Key
+FRED_API_KEY=                # FRED 美联储数据 API Key
+GOLD_PRIMARY_SOURCE=akshare  # 主数据源
+GOLD_NO_LLM=                 # 设为 1 禁用 LLM
+```
+
+## 免责声明
+
+- 本系统仅供学术研究与量化分析学习参考
+- 不构成任何投资建议，据此操作风险自担
+- 数据来源于公开渠道，可能存在延迟或误差
+
+## License
+
+MIT
